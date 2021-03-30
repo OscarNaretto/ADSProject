@@ -1,0 +1,62 @@
+#include <stdio.h>
+
+#define N 50
+
+void mergeSort(int v1[], int p, int r){
+  int q;
+  if (p < r) {
+    q = (p+r)/2;
+    mergeSort(v1, p, q);
+    mergeSort(v1, q+1, r);
+    merge(v1, p, q, r);
+  }
+}
+
+void merge(int v1[], int p, int q, int r){
+    int k = 0, i, j, v2[N];
+    i = p;
+    j = q + 1;
+
+    while (i<=q && j<=r){
+        if(v1[i] < v1[j]){
+            v2[k] = v1[i];
+            i++;
+        }else{
+            v2[k] = v1[j];
+            j++;
+        }
+        k++;
+    }
+    
+    while(i <= q){
+        v2[k] = v1[i];
+        i++;
+        k++;
+    }
+    
+    while(j <= r){
+        v2[k] = v1[j];
+        j++;
+        k++;
+    }
+    
+    k = p;
+    while(k <= r){
+        v1[k] = v2[k-p];
+        k++;
+    }
+}
+
+void PrintArray(int v1[], int n){
+  int i;
+  for (i=0; i<n; i++) {
+    printf("%d ", v1[i]);
+  }
+}
+
+int main(){
+  int n, v1[N] = {0,8,7,3,6};
+  n = 5;
+  mergeSort(v1, 0, n-1);
+  PrintArray(v1, n);
+}
