@@ -1,7 +1,7 @@
 #include <stdio.h>
-#define N 50 
-#define K 1
-#define CASO 2
+#define N 10
+#define K 2
+#define CASO 7
 
 /*
 //funzioni per ordinare a[] di dimensione n
@@ -88,38 +88,52 @@ void merge(int v1[], int p, int q, int r){
     }
 }
 
-void algoritmo(int a[],int i, int j){
-    //int size = sizeof(a)/sizeof(a[0]);
-    int size = j-i+1;
+void algoritmo(int a[],int low, int high){
 
-    if(size <= K){
-        printf("Binary\n");
-        int loc, k, selected;
+    if(high - low <= K){ // controllare <=
+        /*nt loc, k, selected;
 
-        for (i = 1; i < size; i++){
+        i++;
+        while(i < size){
             j = i - 1;
             selected = a[i];
 
             //posizione in cui deve essere inserito selezionato
-            loc = binarySearch(a, selected, 0, j);
+           // loc = binarySearch(a, selected, 0, j);
 
             //cilco per spostare l'elemento cosi da fare 
             //spazio per l'elemento da inserire
-            while (j >= loc){
+            while (j >= 0 && a[j] > selected){
                 a[j+1] = a[j];
                 j--;
             }
-            a[j+1] = selected;  
+            a[j+1] = selected; 
+            i++; 
         }
+        for(i=0;i<size; i++){
+        printf("%d \t", a[i]);
+        }*/
+
+    for (int i = low; i < high; i++) {
+            int tempVal = a[i + 1];
+            int j = i + 1;
+            while (j > low && a[j - 1] > tempVal) {
+                a[j] = a[j - 1];
+                j--;
+            }
+            a[j] = tempVal;
+        }
+
     }else{
-        printf("Merge\n");
+        printf("MergeSort\n");
         //int v1[], int p, int r
-        int q; // valore medio
-        if (i < j) {
-            q = (i+j)/2;
-            algoritmo(a, i, q);
-            algoritmo(a, q+1, j);
-            merge(a, i, q, j);
+        int mid; // valore medio
+        if (low < high) {
+            mid = (low+high)/2;
+            algoritmo(a, low, mid);
+            algoritmo(a, mid+1, high);
+            merge(a, low, mid, high);
+            printf("Merging\n");
         }
     }
 
@@ -128,7 +142,7 @@ void algoritmo(int a[],int i, int j){
 int main()
 {
     int a[]
-        = { 37, 23, 0};
+        = { 37, 23, 0, 4, 62, 25, 12, 8};
     //int n = sizeof(a) / sizeof(a[0]), i;
 
     int i;
