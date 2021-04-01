@@ -95,6 +95,32 @@ static  void print_array(OrderedArray *array) {
   }
 }
 
+// print on file
+void print_file_array(OrderedArray *array) {
+    FILE *ordered;
+    ordered = fopen("../ordered.csv", "w");
+    unsigned long size = ordered_array_size(array);
+
+    if (array == NULL) {
+        fprintf(stderr, "print_file_array: array parameter is a null pointer");
+        exit(EXIT_FAILURE);
+    }
+    if (ordered == NULL){
+      ordered = stdout;
+      printf("Not able to access file. Using stdout instead\n");
+    }
+        
+    Record *array_element;
+    if (ordered_array_is_empty(array)) {
+        fprintf(ordered, "Empty array\n");
+    } else {
+        for (unsigned long i = 0; i < size; i++) {
+            array_element = (Record*)ordered_array_get(array, i);
+            fprintf(ordered, "%s, %s, %d, %.9f\n", array_element->id_field, array_element->string_field, array_element->integer_field, array_element->float_field);
+        }
+    }
+}
+
 static void load_array(const char *file_name, OrderedArray *array) {
   char buffer[BUFFER_SIZE];
   FILE *fp;
@@ -139,19 +165,7 @@ static void test_with_comparison_function(const char *file_name, int (*compare)(
   OrderedArray *array = ordered_array_create(compare);
   load_array(file_name, array);
   //sorting method here
-  print_array(array);   //print on FILE
+  //print_array(array);   
+  print_file_array(array);    //print on FILE
   free_array(array);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
