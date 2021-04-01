@@ -9,14 +9,15 @@
 #define BUFFER_SIZE 1024
 
 typedef struct _record {
+  char *id_field;
   char *string_field;
   int integer_field;
-  float floatingP_field;
+  float float_field;
 } Record;
 
 /*
  * It takes as input two pointers to Record.
- * It returns 1 iff the integer field of the first record is smaller than
+ * It returns 1 if the integer field of the first record is smaller than
  * the integer field of the second one (0 otherwise)
 */
 static int precedes_record_int_field(void *r1_p, void *r2_p) {
@@ -35,8 +36,8 @@ static int precedes_record_int_field(void *r1_p, void *r2_p) {
 
 /*
  * It takes as input two pointers to Record.
- * It returns 1 iff the integer field of the first record is smaller than
- * the integer field of the second one (0 otherwise)
+ * It returns 1 if the float field of the first record is smaller than
+ * the float field of the second one (0 otherwise)
 */
 static int precedes_record_float_field(void *r1_p, void *r2_p) {
   if (r1_p == NULL) {
@@ -49,7 +50,7 @@ static int precedes_record_float_field(void *r1_p, void *r2_p) {
   }
   Record *rec1_p = (Record*)r1_p;
   Record *rec2_p = (Record*)r2_p;
-  return rec1_p->floatingP_field < rec2_p->floatingP_field;
+  return rec1_p->float_field < rec2_p->float_field;
 }
 
 /*
@@ -75,7 +76,8 @@ static  void free_array(OrderedArray *array) {
   unsigned long size = ordered_array_size(array);
   for (unsigned long i = 0; i < size; ++i) {
     Record *array_element = (Record*)ordered_array_get(array, i);
-    free(array_element->string_field);
+    free(array_element->id_field);  
+    free(array_element->string_field);    //free corretti?
     free(array_element);
   }
   ordered_array_free_memory(array);
@@ -111,16 +113,22 @@ static void load_array(const char *file_name, OrderedArray *array) {
       exit(EXIT_FAILURE);
     }
 
+    char *id_field_in_read_line_p = strtok(buffer, ",");
     char *string_field_in_read_line_p = strtok(buffer, ",");
-    char *integer_field_in_read_line_p = strtok(NULL, ",");
+    char *integer_field_in_read_line_p = strtok(buffer, ","); //buffer instead of NULL? 
+    char *float_field_in_read_line_p = strtok(NULL, ",");     //NULL should be used for the ending token
+
 
     record_p->string_field = malloc((strlen(string_field_in_read_line_p)+1) * sizeof(char));
     if (record_p->string_field == NULL) {
       fprintf(stderr,"main: unable to allocate memory for the string field of the read record");
       exit(EXIT_FAILURE);
     }
+    
+    strcpy(record_p->id_field, id_field_in_read_line_p);
     strcpy(record_p->string_field, string_field_in_read_line_p);
     record_p->integer_field = atoi(integer_field_in_read_line_p);
+    record_p->float_field = atof(float_field_in_read_line_p);
     ordered_array_add(array, (void*)record_p);
   }
   fclose(fp);
@@ -130,7 +138,8 @@ static void load_array(const char *file_name, OrderedArray *array) {
 static void test_with_comparison_function(const char *file_name, int (*compare)(void*, void*)) {
   OrderedArray *array = ordered_array_create(compare);
   load_array(file_name, array);
-  print_array(array);
+  //sorting method here
+  print_array(array);   //print on FILE
   free_array(array);
 }
 

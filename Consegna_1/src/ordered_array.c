@@ -71,10 +71,21 @@ void ordered_array_add(OrderedArray *ordered_array, void *element) {
       exit(EXIT_FAILURE);
     }
   }
-  unsigned long index = get_index_to_insert(ordered_array, element);
-  insert_element(ordered_array, element, index);
+  //unsigned long index = get_index_to_insert(ordered_array, element);
+  //insert_element(ordered_array, element, index);
+  ordered_array->array[ordered_array->size] = element;
   ordered_array->size++;
 }
+
+
+/*inserts the specified element in the specified ordered array at the specified index position
+static void insert_element(OrderedArray *ordered_array, void *element, unsigned long index) {
+  for (unsigned long i = ordered_array->size; i > index; --i)
+    ordered_array->array[i] = ordered_array->array[i-1];
+  ordered_array->array[index] = element;
+} */
+
+
 
 void *ordered_array_get(OrderedArray *ordered_array, unsigned long i) {
   if (ordered_array == NULL) {
@@ -97,7 +108,7 @@ void ordered_array_free_memory(OrderedArray *ordered_array) {
   free(ordered_array);
 }
 
-//returns the position where the new element must be inserted
+/*returns the position where the new element must be inserted
 static unsigned long get_index_to_insert(OrderedArray *ordered_array, void *element) {
   unsigned long i = 0;
 
@@ -109,11 +120,5 @@ static unsigned long get_index_to_insert(OrderedArray *ordered_array, void *elem
     i++;
   }
   return i;
-}
+} */
 
-//inserts the specified element in the specified ordered array at the specified index position
-static void insert_element(OrderedArray *ordered_array, void *element, unsigned long index) {
-  for (unsigned long i = ordered_array->size; i > index; --i)
-    ordered_array->array[i] = ordered_array->array[i-1];
-  ordered_array->array[index] = element;
-}
