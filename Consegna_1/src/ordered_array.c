@@ -5,6 +5,9 @@
 //Initial capacity for the array
 #define INITIAL_CAPACITY 2
 
+//costante di confronto per il passaggio da mergesort a insertionsort
+#define K 10
+
 static unsigned long get_index_to_insert(OrderedArray *ordered_array, void *element);
 static void insert_element(OrderedArray *ordered_array, void *element, unsigned long index);
 
@@ -108,10 +111,16 @@ void ordered_array_free_memory(OrderedArray *ordered_array) {
   free(ordered_array);
 }
 
+
+
+
+
+
+
 void merge(OrderedArray *ordered_array, int p, int q, int r){
     printf("Merging\n");
     
-    int k = 0, i, j, v2[N];
+    int k = 0, i, j, v2[N]; //AIUTO
     i = p;
     j = q + 1;
 
@@ -158,18 +167,17 @@ int binarySearch(OrderedArray *ordered_array, void *item, int low, int high) {
 
     int mid = (low + high)/2;
   
-    if(item == a[mid]){
+    if(item == ordered_array->array[mid]){
         return mid+1;
-    } else if(item > a[mid]){
-        return binarySearch(a, item, mid+1, high);
+    } else if(item > ordered_array->array[mid]){
+        return binarySearch(ordered_array->array, item, mid+1, high);
     }
     
-    return binarySearch(a, item, low, mid-1);  
+    return binarySearch(ordered_array->array, item, low, mid-1);  
 }
 
 
 
-s
 void algoritmo(OrderedArray *ordered_array, int low, int high){
 
     if (high - low + 1 <= K){
@@ -177,28 +185,27 @@ void algoritmo(OrderedArray *ordered_array, int low, int high){
 
         for (int i = low + 1; i  < high + 1; i++){
             int j = i - 1;
-            Record selected = ordered_array->array[i];
 
             //posizione in cui deve essere inserito selezionato
-            int index = binarySearch(a, selected, low, j);
+            int index = binarySearch(ordered_array->array, ordered_array->array[i], low, j);
 
             //ciclo per spostare l'elemento cosi da fare 
             //spazio per l'elemento da inserire
             while (j >= index){
-                a[j+1] = a[j];
+                ordered_array->array[j+1] = ordered_array->array[j];
                 j--;
             }
-            a[index] = selected; 
+            ordered_array->array[index] = ordered_array->array[i]; 
         }
     }else{
         int mid;
         if (low < high) {
             mid = (low+high)/2;
             printf("Division\n");
-            algoritmo(a, low, mid);
+            algoritmo(ordered_array->array, low, mid);
             printf("Division\n");
-            algoritmo(a, mid+1, high);
-            merge(a, low, mid, high);
+            algoritmo(ordered_array->array, mid+1, high);
+            merge(ordered_array->array, low, mid, high);
         }
     }
 
