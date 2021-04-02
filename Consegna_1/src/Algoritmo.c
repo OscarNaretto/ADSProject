@@ -1,9 +1,11 @@
 #include <stdio.h>
 #define N 10
-#define K 2
+#define K 4
 #define CASO 7
 
 void merge(int v1[], int p, int q, int r){
+    printf("Merging\n");
+    
     int k = 0, i, j, v2[N];
     i = p;
     j = q + 1;
@@ -38,24 +40,29 @@ void merge(int v1[], int p, int q, int r){
     }
 }
 
-int binarySearch(int a[], int item, int low, int high)
-{
-    if (high <= low)
+
+int binarySearch(int a[], int item, int low, int high) {
+
+    if (high <= low) {
         return (item > a[low])?  (low + 1): low;
-  
+    }
+
     int mid = (low + high)/2;
   
-    if(item == a[mid])
+    if(item == a[mid]){
         return mid+1;
-  
-    if(item > a[mid])
+    } else if(item > a[mid]){
         return binarySearch(a, item, mid+1, high);
-    return binarySearch(a, item, low, mid-1);
+    }
+    
+    return binarySearch(a, item, low, mid-1);  
 }
+
 
 void algoritmo(int a[],int low, int high){
 
     if (high - low + 1 <= K){
+        printf("Sorting\n");
 
         for (int i = low + 1; i  < high - low + 1; i++){
             int j = i - 1;
@@ -64,7 +71,7 @@ void algoritmo(int a[],int low, int high){
             //posizione in cui deve essere inserito selezionato
             int index = binarySearch(a, selected, low, j);
 
-            //cilco per spostare l'elemento cosi da fare 
+            //ciclo per spostare l'elemento cosi da fare 
             //spazio per l'elemento da inserire
             while (j >= index){
                 a[j+1] = a[j];
@@ -76,26 +83,15 @@ void algoritmo(int a[],int low, int high){
         printf("%d \t", a[i]);
         }
 
-        /*for (int i = low; i < high; i++) {
-            int tempVal = a[i + 1];
-            int j = i + 1;
-            while (j > low && a[j - 1] > tempVal) {
-                a[j] = a[j - 1];
-                j--;
-            }
-            a[j] = tempVal;
-        }*/
-
     }else{
-        printf("MergeSort\n");
-        //int v1[], int p, int r
         int mid; // valore medio
         if (low < high) {
             mid = (low+high)/2;
+            printf("Division\n");
             algoritmo(a, low, mid);
+            printf("Division\n");
             algoritmo(a, mid+1, high);
             merge(a, low, mid, high);
-            printf("Merging\n");
         }
     }
 
@@ -121,3 +117,14 @@ int main()
 }
 
 
+//insertion sort
+
+        /*for (int i = low; i < high; i++) {
+            int tempVal = a[i + 1];
+            int j = i + 1;
+            while (j > low && a[j - 1] > tempVal) {
+                a[j] = a[j - 1];
+                j--;
+            }
+            a[j] = tempVal;
+        }*/
