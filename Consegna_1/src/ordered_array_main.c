@@ -6,15 +6,7 @@
 #include <string.h>
 #include "ordered_array.h"
 
-
-#define N 100    //dimensione vettore di appoggio merge
-#define K 4     //costante di confronto per il passaggio da mergesort a insertionsort
-
-
 #define BUFFER_SIZE 1024
-
-
-int binarySearch(OrderedArray *ordered_array, void *item, int low, int high);
 
 typedef struct _record {
   char *id_field;
@@ -22,6 +14,10 @@ typedef struct _record {
   int integer_field;
   float float_field;
 } Record;
+
+
+static void algoritmo(OrderedArray *ordered_array, int (*compare)(void*, void*), int low, int high);
+
 
 /*
  * It takes as input two pointers to Record.
@@ -172,8 +168,7 @@ static void load_array(const char *file_name, OrderedArray *array) {
 static void test_with_comparison_function(const char *file_name, int (*compare)(void*, void*)) {
   OrderedArray *array = ordered_array_create(compare);
   load_array(file_name, array);
-  //sorting method here
-  
+  algoritmo(array, compare, 0, ordered_array_size(array) - 1);
   //print_array(array);   
   print_file_array(array);    //print on FILE
   free_array(array);
@@ -182,100 +177,9 @@ static void test_with_comparison_function(const char *file_name, int (*compare)(
 
 
 
-
-
-
-
-void merge(OrderedArray *ordered_array, int p, int q, int r){
-    printf("Merging\n");
-    
-    int k = 0, i, j, v2[N];
-    i = p;
-    j = q + 1;
-
-    while (i<=q && j<=r){
-        if(v1[i] < v1[j]){
-            v2[k] = v1[i];
-            i++;
-        }else{
-            v2[k] = v1[j];
-            j++;
-        }
-        k++;
-    }
-    
-    while(i <= q){
-        v2[k] = v1[i];
-        i++;
-        k++;
-    }
-    
-    while(j <= r){
-        v2[k] = v1[j];
-        j++;
-        k++;
-    }
-    
-    k = p;
-    while(k <= r){
-        v1[k] = v2[k-p];
-        k++;
-    }
-}
-
-
-int binarySearch(OrderedArray *ordered_array, void *item, int low, int high) {
-
-    if (high <= low) {
-        if (ordered_array->precedes(ordered_array->array[low], item)){
-            return low + 1;
-        } else {
-            return low;
-        }
-    }
-
-    int mid = (low + high)/2;
+int main(int argc, char const *argv[]) {
   
-    if(item == a[mid]){
-        return mid+1;
-    } else if(item > a[mid]){
-        return binarySearch(a, item, mid+1, high);
-    }
-    
-    return binarySearch(a, item, low, mid-1);  
-}
+  test_with_comparison_function("minirecord.csv", precedes_record_int_field);
 
-
-void algoritmo(OrderedArray *ordered_array, int low, int high){
-
-    if (high - low + 1 <= K){
-        printf("Sorting\n");
-
-        for (int i = low + 1; i  < high + 1; i++){
-            int j = i - 1;
-            Record selected = ordered_array->array[i];
-
-            //posizione in cui deve essere inserito selezionato
-            int index = binarySearch(a, selected, low, j);
-
-            //ciclo per spostare l'elemento cosi da fare 
-            //spazio per l'elemento da inserire
-            while (j >= index){
-                a[j+1] = a[j];
-                j--;
-            }
-            a[index] = selected; 
-        }
-    }else{
-        int mid;
-        if (low < high) {
-            mid = (low+high)/2;
-            printf("Division\n");
-            algoritmo(a, low, mid);
-            printf("Division\n");
-            algoritmo(a, mid+1, high);
-            merge(a, low, mid, high);
-        }
-    }
-
+  return EXIT_SUCCESS;
 }
