@@ -78,11 +78,6 @@ void algoritmo(int a[],int low, int high){
             }
             a[index] = selected; 
         }
-
-        for(int i=low; i<high - low + 1; i++){
-            printf("%d \t", a[i]);
-        }
-
     }else{
         int mid;
         if (low < high) {
@@ -97,8 +92,7 @@ void algoritmo(int a[],int low, int high){
 
 }
 
-int main()
-{
+int main() {
     int a[] = { 37, 23, 0, 4, 62, 25, 12, 8};
     int size = sizeof(a) / sizeof(a[0]);
 
@@ -107,8 +101,9 @@ int main()
     printf("n=(%d) e K(%d)\n", size, K);
  
     
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < size; i++) {
         printf("%d ", a[i]);
+    }
  
     return 0;
 }
