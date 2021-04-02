@@ -131,9 +131,12 @@ static void load_array(const char *file_name, OrderedArray *array) {
     }
 
     char *id_field_in_read_line_p = strtok(buffer, ",");
-    char *string_field_in_read_line_p = strtok(buffer, ",");
-    char *integer_field_in_read_line_p = strtok(buffer, ",");
-    char *float_field_in_read_line_p = strtok(buffer, "\n");     //NULL is used for the ending token
+    char *string_field_in_read_line_p = strtok(NULL, ",");
+    char *integer_field_in_read_line_p = strtok(NULL, ",");
+    char *float_field_in_read_line_p = strtok(NULL, "\n");
+
+    printf("stringa pre caricamento?");
+    printf("%s", string_field_in_read_line_p);
 
 
     record_p->id_field = malloc((strlen(id_field_in_read_line_p)+1) * sizeof(char));
@@ -157,7 +160,7 @@ static void load_array(const char *file_name, OrderedArray *array) {
 static void test_with_comparison_function(const char *file_name, int (*compare)(void*, void*)) {
   OrderedArray *array = ordered_array_create(compare);
   load_array(file_name, array);
-  //algoritmo(array, compare, 0, ordered_array_size(array) - 1);
+  algoritmo(array, compare, 0, ordered_array_size(array) - 1);
   print_file_array(array);    //print on FILE
   free_array(array);
   printf("Ciao?");
