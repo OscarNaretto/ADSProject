@@ -15,9 +15,7 @@ typedef struct _record {
   float float_field;
 } Record;
 
-
 void algoritmo(OrderedArray *ordered_array, int (*compare)(void*, void*), int low, int high);
-
 
 /*
  * It takes as input two pointers to Record.
@@ -87,22 +85,10 @@ static  void free_array(OrderedArray *array) {
   ordered_array_free_memory(array);
 }
 
-static  void print_array(OrderedArray *array) {
-  unsigned long size = ordered_array_size(array);
-
-  Record *array_element;
-  printf("\nORDERED ARRAY OF RECORDS\n");
-
-  for (unsigned long i = 0; i < size; ++i) {
-    array_element = (Record*)ordered_array_get(array, i);
-    printf("%s, %d\n", array_element->string_field, array_element->integer_field);
-  }
-}
-
 // print on file
 void print_file_array(OrderedArray *array) {
     FILE *ordered;
-    ordered = fopen("../ordered.csv", "w");
+    ordered = fopen("ordered.csv", "w");
     unsigned long size = ordered_array_size(array);
 
     if (array == NULL) {
@@ -131,6 +117,7 @@ static void load_array(const char *file_name, OrderedArray *array) {
 
   printf("\nLoading data from file...\n");
   fp = fopen(file_name, "r");
+
   if (fp == NULL) {
     fprintf(stderr, "main: unable to open the file");
     exit(EXIT_FAILURE);
@@ -145,13 +132,15 @@ static void load_array(const char *file_name, OrderedArray *array) {
 
     char *id_field_in_read_line_p = strtok(buffer, ",");
     char *string_field_in_read_line_p = strtok(buffer, ",");
-    char *integer_field_in_read_line_p = strtok(buffer, ","); //buffer instead of NULL? 
-    char *float_field_in_read_line_p = strtok(NULL, ",");     //NULL should be used for the ending token
+    char *integer_field_in_read_line_p = strtok(buffer, ",");
+    char *float_field_in_read_line_p = strtok(buffer, "\n");     //NULL is used for the ending token
 
 
+    record_p->id_field = malloc((strlen(id_field_in_read_line_p)+1) * sizeof(char));
     record_p->string_field = malloc((strlen(string_field_in_read_line_p)+1) * sizeof(char));
-    if (record_p->string_field == NULL) {
-      fprintf(stderr,"main: unable to allocate memory for the string field of the read record");
+
+    if (record_p->id_field == NULL || record_p->string_field == NULL) {
+      fprintf(stderr,"main: unable to allocate memory for the id field or string field of the read record");
       exit(EXIT_FAILURE);
     }
     
@@ -168,14 +157,11 @@ static void load_array(const char *file_name, OrderedArray *array) {
 static void test_with_comparison_function(const char *file_name, int (*compare)(void*, void*)) {
   OrderedArray *array = ordered_array_create(compare);
   load_array(file_name, array);
-  algoritmo(array, compare, 0, ordered_array_size(array) - 1);
-  //print_array(array);   
+  //algoritmo(array, compare, 0, ordered_array_size(array) - 1);
   print_file_array(array);    //print on FILE
   free_array(array);
+  printf("Ciao?");
 }
-
-
-
 
 int main(int argc, char const *argv[]) {
   

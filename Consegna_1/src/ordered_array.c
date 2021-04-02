@@ -75,21 +75,9 @@ void ordered_array_add(OrderedArray *ordered_array, void *element) {
       exit(EXIT_FAILURE);
     }
   }
-  //unsigned long index = get_index_to_insert(ordered_array, element);
-  //insert_element(ordered_array, element, index);
   ordered_array->array[ordered_array->size] = element;
   ordered_array->size++;
 }
-
-
-/*inserts the specified element in the specified ordered array at the specified index position
-static void insert_element(OrderedArray *ordered_array, void *element, unsigned long index) {
-  for (unsigned long i = ordered_array->size; i > index; --i)
-    ordered_array->array[i] = ordered_array->array[i-1];
-  ordered_array->array[index] = element;
-} */
-
-
 
 void *ordered_array_get(OrderedArray *ordered_array, unsigned long i) {
   if (ordered_array == NULL) {
@@ -111,17 +99,6 @@ void ordered_array_free_memory(OrderedArray *ordered_array) {
   free(ordered_array->array);
   free(ordered_array);
 }
-
-
-
-
-
-
-
-
-
-
-
 
 void merge(OrderedArray *ordered_array, int (*compare)(void*, void*), int p, int q, int r){
     printf("Merging\n");
@@ -179,8 +156,6 @@ int binarySearch(OrderedArray *ordered_array, void *item, int low, int high) {
     return binarySearch(ordered_array, item, low, mid-1);  
 }
 
-
-
 void algoritmo(OrderedArray *ordered_array, int (*compare)(void*, void*), int low, int high){
 
     if (high - low + 1 <= K){
@@ -211,6 +186,5 @@ void algoritmo(OrderedArray *ordered_array, int (*compare)(void*, void*), int lo
             merge(ordered_array, compare, low, mid, high);
         }
     }
-
 }
 
