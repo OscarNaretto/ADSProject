@@ -16,7 +16,7 @@ typedef struct _record {
 } Record;
 
 
-static void algoritmo(OrderedArray *ordered_array, int (*compare)(void*, void*), int low, int high);
+void algoritmo(OrderedArray *ordered_array, int (*compare)(void*, void*), int low, int high);
 
 
 /*
