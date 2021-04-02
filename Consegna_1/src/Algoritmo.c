@@ -1,7 +1,6 @@
 #include <stdio.h>
-#define N 10
-#define K 4
-#define CASO 7
+#define N 100    //dimensione vettore di appoggio merge
+#define K 4     //costante di confronto per il passaggio da mergesort a insertionsort
 
 void merge(int v1[], int p, int q, int r){
     printf("Merging\n");
@@ -64,7 +63,7 @@ void algoritmo(int a[],int low, int high){
     if (high - low + 1 <= K){
         printf("Sorting\n");
 
-        for (int i = low + 1; i  < high - low + 1; i++){
+        for (int i = low + 1; i  < high + 1; i++){
             int j = i - 1;
             int selected = a[i];
 
@@ -79,12 +78,13 @@ void algoritmo(int a[],int low, int high){
             }
             a[index] = selected; 
         }
-        for(int i=low;i<high - low + 1; i++){
-        printf("%d \t", a[i]);
+
+        for(int i=low; i<high - low + 1; i++){
+            printf("%d \t", a[i]);
         }
 
     }else{
-        int mid; // valore medio
+        int mid;
         if (low < high) {
             mid = (low+high)/2;
             printf("Division\n");
@@ -99,32 +99,16 @@ void algoritmo(int a[],int low, int high){
 
 int main()
 {
-    int a[]
-        = { 37, 23, 0, 4, 62, 25, 12, 8};
-    //int n = sizeof(a) / sizeof(a[0]), i;
-
-    int i;
+    int a[] = { 37, 23, 0, 4, 62, 25, 12, 8};
+    int size = sizeof(a) / sizeof(a[0]);
 
     printf("Sorted array: \n");
-    algoritmo(a,0,CASO);
-    printf("n=(%d) e K(%d)\n", CASO+1, K);
+    algoritmo(a, 0, size - 1);
+    printf("n=(%d) e K(%d)\n", size, K);
  
     
-    for (i = 0; i < CASO+1; i++)
+    for (int i = 0; i < size; i++)
         printf("%d ", a[i]);
  
     return 0;
 }
-
-
-//insertion sort
-
-        /*for (int i = low; i < high; i++) {
-            int tempVal = a[i + 1];
-            int j = i + 1;
-            while (j > low && a[j - 1] > tempVal) {
-                a[j] = a[j - 1];
-                j--;
-            }
-            a[j] = tempVal;
-        }*/
