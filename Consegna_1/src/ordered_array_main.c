@@ -135,10 +135,6 @@ static void load_array(const char *file_name, OrderedArray *array) {
     char *integer_field_in_read_line_p = strtok(NULL, ",");
     char *float_field_in_read_line_p = strtok(NULL, "\n");
 
-    printf("stringa pre caricamento?");
-    printf("%s", string_field_in_read_line_p);
-
-
     record_p->id_field = malloc((strlen(id_field_in_read_line_p)+1) * sizeof(char));
     record_p->string_field = malloc((strlen(string_field_in_read_line_p)+1) * sizeof(char));
 
@@ -162,8 +158,7 @@ static void test_with_comparison_function(const char *file_name, int (*compare)(
   load_array(file_name, array);
   algoritmo(array, compare, 0, ordered_array_size(array) - 1);
   print_file_array(array);    //print on FILE
-  free_array(array);
-  printf("Ciao?");
+  //free_array(array);
 }
 
 int main(int argc, char const *argv[]) {

@@ -163,9 +163,10 @@ void algoritmo(OrderedArray *ordered_array, int (*compare)(void*, void*), int lo
 
         for (int i = low + 1; i  < high + 1; i++){
             int j = i - 1;
-
+            printf("TEST ciclo");
             //posizione in cui deve essere inserito selezionato
             int index = binarySearch(ordered_array, ordered_array->array[i], low, j);
+            printf("TEST post binary");
 
             //ciclo per spostare l'elemento cosi da fare 
             //spazio per l'elemento da inserire
@@ -174,7 +175,9 @@ void algoritmo(OrderedArray *ordered_array, int (*compare)(void*, void*), int lo
                 j--;
             }
             ordered_array->array[index] = ordered_array->array[i]; 
+            printf("TEST post assegnazione");
         }
+        printf("TEST fine ciclo");
     }else{
         int mid;
         if (low < high) {
