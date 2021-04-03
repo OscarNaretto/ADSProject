@@ -158,9 +158,9 @@ static void load_array(const char *file_name, OrderedArray *array) {
 
 static void test_with_comparison_function(const char *file_name, int (*compare)(void*, void*)) {
   OrderedArray *array = ordered_array_create(compare);
-  clock_t start_t, end_t;
+  clock_t start_t, end_t, init_t;
 
-  start_t = clock();
+  start_t = init_t = clock();
   load_array(file_name, array);
   end_t = clock();
   printf("\nData loaded; took %f sec\n", (double)(end_t - start_t) / CLOCKS_PER_SEC);
@@ -175,21 +175,28 @@ static void test_with_comparison_function(const char *file_name, int (*compare)(
   end_t = clock();
   printf("Data saved; took %f sec\n", (double)(end_t - start_t) / CLOCKS_PER_SEC);
   
+  start_t = clock();
   free_array(array);
-  printf("Data structure freed\n");
+  end_t = clock();
+  printf("Data structure freed; took %f sec\n", (double)(end_t - start_t) / CLOCKS_PER_SEC);
+
+  printf("Total execution time: ~%f sec\n", (double)(end_t - init_t) / CLOCKS_PER_SEC);
+
 }
 
 int main(int argc, char const *argv[]) {
-  char control;
-  int flag = 1;
+    char control;
+    int flag = 1;
 
-  do {
+    test_with_comparison_function("records.csv", precedes_record_string_field);
 
-    printf("Inserisci il carattere relativo al campo per il quale desideri eseguire l'ordinamento\n");
-    print("- String --> s\n");
-    print("- Integer --> i\n");
-    print("- Floating point --> f\n");
-    print("\n- Exit --> e\n");
+  
+
+    /*printf("Inserisci il carattere relativo al campo per il quale desideri eseguire l'ordinamento\n");
+    printf("- String --> s\n");
+    printf("- Integer --> i\n");
+    printf("- Floating point --> f\n");
+    printf("\n- Exit --> any\n");
     scanf("%c", control);
 
     switch (control) {
@@ -220,7 +227,6 @@ int main(int argc, char const *argv[]) {
       default:
         printf("Carattere inserito non valido, riprova");
         break;
-    }
-  } while(flag);
+    }*/
   return EXIT_SUCCESS;
 }
