@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "ordered_array.h"
 
 #define BUFFER_SIZE 1024
@@ -71,6 +72,9 @@ static int precedes_record_string_field(void *r1_p, void *r2_p) {
   }
   Record *rec1_p = (Record*)r1_p;
   Record *rec2_p = (Record*)r2_p;
+
+  //valutare se posizionare precedentemente le maiuscole o no. Nel caso, to lower
+
   return strcmp(rec1_p->string_field, rec2_p->string_field) < 0;
 }
 
@@ -150,28 +154,73 @@ static void load_array(const char *file_name, OrderedArray *array) {
     ordered_array_add(array, (void*)record_p);
   }
   fclose(fp);
-  printf("\nData loaded\n");
 }
 
 static void test_with_comparison_function(const char *file_name, int (*compare)(void*, void*)) {
   OrderedArray *array = ordered_array_create(compare);
+  clock_t start_t, end_t;
+
+  start_t = clock();
   load_array(file_name, array);
+  end_t = clock();
+  printf("\nData loaded; took %f sec\n", (double)(end_t - start_t) / CLOCKS_PER_SEC);
+
+  start_t = clock();
   algoritmo(array, compare, 0, ordered_array_size(array) - 1);
-  printf("Data sorted\n");
-  print_file_array(array);    //print on FILE
-  printf("Data saved\n");
+  end_t = clock();
+  printf("Data sorted; took %f sec\n", (double)(end_t - start_t) / CLOCKS_PER_SEC);
+
+  start_t = clock();
+  print_file_array(array);
+  end_t = clock();
+  printf("Data saved; took %f sec\n", (double)(end_t - start_t) / CLOCKS_PER_SEC);
+  
   free_array(array);
   printf("Data structure freed\n");
 }
 
 int main(int argc, char const *argv[]) {
-  /*char controllo;
-  printf("inserisci controllo");
-  scanf(controllo);
+  char control;
+  int flag = 1;
 
-  switch */
-  
-  test_with_comparison_function("minirecord.csv", precedes_record_string_field);
+  do {
 
+    printf("Inserisci il carattere relativo al campo per il quale desideri eseguire l'ordinamento\n");
+    print("- String --> s\n");
+    print("- Integer --> i\n");
+    print("- Floating point --> f\n");
+    print("\n- Exit --> e\n");
+    scanf("%c", control);
+
+    switch (control) {
+      case 's':
+        printf("Ordinamento per il campo String\n");
+        test_with_comparison_function("records.csv", precedes_record_string_field);
+        //output di path del file ordinato
+        flag = 0;
+        break;
+      
+      case 'i':
+        printf("Ordinamento per il campo Integer\n");
+        test_with_comparison_function("records.csv", precedes_record_int_field);
+        flag = 0;
+        break;
+
+      case 'f':
+        printf("Ordinamento per il campo Floating point\n");
+        test_with_comparison_function("records.csv", precedes_record_float_field);
+        flag = 0;
+        break;
+      
+      case 'e':
+        printf("Arrivederci\n");
+        flag = 0;
+        break;
+
+      default:
+        printf("Carattere inserito non valido, riprova");
+        break;
+    }
+  } while(flag);
   return EXIT_SUCCESS;
 }

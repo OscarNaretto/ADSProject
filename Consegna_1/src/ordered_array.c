@@ -6,7 +6,7 @@
 #define INITIAL_CAPACITY 2
 
 //costante di confronto per il passaggio da mergesort a insertionsort
-#define K 4
+#define K 1000000
 
 //It represents the internal structure of this implementation of ordered arrays
 struct _OrderedArray {
@@ -129,7 +129,6 @@ void merge(OrderedArray *ordered_array, int (*compare)(void*, void*), int p, int
         ordered_array->array[k] = tmp_array->array[k-p];
         k++;
     }
-
     ordered_array_free_memory(tmp_array);
 }
 
