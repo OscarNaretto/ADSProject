@@ -72,7 +72,7 @@ static void test_ordered_array_add_get_three_el() {
 }
 
 
-static void test_binary_algorithm(){
+static void test_algorithm(){
     int i1 = 2;
     int i2 = 0;
     int i3 = 4;
@@ -85,7 +85,7 @@ static void test_binary_algorithm(){
     ordered_array_add(ordered_array_int, &i1);
     ordered_array_add(ordered_array_int, &i5);
     ordered_array_add(ordered_array_int, &i3);
-    generic_array_insertion_sort(/*binary*/);
+    sortingAlgorithm(ordered_array_int,precedes_int, 0, ordered_array_size(ordered_array_int) - 1);
     TEST_ASSERT_EQUAL_PTR(&i2,ordered_array_get(ordered_array_int, 0));
     TEST_ASSERT_EQUAL_PTR(&i1,ordered_array_get(ordered_array_int, 1));
     TEST_ASSERT_EQUAL_PTR(&i3,ordered_array_get(ordered_array_int, 2));
@@ -94,28 +94,6 @@ static void test_binary_algorithm(){
     ordered_array_free_memory(ordered_array_int);
 }
 
-
-static void test_merge_algorithm(){
-    int i1 = 2;
-    int i2 = 0;
-    int i3 = 4;
-    int i4 = 23;
-    int i5 = 10;
-
-    OrderedArray *ordered_array_int = ordered_array_create(precedes_int);
-    ordered_array_add(ordered_array_int, &i4);
-    ordered_array_add(ordered_array_int, &i2);
-    ordered_array_add(ordered_array_int, &i1);
-    ordered_array_add(ordered_array_int, &i5);
-    ordered_array_add(ordered_array_int, &i3);
-    generic_array_insertion_sort(/*Merge*/);
-    TEST_ASSERT_EQUAL_PTR(&i2,ordered_array_get(ordered_array_int, 0));
-    TEST_ASSERT_EQUAL_PTR(&i1,ordered_array_get(ordered_array_int, 1));
-    TEST_ASSERT_EQUAL_PTR(&i3,ordered_array_get(ordered_array_int, 2));
-    TEST_ASSERT_EQUAL_PTR(&i5,ordered_array_get(ordered_array_int, 3)); 
-    TEST_ASSERT_EQUAL_PTR(&i4,ordered_array_get(ordered_array_int, 4));
-    ordered_array_free_memory(ordered_array_int);
-}
 
 
 
@@ -128,8 +106,7 @@ int main(){
     RUN_TEST(test_ordered_array_size_two_el);
     RUN_TEST(test_ordered_array_add_get_one_el);
     RUN_TEST(test_ordered_array_add_get_three_el);
-    RUN_TEST(test_binary_algorithm);
-    RUN_TEST(test_merge_algorithm);
+    RUN_TEST(test_algorithm);
     return UNITY_END();
 }
 
