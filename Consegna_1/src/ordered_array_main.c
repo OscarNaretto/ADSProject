@@ -76,10 +76,10 @@ static int precedes_record_string_field(void *r1_p, void *r2_p) {
 
 static  void free_array(OrderedArray *array) {
   unsigned long size = ordered_array_size(array);
-  for (unsigned long i = 0; i < size; ++i) {
+  for (unsigned long i = 0; i < size; i++) {
     Record *array_element = (Record*)ordered_array_get(array, i);
     free(array_element->id_field);  
-    free(array_element->string_field);    //free corretti?
+    free(array_element->string_field);
     free(array_element);
   }
   ordered_array_free_memory(array);
@@ -157,13 +157,21 @@ static void test_with_comparison_function(const char *file_name, int (*compare)(
   OrderedArray *array = ordered_array_create(compare);
   load_array(file_name, array);
   algoritmo(array, compare, 0, ordered_array_size(array) - 1);
+  printf("Data sorted\n");
   print_file_array(array);    //print on FILE
-  //free_array(array);
+  printf("Data saved\n");
+  free_array(array);
+  printf("Data structure freed\n");
 }
 
 int main(int argc, char const *argv[]) {
+  /*char controllo;
+  printf("inserisci controllo");
+  scanf(controllo);
+
+  switch */
   
-  test_with_comparison_function("minirecord.csv", precedes_record_int_field);
+  test_with_comparison_function("minirecord.csv", precedes_record_string_field);
 
   return EXIT_SUCCESS;
 }

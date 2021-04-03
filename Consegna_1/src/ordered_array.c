@@ -6,11 +6,7 @@
 #define INITIAL_CAPACITY 2
 
 //costante di confronto per il passaggio da mergesort a insertionsort
-#define K 10
-
-static unsigned long get_index_to_insert(OrderedArray *ordered_array, void *element);
-static void insert_element(OrderedArray *ordered_array, void *element, unsigned long index);
-
+#define K 4
 
 //It represents the internal structure of this implementation of ordered arrays
 struct _OrderedArray {
@@ -101,16 +97,15 @@ void ordered_array_free_memory(OrderedArray *ordered_array) {
 }
 
 void merge(OrderedArray *ordered_array, int (*compare)(void*, void*), int p, int q, int r){
-    printf("Merging\n");
     
-    int k;
+    int k = 0;
     int i = p;
     int j = q + 1;
 
     OrderedArray *tmp_array = ordered_array_create(compare);
 
     while (i<=q && j<=r){
-        if(ordered_array->array[i] < ordered_array->array[j]){
+        if(ordered_array->precedes(ordered_array->array[i], ordered_array->array[j])){
             ordered_array_add(tmp_array, ordered_array->array[i]);
             i++;
         }else{
@@ -134,6 +129,8 @@ void merge(OrderedArray *ordered_array, int (*compare)(void*, void*), int p, int
         ordered_array->array[k] = tmp_array->array[k-p];
         k++;
     }
+
+    ordered_array_free_memory(tmp_array);
 }
 
 int binarySearch(OrderedArray *ordered_array, void *item, int low, int high) {
@@ -147,10 +144,7 @@ int binarySearch(OrderedArray *ordered_array, void *item, int low, int high) {
     }
 
     int mid = (low + high)/2;
-  
-    if(item == ordered_array->array[mid]){
-        return mid+1;
-    } else if(item > ordered_array->array[mid]){
+    if (ordered_array->precedes(ordered_array->array[mid], item)){
         return binarySearch(ordered_array, item, mid+1, high);
     }
     return binarySearch(ordered_array, item, low, mid-1);  
@@ -159,14 +153,14 @@ int binarySearch(OrderedArray *ordered_array, void *item, int low, int high) {
 void algoritmo(OrderedArray *ordered_array, int (*compare)(void*, void*), int low, int high){
 
     if (high - low + 1 <= K){
-        printf("Sorting\n");
 
         for (int i = low + 1; i  < high + 1; i++){
             int j = i - 1;
-            printf("TEST ciclo");
+            OrderedArray *tmp_array = ordered_array_create(compare);
+            tmp_array->array[0] = ordered_array->array[i];
+
             //posizione in cui deve essere inserito selezionato
-            int index = binarySearch(ordered_array, ordered_array->array[i], low, j);
-            printf("TEST post binary");
+            int index = binarySearch(ordered_array, tmp_array->array[0], low, j);
 
             //ciclo per spostare l'elemento cosi da fare 
             //spazio per l'elemento da inserire
@@ -174,17 +168,15 @@ void algoritmo(OrderedArray *ordered_array, int (*compare)(void*, void*), int lo
                 ordered_array->array[j+1] = ordered_array->array[j];
                 j--;
             }
-            ordered_array->array[index] = ordered_array->array[i]; 
-            printf("TEST post assegnazione");
+            ordered_array->array[index] = tmp_array->array[0]; 
+
+            ordered_array_free_memory(tmp_array);
         }
-        printf("TEST fine ciclo");
     }else{
         int mid;
         if (low < high) {
             mid = (low+high)/2;
-            printf("Division\n");
             algoritmo(ordered_array, compare, low, mid);
-            printf("Division\n");
             algoritmo(ordered_array, compare, mid+1, high);
             merge(ordered_array, compare, low, mid, high);
         }
