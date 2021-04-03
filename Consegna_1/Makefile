@@ -1,7 +1,10 @@
-CFLAGS 		= -g -O1 -Wall -Wextra -Wpedantic -Wconversion
-COMMON_DEPS 	= src/*.h Makefile
+CFLAGS = -g -O1 -Wall -Wextra -Wpedantic -Wconversion
+COMMON_DEPS = src/*.h Makefile
 
 all: bin/ordered_array bin/ordered_array_tests
+
+order: bin/ordered_array
+	bin/ordered_array records.csv
 
 tests: bin/ordered_array_tests
 	bin/ordered_array_tests
@@ -18,6 +21,4 @@ bin/ordered_array_tests: build/ordered_array_tests.o build/ordered_array.o build
 clean:
 	$(RM) build/*
 	$(RM) bin/*
-
-app: ordered_array_main.o ordered_array_tests.o ordered_array.o unity.o
-	gcc -o app ordered_array_main.o ordered_array_tests.o ordered_array.o unity.o
+	$(RM) ordered.csv

@@ -8,6 +8,7 @@
 #include "ordered_array.h"
 
 #define BUFFER_SIZE 1024
+#define FLOATING_POINT_PRECISION 9
 
 typedef struct _record {
   char *id_field;
@@ -16,7 +17,7 @@ typedef struct _record {
   float float_field;
 } Record;
 
-void algoritmo(OrderedArray *ordered_array, int (*compare)(void*, void*), int low, int high);
+void algoritmo(OrderedArray *ordered_array, int (*compare)(void*, void*), int low, unsigned long high);
 
 /*
  * It takes as input two pointers to Record.
@@ -110,7 +111,7 @@ void print_file_array(OrderedArray *array) {
     } else {
         for (unsigned long i = 0; i < size; i++) {
             array_element = (Record*)ordered_array_get(array, i);
-            fprintf(ordered, "%s, %s, %d, %.9f\n", array_element->id_field, array_element->string_field, array_element->integer_field, array_element->float_field);
+            fprintf(ordered, "%s, %s, %d, %.FLOATING_POINT_PRECISIONf\n", array_element->id_field, array_element->string_field, array_element->integer_field, array_element->float_field);
         }
     }
 }
@@ -184,7 +185,7 @@ static void test_with_comparison_function(const char *file_name, int (*compare)(
 }
 
 int main(int argc, char const *argv[]) {
-  
+
   char control;
   int flag = 1;
 
@@ -193,27 +194,27 @@ int main(int argc, char const *argv[]) {
     printf("- String --> s\n");
     printf("- Integer --> i\n");
     printf("- Floating point --> f\n");
-    printf("\n- Exit --> any\n");
+    printf("\n- Exit --> e\n");
     scanf(" %c", &control);
 
     switch (control) {
       case 's':
         printf("Ordinamento per il campo String\n");
-        test_with_comparison_function("../records.csv", precedes_record_string_field);
+        test_with_comparison_function(argv[1], precedes_record_string_field);
         printf("File di output ordinato: ordered.csv\n");
         flag = 0;
         break;
       
       case 'i':
         printf("Ordinamento per il campo Integer\n");
-        test_with_comparison_function("../records.csv", precedes_record_int_field);
+        test_with_comparison_function(argv[1], precedes_record_int_field);
         printf("File di output ordinato: ordered.csv\n");
         flag = 0;
         break;
 
       case 'f':
         printf("Ordinamento per il campo Floating point\n");
-        test_with_comparison_function("../records.csv", precedes_record_float_field);
+        test_with_comparison_function(argv[1], precedes_record_float_field);
         printf("File di output ordinato: ordered.csv\n");
         flag = 0;
         break;
@@ -224,7 +225,7 @@ int main(int argc, char const *argv[]) {
         break;
 
       default:
-        printf("Carattere inserito non valido, riprova");
+        printf("Carattere inserito non valido, riprova\n\n");
         break;
     }
   } while(flag);
