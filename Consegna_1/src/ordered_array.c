@@ -149,7 +149,7 @@ int binarySearch(OrderedArray *ordered_array, void *item, int low, int high) {
     return binarySearch(ordered_array, item, low, mid-1);  
 }
 
-void algoritmo(OrderedArray *ordered_array, int (*compare)(void*, void*), int low, unsigned long high){
+void sortingAlgorithm(OrderedArray *ordered_array, int (*compare)(void*, void*), int low, unsigned long high){
 
     if (high - low + 1 <= K){
 
@@ -175,8 +175,8 @@ void algoritmo(OrderedArray *ordered_array, int (*compare)(void*, void*), int lo
         int mid;
         if (low < high) {
             mid = (low+high)/2;
-            algoritmo(ordered_array, compare, low, mid);
-            algoritmo(ordered_array, compare, mid+1, high);
+            sortingAlgorithm(ordered_array, compare, low, mid);
+            sortingAlgorithm(ordered_array, compare, mid+1, high);
             merge(ordered_array, compare, low, mid, high);
         }
     }

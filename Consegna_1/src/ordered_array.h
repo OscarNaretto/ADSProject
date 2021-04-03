@@ -52,7 +52,7 @@ void *ordered_array_get(OrderedArray*, unsigned long);
  */
 void ordered_array_free_memory(OrderedArray*);
 
-void algoritmo(OrderedArray *ordered_array, int (*compare)(void*, void*), int low, unsigned long high);
+void sortingAlgorithm(OrderedArray *ordered_array, int (*compare)(void*, void*), int low, unsigned long high);
 
 #endif // ORDERED_ARRAY_H
 

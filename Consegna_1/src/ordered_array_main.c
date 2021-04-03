@@ -6,6 +6,8 @@
 #include <string.h>
 #include <time.h>
 #include "ordered_array.h"
+#include <ctype.h>
+
 
 #define BUFFER_SIZE 1024
 #define FLOATING_POINT_PRECISION 9
@@ -17,7 +19,7 @@ typedef struct _record {
   float float_field;
 } Record;
 
-void algoritmo(OrderedArray *ordered_array, int (*compare)(void*, void*), int low, unsigned long high);
+void sortingAlgorithm(OrderedArray *ordered_array, int (*compare)(void*, void*), int low, unsigned long high);
 
 /*
  * It takes as input two pointers to Record.
@@ -93,7 +95,7 @@ static  void free_array(OrderedArray *array) {
 // print on file
 void print_file_array(OrderedArray *array) {
     FILE *ordered;
-    ordered = fopen("../ordered.csv", "w");
+    ordered = fopen("ordered.csv", "w");
     unsigned long size = ordered_array_size(array);
 
     if (array == NULL) {
@@ -167,7 +169,7 @@ static void test_with_comparison_function(const char *file_name, int (*compare)(
   printf("\nData loaded; took %f sec\n", (double)(end_t - start_t) / CLOCKS_PER_SEC);
 
   start_t = clock();
-  algoritmo(array, compare, 0, ordered_array_size(array) - 1);
+  sortingAlgorithm(array, compare, 0, ordered_array_size(array) - 1);
   end_t = clock();
   printf("Data sorted; took %f sec\n", (double)(end_t - start_t) / CLOCKS_PER_SEC);
 
@@ -185,50 +187,44 @@ static void test_with_comparison_function(const char *file_name, int (*compare)(
 }
 
 int main(int argc, char const *argv[]) {
+  
+  if (argc < 2) {
+    printf("Usage: ordered_array_main <file_name>\n");
+    exit(EXIT_FAILURE);
+  }
 
+  printf("Select the sorting field via proper parameter\n");
+  printf("- String --> S/s\n");
+  printf("- Integer --> I/i\n");
+  printf("- Floating point --> F/f\n");
+  printf("\n- Exit --> any\n");
   char control;
-  int flag = 1;
+  scanf(" %c", &control);
+  control = tolower(control);
 
-  do {
-    printf("Inserisci il carattere relativo al campo per il quale desideri eseguire l'ordinamento\n");
-    printf("- String --> s\n");
-    printf("- Integer --> i\n");
-    printf("- Floating point --> f\n");
-    printf("\n- Exit --> e\n");
-    scanf(" %c", &control);
-
-    switch (control) {
-      case 's':
-        printf("Ordinamento per il campo String\n");
-        test_with_comparison_function(argv[1], precedes_record_string_field);
-        printf("File di output ordinato: ordered.csv\n");
-        flag = 0;
-        break;
+  switch (control) {
+    case 's':
+      printf("Sorting by String field\n");
+      test_with_comparison_function(argv[1], precedes_record_string_field);
+      printf("Sorted output file: ordered.csv\n");
+      break;
       
-      case 'i':
-        printf("Ordinamento per il campo Integer\n");
-        test_with_comparison_function(argv[1], precedes_record_int_field);
-        printf("File di output ordinato: ordered.csv\n");
-        flag = 0;
-        break;
+    case 'i':
+      printf("Sorting by Integer field\n");
+      test_with_comparison_function(argv[1], precedes_record_int_field);
+      printf("Sorted output file: ordered.csv\n");
+      break;
 
-      case 'f':
-        printf("Ordinamento per il campo Floating point\n");
-        test_with_comparison_function(argv[1], precedes_record_float_field);
-        printf("File di output ordinato: ordered.csv\n");
-        flag = 0;
-        break;
+    case 'f':
+      printf("Sorting by Floating point field\n");
+      test_with_comparison_function(argv[1], precedes_record_float_field);
+      printf("Sorted output file: ordered.csv\n");
+      break;
       
-      case 'e':
-        printf("Arrivederci\n");
-        flag = 0;
-        break;
-
-      default:
-        printf("Carattere inserito non valido, riprova\n\n");
-        break;
+    default:
+      printf("Goodbye\n");
+      break;
     }
-  } while(flag);
     
   return EXIT_SUCCESS;
 }
