@@ -92,7 +92,7 @@ static  void free_array(OrderedArray *array) {
 // print on file
 void print_file_array(OrderedArray *array) {
     FILE *ordered;
-    ordered = fopen("ordered.csv", "w");
+    ordered = fopen("../ordered.csv", "w");
     unsigned long size = ordered_array_size(array);
 
     if (array == NULL) {
@@ -199,21 +199,21 @@ int main(int argc, char const *argv[]) {
     switch (control) {
       case 's':
         printf("Ordinamento per il campo String\n");
-        test_with_comparison_function("records.csv", precedes_record_string_field);
+        test_with_comparison_function("../records.csv", precedes_record_string_field);
         printf("File di output ordinato: ordered.csv\n");
         flag = 0;
         break;
       
       case 'i':
         printf("Ordinamento per il campo Integer\n");
-        test_with_comparison_function("records.csv", precedes_record_int_field);
+        test_with_comparison_function("../records.csv", precedes_record_int_field);
         printf("File di output ordinato: ordered.csv\n");
         flag = 0;
         break;
 
       case 'f':
         printf("Ordinamento per il campo Floating point\n");
-        test_with_comparison_function("records.csv", precedes_record_float_field);
+        test_with_comparison_function("../records.csv", precedes_record_float_field);
         printf("File di output ordinato: ordered.csv\n");
         flag = 0;
         break;
