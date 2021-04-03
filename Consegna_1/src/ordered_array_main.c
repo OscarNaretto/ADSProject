@@ -181,41 +181,40 @@ static void test_with_comparison_function(const char *file_name, int (*compare)(
   printf("Data structure freed; took %f sec\n", (double)(end_t - start_t) / CLOCKS_PER_SEC);
 
   printf("Total execution time: ~%f sec\n", (double)(end_t - init_t) / CLOCKS_PER_SEC);
-
 }
 
 int main(int argc, char const *argv[]) {
-    char control;
-    int flag = 1;
-
-    test_with_comparison_function("records.csv", precedes_record_string_field);
-
   
+  char control;
+  int flag = 1;
 
-    /*printf("Inserisci il carattere relativo al campo per il quale desideri eseguire l'ordinamento\n");
+  do {
+    printf("Inserisci il carattere relativo al campo per il quale desideri eseguire l'ordinamento\n");
     printf("- String --> s\n");
     printf("- Integer --> i\n");
     printf("- Floating point --> f\n");
     printf("\n- Exit --> any\n");
-    scanf("%c", control);
+    scanf(" %c", &control);
 
     switch (control) {
       case 's':
         printf("Ordinamento per il campo String\n");
         test_with_comparison_function("records.csv", precedes_record_string_field);
-        //output di path del file ordinato
+        printf("File di output ordinato: ordered.csv\n");
         flag = 0;
         break;
       
       case 'i':
         printf("Ordinamento per il campo Integer\n");
         test_with_comparison_function("records.csv", precedes_record_int_field);
+        printf("File di output ordinato: ordered.csv\n");
         flag = 0;
         break;
 
       case 'f':
         printf("Ordinamento per il campo Floating point\n");
         test_with_comparison_function("records.csv", precedes_record_float_field);
+        printf("File di output ordinato: ordered.csv\n");
         flag = 0;
         break;
       
@@ -227,6 +226,8 @@ int main(int argc, char const *argv[]) {
       default:
         printf("Carattere inserito non valido, riprova");
         break;
-    }*/
+    }
+  } while(flag);
+    
   return EXIT_SUCCESS;
 }
