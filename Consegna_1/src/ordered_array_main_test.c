@@ -52,7 +52,7 @@ static void test_ordered_array_add_get_one_el() {
   ordered_array_free_memory(ordered_array_int);
 }
 
-/*
+
 static void test_ordered_array_add_get_three_el() {
   int i1 = -12;
   int i2 = 0;
@@ -60,9 +60,9 @@ static void test_ordered_array_add_get_three_el() {
   int* exp_arr[] = {&i1, &i2, &i3};
 
   OrderedArray *ordered_array_int = ordered_array_create(precedes_int);
+  ordered_array_add(ordered_array_int, &i1);
   ordered_array_add(ordered_array_int, &i2);
   ordered_array_add(ordered_array_int, &i3);
-  ordered_array_add(ordered_array_int, &i1);
 
   int **act_arr = malloc(3*sizeof(int*));
   for (unsigned long i=0; i < 3; ++i) {
@@ -71,7 +71,7 @@ static void test_ordered_array_add_get_three_el() {
   TEST_ASSERT_EQUAL_PTR_ARRAY(exp_arr, act_arr, 3);//(I,j,z) sono i parametri di entrabi gli array , z sono gli elemnti da controllare
   free(act_arr);
   ordered_array_free_memory(ordered_array_int);
-}*/
+}
 
 
 static void test_algorithm(){
