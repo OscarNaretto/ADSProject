@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+/*
 int min3(int a, int b, int c){
     if (a < b){
         if (a < c){
@@ -14,6 +14,19 @@ int min3(int a, int b, int c){
     } else {
         return c;
     }
+}*/
+
+int min3(int a, int b, int c) {
+	int min;
+
+	min=a;	
+	
+	if(b < min)
+	    min =b;
+	if(c < min)
+	    min = c;
+
+	return min;
 }
 
 int min2(int a, int b){
