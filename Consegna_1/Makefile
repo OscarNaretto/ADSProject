@@ -1,10 +1,10 @@
-CFLAGS = -g -O1 -Wall -Wextra -Wpedantic -Wconversion
+CFLAGS = -g -O1 -Wall -Wextra -Wpedantic
 COMMON_DEPS = src/*.h Makefile
 
 all: bin/ordered_array bin/ordered_array_tests
 
 order: bin/ordered_array
-	bin/ordered_array records.csv
+	bin/ordered_array $(path)
 
 tests: bin/ordered_array_tests
 	bin/ordered_array_tests

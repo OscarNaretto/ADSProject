@@ -5,12 +5,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "ordered_array.h"
 #include <ctype.h>
-
+#include "ordered_array.h"
 
 #define BUFFER_SIZE 1024
-#define FLOATING_POINT_PRECISION 9
 
 typedef struct _record {
   char *id_field;
@@ -19,7 +17,7 @@ typedef struct _record {
   float float_field;
 } Record;
 
-void sortingAlgorithm(OrderedArray *ordered_array, int (*compare)(void*, void*), int low, unsigned long high);
+void sorting_algorithm(OrderedArray *ordered_array, int (*compare)(void*, void*), int low, unsigned long high);
 
 /*
  * It takes as input two pointers to Record.
@@ -113,7 +111,7 @@ void print_file_array(OrderedArray *array) {
     } else {
         for (unsigned long i = 0; i < size; i++) {
             array_element = (Record*)ordered_array_get(array, i);
-            fprintf(ordered, "%s, %s, %d, %.FLOATING_POINT_PRECISIONf\n", array_element->id_field, array_element->string_field, array_element->integer_field, array_element->float_field);
+            fprintf(ordered, "%s, %s, %d, %.9f\n", array_element->id_field, array_element->string_field, array_element->integer_field, array_element->float_field);
         }
     }
 }
@@ -169,7 +167,7 @@ static void test_with_comparison_function(const char *file_name, int (*compare)(
   printf("\nData loaded; took %f sec\n", (double)(end_t - start_t) / CLOCKS_PER_SEC);
 
   start_t = clock();
-  sortingAlgorithm(array, compare, 0, ordered_array_size(array) - 1);
+  sorting_algorithm(array, compare, 0, ordered_array_size(array) - 1);
   end_t = clock();
   printf("Data sorted; took %f sec\n", (double)(end_t - start_t) / CLOCKS_PER_SEC);
 

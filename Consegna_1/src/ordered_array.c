@@ -6,7 +6,7 @@
 #define INITIAL_CAPACITY 2
 
 //costante di confronto per il passaggio da mergesort a insertionsort
-#define K 100
+#define K 10 
 
 //It represents the internal structure of this implementation of ordered arrays
 struct _OrderedArray {
@@ -149,11 +149,11 @@ int binarySearch(OrderedArray *ordered_array, void *item, int low, int high) {
     return binarySearch(ordered_array, item, low, mid-1);  
 }
 
-void sortingAlgorithm(OrderedArray *ordered_array, int (*compare)(void*, void*), int low, unsigned long high){
+void sorting_algorithm(OrderedArray *ordered_array, int (*compare)(void*, void*), int low, unsigned long high){
 
     if (high - low + 1 <= K){
 
-        for (int i = low + 1; i  < high + 1; i++){
+        for (unsigned int i = low + 1; i  < high + 1; i++){
             int j = i - 1;
             OrderedArray *tmp_array = ordered_array_create(compare);
             tmp_array->array[0] = ordered_array->array[i];
@@ -175,10 +175,9 @@ void sortingAlgorithm(OrderedArray *ordered_array, int (*compare)(void*, void*),
         int mid;
         if (low < high) {
             mid = (low+high)/2;
-            sortingAlgorithm(ordered_array, compare, low, mid);
-            sortingAlgorithm(ordered_array, compare, mid+1, high);
+            sorting_algorithm(ordered_array, compare, low, mid);
+            sorting_algorithm(ordered_array, compare, mid+1, high);
             merge(ordered_array, compare, low, mid, high);
         }
     }
 }
-

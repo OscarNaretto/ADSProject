@@ -20,7 +20,7 @@ static int precedes_int(void *i1_p, void *i2_p) {
     static void test_ordered_array_is_empty_one_el() {
     int i = -12;
     OrderedArray *ordered_array_int = ordered_array_create(precedes_int);
-    ordered_array_add(ordered_array_int, &i);// aggiungo l'elemento 
+    ordered_array_add(ordered_array_int, &i);   // aggiungo l'elemento 
     TEST_ASSERT_FALSE(ordered_array_is_empty(ordered_array_int));
     ordered_array_free_memory(ordered_array_int);
 }
@@ -57,7 +57,6 @@ static void test_ordered_array_add_get_one_el() {
   ordered_array_free_memory(ordered_array_int);
 }
 
-
 static void test_ordered_array_add_get_three_el() {
   int i1 = -12;
   int i2 = 0;
@@ -68,7 +67,7 @@ static void test_ordered_array_add_get_three_el() {
   ordered_array_add(ordered_array_int, &i2);
   ordered_array_add(ordered_array_int, &i3);
   ordered_array_add(ordered_array_int, &i1);
-  sortingAlgorithm(ordered_array_int, precedes_int, 0, 3);
+  sorting_algorithm(ordered_array_int, precedes_int, 0, ordered_array_size(ordered_array_int) - 1);
 
   int **act_arr = malloc(3*sizeof(int*));
   for (unsigned long i=0; i < 3; ++i) {
@@ -78,7 +77,6 @@ static void test_ordered_array_add_get_three_el() {
   free(act_arr);
   ordered_array_free_memory(ordered_array_int);
 }
-
 
 static void test_algorithm(){
     int i1 = 2;
@@ -93,7 +91,7 @@ static void test_algorithm(){
     ordered_array_add(ordered_array_int, &i1);
     ordered_array_add(ordered_array_int, &i5);
     ordered_array_add(ordered_array_int, &i3);
-    sortingAlgorithm(ordered_array_int,precedes_int, 0, ordered_array_size(ordered_array_int) - 1);
+    sorting_algorithm(ordered_array_int,precedes_int, 0, ordered_array_size(ordered_array_int) - 1);
     TEST_ASSERT_EQUAL_PTR(&i2,ordered_array_get(ordered_array_int, 0));
     TEST_ASSERT_EQUAL_PTR(&i1,ordered_array_get(ordered_array_int, 1));
     TEST_ASSERT_EQUAL_PTR(&i3,ordered_array_get(ordered_array_int, 2));
@@ -101,7 +99,6 @@ static void test_algorithm(){
     TEST_ASSERT_EQUAL_PTR(&i4,ordered_array_get(ordered_array_int, 4));
     ordered_array_free_memory(ordered_array_int);
 }
-
 
 static void test_algorithm_reversed(){
     int i1 = 2;
@@ -116,7 +113,7 @@ static void test_algorithm_reversed(){
     ordered_array_add(ordered_array_int, &i1);
     ordered_array_add(ordered_array_int, &i2);
     ordered_array_add(ordered_array_int, &i4);
-    sortingAlgorithm(ordered_array_int,precedes_int, 0, ordered_array_size(ordered_array_int) - 1);
+    sorting_algorithm(ordered_array_int,precedes_int, 0, ordered_array_size(ordered_array_int) - 1);
     TEST_ASSERT_EQUAL_PTR(&i2,ordered_array_get(ordered_array_int, 0));
     TEST_ASSERT_EQUAL_PTR(&i1,ordered_array_get(ordered_array_int, 1));
     TEST_ASSERT_EQUAL_PTR(&i3,ordered_array_get(ordered_array_int, 2));
@@ -124,9 +121,6 @@ static void test_algorithm_reversed(){
     TEST_ASSERT_EQUAL_PTR(&i4,ordered_array_get(ordered_array_int, 4));
     ordered_array_free_memory(ordered_array_int);
 }
-
-
-
 
 int main(){
     UNITY_BEGIN();
@@ -137,8 +131,8 @@ int main(){
     RUN_TEST(test_ordered_array_size_one_el);
     RUN_TEST(test_ordered_array_size_two_el);
     RUN_TEST(test_ordered_array_add_get_one_el);
+    RUN_TEST(test_ordered_array_add_get_three_el);
     RUN_TEST(test_algorithm);
     RUN_TEST(test_algorithm_reversed);
     return UNITY_END();
 }
-
