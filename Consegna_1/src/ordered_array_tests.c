@@ -25,6 +25,12 @@ static int precedes_int(void *i1_p, void *i2_p) {
     ordered_array_free_memory(ordered_array_int);
 }
 
+  static void test_ordered_array_size_zero_el() {
+    OrderedArray *ordered_array_int = ordered_array_create(precedes_int);
+    TEST_ASSERT_EQUAL_INT(0, ordered_array_size(ordered_array_int));
+    ordered_array_free_memory(ordered_array_int);
+}
+
     static void test_ordered_array_size_one_el() {
     int i1 = -12;
     OrderedArray *ordered_array_int = ordered_array_create(precedes_int);
@@ -32,7 +38,6 @@ static int precedes_int(void *i1_p, void *i2_p) {
     TEST_ASSERT_EQUAL_INT(1, ordered_array_size(ordered_array_int));
     ordered_array_free_memory(ordered_array_int);
 }
-
 
     static void test_ordered_array_size_two_el() {
     int i1 = -12;
@@ -60,9 +65,10 @@ static void test_ordered_array_add_get_three_el() {
   int* exp_arr[] = {&i1, &i2, &i3};
 
   OrderedArray *ordered_array_int = ordered_array_create(precedes_int);
-  ordered_array_add(ordered_array_int, &i1);
   ordered_array_add(ordered_array_int, &i2);
   ordered_array_add(ordered_array_int, &i3);
+  ordered_array_add(ordered_array_int, &i1);
+  sortingAlgorithm(ordered_array_int, precedes_int, 0, 3);
 
   int **act_arr = malloc(3*sizeof(int*));
   for (unsigned long i=0; i < 3; ++i) {
@@ -127,10 +133,10 @@ int main(){
     RUN_TEST(test_ordered_array_is_empty_zero_el);
     RUN_TEST(test_ordered_array_is_empty_zero_el);
     RUN_TEST(test_ordered_array_is_empty_one_el);
+    RUN_TEST(test_ordered_array_size_zero_el);
     RUN_TEST(test_ordered_array_size_one_el);
     RUN_TEST(test_ordered_array_size_two_el);
     RUN_TEST(test_ordered_array_add_get_one_el);
-    //RUN_TEST(test_ordered_array_add_get_three_el);
     RUN_TEST(test_algorithm);
     RUN_TEST(test_algorithm_reversed);
     return UNITY_END();
