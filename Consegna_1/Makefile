@@ -21,4 +21,3 @@ bin/ordered_array_tests: build/ordered_array_tests.o build/ordered_array.o build
 clean:
 	$(RM) build/*
 	$(RM) bin/*
-	$(RM) $(output)/ordered.csv

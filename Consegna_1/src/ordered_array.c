@@ -64,7 +64,7 @@ void ordered_array_add(OrderedArray *ordered_array, void *element) {
   }
 
   if (ordered_array->size >= ordered_array->array_capacity) {
-    ordered_array->array_capacity = 2 * ordered_array->array_capacity; // Why multiply by 2?
+    ordered_array->array_capacity = 2 * ordered_array->array_capacity;
     ordered_array->array = (void**)realloc(ordered_array->array, ordered_array->array_capacity * sizeof(void*));
     if (ordered_array->array == NULL) {
       fprintf(stderr,"ordered_array_add: unable to reallocate memory to host the new element");

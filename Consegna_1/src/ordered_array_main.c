@@ -93,7 +93,8 @@ static  void free_array(OrderedArray *array) {
 // print on file
 void print_file_array(OrderedArray *array, const char *output_file) {
     FILE *ordered;
-    ordered = fopen(output_file, "w");
+    
+    ordered = fopen(output_file, "w"); //tmp solution
     unsigned long size = ordered_array_size(array);
 
     if (array == NULL) {
@@ -175,6 +176,7 @@ static void test_with_comparison_function(const char *input_file, const char *ou
   print_file_array(array, output_file);
   end_t = clock();
   printf("Data saved; took %f sec\n", (double)(end_t - start_t) / CLOCKS_PER_SEC);
+  printf("Saved in ordered.csv, located at %s\n", output_file);
   
   start_t = clock();
   free_array(array);
@@ -207,19 +209,16 @@ int main(int argc, char const *argv[]) {
     case 's':
       printf("Sorting by String field\n");
       test_with_comparison_function(argv[1], argv[2], precedes_record_string_field);
-      printf("Sorted output file: ordered.csv\n");
       break;
       
     case 'i':
       printf("Sorting by Integer field\n");
       test_with_comparison_function(argv[1], argv[2], precedes_record_int_field);
-      printf("Sorted output file: ordered.csv\n");
       break;
 
     case 'f':
       printf("Sorting by Floating point field\n");
       test_with_comparison_function(argv[1], argv[2], precedes_record_float_field);
-      printf("Sorted output file: ordered.csv\n");
       break;
       
     default:
