@@ -187,7 +187,7 @@ static void test_with_comparison_function(const char *input_file, const char *ou
 int main(int argc, char const *argv[]) {
   
   if (argc < 3) {
-    printf("Usage: ordered_array_main <file_name>\n");
+    printf("Invalid arguments\n\n");
     printf("Terminal usage: pass input_file_path and output_file_path as arguments\n");
     printf("Example: ./main records.csv ../ordered.csv\n\n");
     printf("Make usage: make run input=input_file_path output=output_file_path\n");
