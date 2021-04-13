@@ -91,9 +91,9 @@ static  void free_array(OrderedArray *array) {
 }
 
 // print on file
-void print_file_array(OrderedArray *array) {
+void print_file_array(OrderedArray *array, const char *output_file) {
     FILE *ordered;
-    ordered = fopen("ordered.csv", "w");
+    ordered = fopen(output_file, "w");
     unsigned long size = ordered_array_size(array);
 
     if (array == NULL) {
@@ -157,12 +157,12 @@ static void load_array(const char *file_name, OrderedArray *array) {
   fclose(fp);
 }
 
-static void test_with_comparison_function(const char *file_name, int (*compare)(void*, void*)) {
+static void test_with_comparison_function(const char *input_file, const char *output_file, int (*compare)(void*, void*)) {
   OrderedArray *array = ordered_array_create(compare);
   clock_t start_t, end_t, init_t;
 
   start_t = init_t = clock();
-  load_array(file_name, array);
+  load_array(input_file, array);
   end_t = clock();
   printf("\nData loaded; took %f sec\n", (double)(end_t - start_t) / CLOCKS_PER_SEC);
 
@@ -172,7 +172,7 @@ static void test_with_comparison_function(const char *file_name, int (*compare)(
   printf("Data sorted; took %f sec\n", (double)(end_t - start_t) / CLOCKS_PER_SEC);
 
   start_t = clock();
-  print_file_array(array);
+  print_file_array(array, output_file);
   end_t = clock();
   printf("Data saved; took %f sec\n", (double)(end_t - start_t) / CLOCKS_PER_SEC);
   
@@ -186,8 +186,11 @@ static void test_with_comparison_function(const char *file_name, int (*compare)(
 
 int main(int argc, char const *argv[]) {
   
-  if (argc < 2) {
+  if (argc < 3) {
     printf("Usage: ordered_array_main <file_name>\n");
+    printf("Terminal usage: pass input_file_path and output_file_path as arguments\n");
+    printf("Example: ./main records.csv ../ordered.csv\n\n");
+    printf("Make usage: make run input=input_file_path output=output_file_path\n");
     exit(EXIT_FAILURE);
   }
 
@@ -203,19 +206,19 @@ int main(int argc, char const *argv[]) {
   switch (control) {
     case 's':
       printf("Sorting by String field\n");
-      test_with_comparison_function(argv[1], precedes_record_string_field);
+      test_with_comparison_function(argv[1], argv[2], precedes_record_string_field);
       printf("Sorted output file: ordered.csv\n");
       break;
       
     case 'i':
       printf("Sorting by Integer field\n");
-      test_with_comparison_function(argv[1], precedes_record_int_field);
+      test_with_comparison_function(argv[1], argv[2], precedes_record_int_field);
       printf("Sorted output file: ordered.csv\n");
       break;
 
     case 'f':
       printf("Sorting by Floating point field\n");
-      test_with_comparison_function(argv[1], precedes_record_float_field);
+      test_with_comparison_function(argv[1], argv[2], precedes_record_float_field);
       printf("Sorted output file: ordered.csv\n");
       break;
       

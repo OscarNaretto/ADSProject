@@ -3,8 +3,8 @@ COMMON_DEPS = src/*.h Makefile
 
 all: bin/ordered_array bin/ordered_array_tests
 
-order: bin/ordered_array
-	bin/ordered_array $(path)
+run: bin/ordered_array
+	bin/ordered_array $(input) $(output)
 
 tests: bin/ordered_array_tests
 	bin/ordered_array_tests
@@ -21,4 +21,4 @@ bin/ordered_array_tests: build/ordered_array_tests.o build/ordered_array.o build
 clean:
 	$(RM) build/*
 	$(RM) bin/*
-	$(RM) ordered.csv
+	$(RM) $(output)/ordered.csv
