@@ -184,6 +184,7 @@ static void test_algorithm_equal_three_elements(){
 int main(){
     UNITY_BEGIN();
     RUN_TEST(test_structure);
+    RUN_TEST(test_structure);
     RUN_TEST(test_ordered_array_is_empty_zero_el);
     RUN_TEST(test_ordered_array_is_empty_one_el);
     RUN_TEST(test_ordered_array_size_zero_el);
