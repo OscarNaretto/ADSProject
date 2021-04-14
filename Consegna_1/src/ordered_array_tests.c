@@ -33,8 +33,8 @@ static void test_succedes_int(){
 }
 
 static void test_succedes_int_reverse(){
-  int i1 = 7;
-  int i2 = 1;
+  int i1 = 1;
+  int i2 = 7;
   TEST_ASSERT_FALSE(succedes_int(&i1,&i2));
 }
 
@@ -221,7 +221,7 @@ int main(){
     UNITY_BEGIN();
     RUN_TEST(test_precedes_int);
     RUN_TEST(test_precedes_int_reverse);
-    RUN_TEST(test_succedes_int);s
+    RUN_TEST(test_succedes_int);
     RUN_TEST(test_succedes_int_reverse);
     RUN_TEST(test_ordered_array_is_empty_zero_el);
     RUN_TEST(test_ordered_array_is_empty_one_el);

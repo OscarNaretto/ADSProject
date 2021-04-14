@@ -1,4 +1,4 @@
-CFLAGS = -g -O1 -Wall -Wextra -Wpedantic
+CFLAGS = -g -O1 -Wall -Wextra -Wpedantic -Wconversion
 COMMON_DEPS = src/*.h Makefile
 
 all: bin/ordered_array bin/ordered_array_tests

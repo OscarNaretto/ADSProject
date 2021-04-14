@@ -14,10 +14,10 @@ typedef struct _record {
   char *id_field;
   char *string_field;
   int integer_field;
-  float float_field;
+  double float_field;
 } Record;
 
-void sorting_algorithm(OrderedArray *ordered_array, int (*compare)(void*, void*), int low, unsigned long high);
+void sorting_algorithm(OrderedArray *ordered_array, int (*compare)(void*, void*), unsigned long low, unsigned long high);
 
 /*
  * It takes as input two pointers to Record.
@@ -227,7 +227,7 @@ static void data_elaboration_method(const char *input_file, char *output_file, i
   sorting_algorithm(array, compare, 0, ordered_array_size(array) - 1);
   end_t = clock();
   printf("Data sorted; took %f sec\n", (double)(end_t - start_t) / CLOCKS_PER_SEC);
-  
+
   start_t = clock();
   print_file_array(array, output_file);
   end_t = clock();
@@ -261,8 +261,8 @@ int main(int argc, char const *argv[]) {
   printf("- Increasing --> I/i\n");
   printf("- Decreasing --> D/d\n");
 
-  char order;
-  scanf(" %c", &order);
+  int order;
+  scanf(" %d", &order);
   order = tolower(order);
   if (order != 'i' && order != 'd'){
     printf("Invalid parameter, closing current session\n");
@@ -276,8 +276,8 @@ int main(int argc, char const *argv[]) {
   printf("- All of three, separately --> A/a\n");
   printf("\n- Exit --> any\n");
 
-  char control;
-  scanf(" %c", &control);
+  int control;
+  scanf(" %d", &control);
   control = tolower(control);
 
   switch (control) {
