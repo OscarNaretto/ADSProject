@@ -150,8 +150,8 @@ static void test_algorithm_equal_two_elements(){
     ordered_array_add(ordered_array_int, &i3);
     sorting_algorithm(ordered_array_int,precedes_int, 0, ordered_array_size(ordered_array_int) - 1);
     TEST_ASSERT_EQUAL_PTR(&i1,ordered_array_get(ordered_array_int, 0));
-    TEST_ASSERT_EQUAL_PTR(&i2,ordered_array_get(ordered_array_int, 1));
-    TEST_ASSERT_EQUAL_PTR(&i3,ordered_array_get(ordered_array_int, 2));
+    TEST_ASSERT_EQUAL_PTR(&i3,ordered_array_get(ordered_array_int, 1));
+    TEST_ASSERT_EQUAL_PTR(&i2,ordered_array_get(ordered_array_int, 2));
     TEST_ASSERT_EQUAL_PTR(&i5,ordered_array_get(ordered_array_int, 3)); 
     TEST_ASSERT_EQUAL_PTR(&i4,ordered_array_get(ordered_array_int, 4));
     ordered_array_free_memory(ordered_array_int);
