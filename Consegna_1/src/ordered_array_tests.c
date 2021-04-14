@@ -16,6 +16,12 @@ static void test_structure(){
   TEST_ASSERT_TRUE(precedes_int(i1,i2));
 }
 
+static void test_structure_reverse(){
+  int i1 = 7;
+  int i2 = 1;
+  TEST_ASSERT_FALSE(precedes_int(i1,i2))
+}
+
 //il numero di elementi del array appena creato dovrà essere zero
 
   static void test_ordered_array_is_empty_zero_el() {
@@ -176,7 +182,7 @@ static void test_algorithm_equal_three_elements(){
 }
 
 int main(){
-    UNITY_BEGIN();;
+    UNITY_BEGIN();
     RUN_TEST(test_structure);
     RUN_TEST(test_ordered_array_is_empty_zero_el);
     RUN_TEST(test_ordered_array_is_empty_one_el);
