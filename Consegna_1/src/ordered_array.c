@@ -96,7 +96,7 @@ void ordered_array_free_memory(OrderedArray *ordered_array) {
   free(ordered_array);
 }
 
-void merge(OrderedArray *ordered_array, int (*compare)(void*, void*), unsigned long p, unsigned long q, unsigned long r){
+void merge(OrderedArray *ordered_array, int (*compare)(void*, void*), int p, int q, int r){
     
     unsigned long k = 0, i = p, j = q + 1;
 
@@ -130,7 +130,7 @@ void merge(OrderedArray *ordered_array, int (*compare)(void*, void*), unsigned l
     ordered_array_free_memory(tmp_array);
 }
 
-unsigned long binarySearch(OrderedArray *ordered_array, void *item, unsigned long low, unsigned long high) {
+int binarySearch(OrderedArray *ordered_array, void *item, int low, int high) {
 
     if (high <= low) {
         if (ordered_array->compare(ordered_array->array[low], item)){
@@ -140,24 +140,24 @@ unsigned long binarySearch(OrderedArray *ordered_array, void *item, unsigned lon
         }
     }
 
-    unsigned long mid = (low + high)/2;
+    int mid = (low + high)/2;
     if (ordered_array->compare(ordered_array->array[mid], item)){
         return binarySearch(ordered_array, item, mid+1, high);
     }
     return binarySearch(ordered_array, item, low, mid-1);  
 }
 
-void sorting_algorithm(OrderedArray *ordered_array, int (*compare)(void*, void*), unsigned long low, unsigned long high){
+void sorting_algorithm(OrderedArray *ordered_array, int (*compare)(void*, void*), int low, int high){
 
     if (high - low + 1 <= k_value){
 
-        for (unsigned long i = low + 1; i  < high + 1; i++){
-            unsigned long j = i - 1;
+        for (int i = low + 1; i  < high + 1; i++){
+            int j = i - 1;
             OrderedArray *tmp_array = ordered_array_create(compare);
             tmp_array->array[0] = ordered_array->array[i];
 
             //posizione in cui deve essere inserito selezionato
-            unsigned long index = binarySearch(ordered_array, tmp_array->array[0], low, j);
+            int index = binarySearch(ordered_array, tmp_array->array[0], low, j);
 
             //ciclo per spostare l'elemento cosi da fare 
             //spazio per l'elemento da inserire
@@ -170,7 +170,7 @@ void sorting_algorithm(OrderedArray *ordered_array, int (*compare)(void*, void*)
             ordered_array_free_memory(tmp_array);
         }
     }else{
-        unsigned long mid;
+        int mid;
         if (low < high) {
             mid = (low+high)/2;
             sorting_algorithm(ordered_array, compare, low, mid);

@@ -52,7 +52,7 @@ void *ordered_array_get(OrderedArray*, unsigned long);
  */
 void ordered_array_free_memory(OrderedArray*);
 
-void sorting_algorithm(OrderedArray *ordered_array, int (*compare)(void*, void*), unsigned long low, unsigned long high);
+void sorting_algorithm(OrderedArray *ordered_array, int (*compare)(void*, void*), int low, int high);
 
 void set_k_value(const char *k_value_char);
 

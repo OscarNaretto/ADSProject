@@ -17,7 +17,7 @@ typedef struct _record {
   double float_field;
 } Record;
 
-void sorting_algorithm(OrderedArray *ordered_array, int (*compare)(void*, void*), unsigned long low, unsigned long high);
+void sorting_algorithm(OrderedArray *ordered_array, int (*compare)(void*, void*), int low, int high);
 void set_k_value(const char *k_value_char);
 
 /*
@@ -160,7 +160,7 @@ void print_file_array(OrderedArray *array, char *output_file) {
     }
     if (ordered == NULL){
       ordered = stdout;
-      printf("Not able to access file. Using stdout instead\n");
+      printf("Not able to access output file. Using stdout instead\n");
     }
         
     Record *array_element;
@@ -182,7 +182,7 @@ static void load_array(const char *file_name, OrderedArray *array) {
   fp = fopen(file_name, "r");
 
   if (fp == NULL) {
-    fprintf(stderr, "main: unable to open the file");
+    fprintf(stderr, "main: unable to open the input file");
     exit(EXIT_FAILURE);
   }
 
