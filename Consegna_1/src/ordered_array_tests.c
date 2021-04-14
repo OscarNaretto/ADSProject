@@ -2,21 +2,19 @@
 #include "unity.h"
 #include "ordered_array.h"
 
-
 static int precedes_int(void *i1_p, void *i2_p) {
   int *int1_p = (int*)i1_p;
   int *int2_p = (int*)i2_p;
   return *int1_p < *int2_p;
 }
 
-
-static void test_structure(){
+static void test_precedes_int(){
   int i1 = 1;
   int i2 = 7;
   TEST_ASSERT_TRUE(precedes_int(&i1,&i2));
 }
 
-static void test_structure_reverse(){
+static void test_precedes_int_reverse(){
   int i1 = 7;
   int i2 = 1;
   TEST_ASSERT_FALSE(precedes_int(&i1,&i2))
@@ -91,7 +89,7 @@ static void test_ordered_array_add_get_three_el() {
   ordered_array_free_memory(ordered_array_int);
 }
 
-static void test_algorithm(){
+static void test_sorting_algorithm(){
     int i1 = 2;
     int i2 = 0;
     int i3 = 4;
@@ -113,7 +111,7 @@ static void test_algorithm(){
     ordered_array_free_memory(ordered_array_int);
 }
 
-static void test_algorithm_reversed(){
+static void test_sorting_algorithm_reversed(){
     int i1 = 2;
     int i2 = 0;
     int i3 = 4;
@@ -183,8 +181,8 @@ static void test_algorithm_equal_three_elements(){
 
 int main(){
     UNITY_BEGIN();
-    RUN_TEST(test_structure);
-    RUN_TEST(test_structure_reverse);
+    RUN_TEST(test_precedes_int);
+    RUN_TEST(test_precedes_int_reverse);
     RUN_TEST(test_ordered_array_is_empty_zero_el);
     RUN_TEST(test_ordered_array_is_empty_one_el);
     RUN_TEST(test_ordered_array_size_zero_el);
@@ -192,8 +190,8 @@ int main(){
     RUN_TEST(test_ordered_array_size_two_el);
     RUN_TEST(test_ordered_array_add_get_one_el);
     RUN_TEST(test_ordered_array_add_get_three_el);
-    RUN_TEST(test_algorithm);
-    RUN_TEST(test_algorithm_reversed);
+    RUN_TEST(test_sorting_algorithm);
+    RUN_TEST(test_sorting_algorithm_reversed);
     RUN_TEST(test_algorithm_equal_two_elements);
     RUN_TEST(test_algorithm_equal_three_elements);
     return UNITY_END();

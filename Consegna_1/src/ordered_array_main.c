@@ -227,7 +227,7 @@ static void data_elaboration_method(const char *input_file, char *output_file, i
   sorting_algorithm(array, compare, 0, ordered_array_size(array) - 1);
   end_t = clock();
   printf("Data sorted; took %f sec\n", (double)(end_t - start_t) / CLOCKS_PER_SEC);
-
+  
   start_t = clock();
   print_file_array(array, output_file);
   end_t = clock();
