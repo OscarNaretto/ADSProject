@@ -214,7 +214,7 @@ static void load_array(const char *file_name, OrderedArray *array) {
   fclose(fp);
 }
 
-static void test_with_comparison_function(const char *input_file, char *output_file, int (*compare)(void*, void*)) {
+static void data_elaboration_method(const char *input_file, char *output_file, int (*compare)(void*, void*)) {
   OrderedArray *array = ordered_array_create(compare);
   clock_t start_t, end_t, init_t;
   
@@ -251,8 +251,11 @@ int main(int argc, char const *argv[]) {
     printf("Make usage: make run input=input_file_path output=output_directory_path\n");
     exit(EXIT_FAILURE);
   }
-  char output_path[strlen(argv[2]) + 1];
-  strcpy(output_path, argv[2]);
+  char string_path[strlen(argv[2]) + 1], int_path[strlen(argv[2]) + 1], float_path[strlen(argv[2]) + 1];
+  strcpy(string_path, argv[2]);
+  strcpy(int_path, argv[2]);
+  strcpy(float_path, argv[2]);
+
 
   printf("Goodmorning\n\nSelect sorting order with the proper parameter:\n");
   printf("- Increasing --> I/i\n");
@@ -270,6 +273,7 @@ int main(int argc, char const *argv[]) {
   printf("- String --> S/s\n");
   printf("- Integer --> I/i\n");
   printf("- Floating point --> F/f\n");
+  printf("- All of three, separately --> A/a\n");
   printf("\n- Exit --> any\n");
 
   char control;
@@ -280,30 +284,43 @@ int main(int argc, char const *argv[]) {
     case 's':
       printf("Sorting by String field\n");
       if (order == 'i'){
-        test_with_comparison_function(argv[1], strcat(output_path, "/string_test.csv"), precedes_record_string_field);
+        data_elaboration_method(argv[1], strcat(string_path, "/string_test.csv"), precedes_record_string_field);
       } else {
-        test_with_comparison_function(argv[1], strcat(output_path, "/string_test.csv"), succedes_record_string_field);
+        data_elaboration_method(argv[1], strcat(string_path, "/string_test.csv"), succedes_record_string_field);
       }
       break;
       
     case 'i':
       printf("Sorting by Integer field\n");
       if (order == 'i'){
-        test_with_comparison_function(argv[1], strcat(output_path, "/int_test.csv"), precedes_record_int_field);
+        data_elaboration_method(argv[1], strcat(int_path, "/int_test.csv"), precedes_record_int_field);
       } else {
-        test_with_comparison_function(argv[1], strcat(output_path, "/int_test.csv"), succedes_record_int_field);
+        data_elaboration_method(argv[1], strcat(int_path, "/int_test.csv"), succedes_record_int_field);
       }
       break;
 
     case 'f':
       printf("Sorting by Floating point field\n");
       if (order == 'i'){
-        test_with_comparison_function(argv[1], strcat(output_path, "/float_test.csv"), precedes_record_float_field);
+        data_elaboration_method(argv[1], strcat(float_path, "/float_test.csv"), precedes_record_float_field);
       } else {
-        test_with_comparison_function(argv[1], strcat(output_path, "/float_test.csv"), succedes_record_float_field);
+        data_elaboration_method(argv[1], strcat(float_path, "/float_test.csv"), succedes_record_float_field);
       }
       break;
-      
+    
+    case 'a':
+      printf("Sorting by all fields in three different files\n");
+      if (order == 'i'){
+        data_elaboration_method(argv[1], strcat(string_path, "/string_test.csv"), precedes_record_string_field);
+        data_elaboration_method(argv[1], strcat(int_path, "/int_test.csv"), precedes_record_int_field);
+        data_elaboration_method(argv[1], strcat(float_path, "/float_test.csv"), precedes_record_float_field);
+      } else {
+        data_elaboration_method(argv[1], strcat(string_path, "/string_test.csv"), succedes_record_string_field);
+        data_elaboration_method(argv[1], strcat(int_path, "/int_test.csv"), succedes_record_int_field);
+        data_elaboration_method(argv[1], strcat(float_path, "/float_test.csv"), succedes_record_float_field);
+      }
+      break;
+    
     default:
       printf("Goodbye\n");
       break;
