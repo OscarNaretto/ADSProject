@@ -4,7 +4,7 @@ COMMON_DEPS = src/*.h Makefile
 all: bin/ordered_array bin/ordered_array_tests
 
 run: bin/ordered_array
-	bin/ordered_array $(input) $(output)
+	bin/ordered_array $(input) $(output) $(K)
 
 tests: bin/ordered_array_tests
 	bin/ordered_array_tests

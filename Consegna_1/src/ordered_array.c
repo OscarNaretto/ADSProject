@@ -5,18 +5,19 @@
 //Initial capacity for the array
 #define INITIAL_CAPACITY 2
 //costante di confronto per il passaggio da mergesort a insertionsort
-#define K 10 
+
+unsigned long k_value = 10; 
 
 //It represents the internal structure of this implementation of ordered arrays
 struct _OrderedArray {
   void **array;
   unsigned long size;
   unsigned long array_capacity;
-  int (*precedes)(void*, void*);
+  int (*compare)(void*, void*);
 };
 
-OrderedArray *ordered_array_create(int (*precedes)(void*, void*)) {
-  if (precedes == NULL) {
+OrderedArray *ordered_array_create(int (*compare)(void*, void*)) {
+  if (compare == NULL) {
     fprintf(stderr, "ordered_array_create: precedes parameter cannot be NULL");
     exit(EXIT_FAILURE);
   }
@@ -32,7 +33,7 @@ OrderedArray *ordered_array_create(int (*precedes)(void*, void*)) {
   }
   ordered_array->size = 0;
   ordered_array->array_capacity = INITIAL_CAPACITY;
-  ordered_array->precedes = precedes;
+  ordered_array->compare = compare;
   return ordered_array;
 }
 
@@ -102,7 +103,7 @@ void merge(OrderedArray *ordered_array, int (*compare)(void*, void*), unsigned l
     OrderedArray *tmp_array = ordered_array_create(compare);
 
     while (i<=q && j<=r){
-        if(ordered_array->precedes(ordered_array->array[i], ordered_array->array[j])){
+        if(ordered_array->compare(ordered_array->array[i], ordered_array->array[j])){
             ordered_array_add(tmp_array, ordered_array->array[i]);
             i++;
         }else{
@@ -132,7 +133,7 @@ void merge(OrderedArray *ordered_array, int (*compare)(void*, void*), unsigned l
 unsigned long binarySearch(OrderedArray *ordered_array, void *item, unsigned long low, unsigned long high) {
 
     if (high <= low) {
-        if (ordered_array->precedes(ordered_array->array[low], item)){
+        if (ordered_array->compare(ordered_array->array[low], item)){
             return low + 1;
         } else {
             return low;
@@ -140,7 +141,7 @@ unsigned long binarySearch(OrderedArray *ordered_array, void *item, unsigned lon
     }
 
     unsigned long mid = (low + high)/2;
-    if (ordered_array->precedes(ordered_array->array[mid], item)){
+    if (ordered_array->compare(ordered_array->array[mid], item)){
         return binarySearch(ordered_array, item, mid+1, high);
     }
     return binarySearch(ordered_array, item, low, mid-1);  
@@ -148,7 +149,7 @@ unsigned long binarySearch(OrderedArray *ordered_array, void *item, unsigned lon
 
 void sorting_algorithm(OrderedArray *ordered_array, int (*compare)(void*, void*), unsigned long low, unsigned long high){
 
-    if (high - low + 1 <= K){
+    if (high - low + 1 <= k_value){
 
         for (unsigned long i = low + 1; i  < high + 1; i++){
             unsigned long j = i - 1;
@@ -177,4 +178,8 @@ void sorting_algorithm(OrderedArray *ordered_array, int (*compare)(void*, void*)
             merge(ordered_array, compare, low, mid, high);
         }
     }
+}
+
+void set_k_value(const char *k_value_char){
+  k_value = atoi(k_value_char);
 }

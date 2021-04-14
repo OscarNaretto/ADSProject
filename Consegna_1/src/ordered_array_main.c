@@ -18,6 +18,7 @@ typedef struct _record {
 } Record;
 
 void sorting_algorithm(OrderedArray *ordered_array, int (*compare)(void*, void*), unsigned long low, unsigned long high);
+void set_k_value(const char *k_value_char);
 
 /*
  * It takes as input two pointers to Record.
@@ -244,9 +245,11 @@ static void data_elaboration_method(const char *input_file, char *output_file, i
 
 int main(int argc, char const *argv[]) {
   
-  if (argc < 3) {
+  if (argc == 4){
+    set_k_value(argv[3]);
+  } else if (argc < 3) {
     printf("Invalid arguments\n\n");
-    printf("Terminal usage:\n - pass input_file_path as first argument\n - pass output_directory_path as second argument (output files will be named after their sorting field type)\n");
+    printf("Terminal usage:\n - pass input_file_path as first argument\n - pass output_directory_path as second argument (output files will be named after their sorting field type)\n - (OPTIONAL)pass k_value as third argument");
     printf("Example: ./Main records.csv ../\n\n");
     printf("Make usage: make run input=input_file_path output=output_directory_path\n");
     exit(EXIT_FAILURE);
@@ -261,8 +264,8 @@ int main(int argc, char const *argv[]) {
   printf("- Increasing --> I/i\n");
   printf("- Decreasing --> D/d\n");
 
-  int order;
-  scanf(" %d", &order);
+  char order;
+  scanf(" %c", &order);
   order = tolower(order);
   if (order != 'i' && order != 'd'){
     printf("Invalid parameter, closing current session\n");
@@ -276,8 +279,8 @@ int main(int argc, char const *argv[]) {
   printf("- All of three, separately --> A/a\n");
   printf("\n- Exit --> any\n");
 
-  int control;
-  scanf(" %d", &control);
+  char control;
+  scanf(" %c", &control);
   control = tolower(control);
 
   switch (control) {

@@ -17,7 +17,7 @@ typedef struct _OrderedArray OrderedArray;
  * the second one and a number different from zero otherwise.
  * The input parameter cannot be NULL
  */
-OrderedArray *ordered_array_create(int (*precdes)(void*, void*));
+OrderedArray *ordered_array_create(int (*compare)(void*, void*));
 
 /* It accepts as input a pointer to an ordered array and
  * it returns 1 iff the ordered array is empty (0 otherwise).
@@ -53,5 +53,7 @@ void *ordered_array_get(OrderedArray*, unsigned long);
 void ordered_array_free_memory(OrderedArray*);
 
 void sorting_algorithm(OrderedArray *ordered_array, int (*compare)(void*, void*), unsigned long low, unsigned long high);
+
+void set_k_value(const char *k_value_char);
 
 #endif // ORDERED_ARRAY_H
