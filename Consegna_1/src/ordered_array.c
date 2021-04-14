@@ -4,7 +4,6 @@
 
 //Initial capacity for the array
 #define INITIAL_CAPACITY 2
-
 //costante di confronto per il passaggio da mergesort a insertionsort
 #define K 10 
 
