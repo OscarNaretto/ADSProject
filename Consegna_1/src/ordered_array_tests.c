@@ -34,8 +34,8 @@ static void test_succedes_int(){
 }
 
 static void test_succedes_int_reverse(){
-  int i1 = 7;
-  int i2 = 1;
+  int i1 = 1;
+  int i2 = 7;
   TEST_ASSERT_FALSE(succedes(&i1,&i2));
 }
 
