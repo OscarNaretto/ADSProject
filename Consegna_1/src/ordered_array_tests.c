@@ -174,8 +174,8 @@ static void test_algorithm_equal_three_elements(){
     ordered_array_add(ordered_array_int, &i3);
     sorting_algorithm(ordered_array_int,precedes_int, 0, ordered_array_size(ordered_array_int) - 1);
     TEST_ASSERT_EQUAL_PTR(&i1,ordered_array_get(ordered_array_int, 0));
-    TEST_ASSERT_EQUAL_PTR(&i2,ordered_array_get(ordered_array_int, 1));
-    TEST_ASSERT_EQUAL_PTR(&i3,ordered_array_get(ordered_array_int, 2));
+    TEST_ASSERT_EQUAL_PTR(&i3,ordered_array_get(ordered_array_int, 1));
+    TEST_ASSERT_EQUAL_PTR(&i2,ordered_array_get(ordered_array_int, 2));
     TEST_ASSERT_EQUAL_PTR(&i4,ordered_array_get(ordered_array_int, 3)); 
     TEST_ASSERT_EQUAL_PTR(&i5,ordered_array_get(ordered_array_int, 4));
     ordered_array_free_memory(ordered_array_int);
@@ -184,7 +184,7 @@ static void test_algorithm_equal_three_elements(){
 int main(){
     UNITY_BEGIN();
     RUN_TEST(test_structure);
-    RUN_TEST(test_structure);
+    RUN_TEST(test_structure_reverse);
     RUN_TEST(test_ordered_array_is_empty_zero_el);
     RUN_TEST(test_ordered_array_is_empty_one_el);
     RUN_TEST(test_ordered_array_size_zero_el);
