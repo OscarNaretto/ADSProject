@@ -8,6 +8,12 @@ static int precedes_int(void *i1_p, void *i2_p) {
   return *int1_p < *int2_p;
 }
 
+static int succedes_int(void *i1_p, void *i2_p) {
+  int *int1_p = (int*)i1_p;
+  int *int2_p = (int*)i2_p;
+  return *int1_p > *int2_p;
+}
+
 static void test_precedes_int(){
   int i1 = 1;
   int i2 = 7;
@@ -18,6 +24,18 @@ static void test_precedes_int_reverse(){
   int i1 = 7;
   int i2 = 1;
   TEST_ASSERT_FALSE(precedes_int(&i1,&i2))
+}
+
+static void test_succedes_int(){
+  int i1 = 1;
+  int i2 = 7;
+  TEST_ASSERT_TRUE(succedes_int(&i2,&i1));
+}
+
+static void test_succedes_int_reverse(){
+  int i1 = 7;
+  int i2 = 1;
+  TEST_ASSERT_FALSE(succedes_int(&i1,&i2));
 }
 
 //il numero di elementi del array appena creato dovrà essere zero
@@ -179,10 +197,32 @@ static void test_algorithm_equal_three_elements(){
     ordered_array_free_memory(ordered_array_int);
 }
 
+
+static void test_algorithm_equal_full_elements(){
+    int i1 = 4;
+    int i2 = 4;
+    int i3 = 4;
+
+    OrderedArray *ordered_array_int = ordered_array_create(precedes_int);
+    ordered_array_add(ordered_array_int, &i3);
+    ordered_array_add(ordered_array_int, &i1);
+    ordered_array_add(ordered_array_int, &i2);
+    sorting_algorithm(ordered_array_int,precedes_int, 0, ordered_array_size(ordered_array_int) - 1);
+    TEST_ASSERT_EQUAL_PTR(&i2,ordered_array_get(ordered_array_int, 0));
+    TEST_ASSERT_EQUAL_PTR(&i1,ordered_array_get(ordered_array_int, 1));
+    TEST_ASSERT_EQUAL_PTR(&i3,ordered_array_get(ordered_array_int, 2)); 
+    ordered_array_free_memory(ordered_array_int);
+}
+
+
+
+
 int main(){
     UNITY_BEGIN();
     RUN_TEST(test_precedes_int);
     RUN_TEST(test_precedes_int_reverse);
+    RUN_TEST(test_succedes_int);
+    RUN_TEST(test_succedes_int_reverse);
     RUN_TEST(test_ordered_array_is_empty_zero_el);
     RUN_TEST(test_ordered_array_is_empty_one_el);
     RUN_TEST(test_ordered_array_size_zero_el);
@@ -194,5 +234,6 @@ int main(){
     RUN_TEST(test_sorting_algorithm_reversed);
     RUN_TEST(test_algorithm_equal_two_elements);
     RUN_TEST(test_algorithm_equal_three_elements);
+    RUN_TEST(test_algorithm_equal_full_elements);
     return UNITY_END();
 }
