@@ -13,13 +13,13 @@ static int precedes_int(void *i1_p, void *i2_p) {
 static void test_structure(){
   int i1 = 1;
   int i2 = 7;
-  TEST_ASSERT_TRUE(precedes_int(i1,i2));
+  TEST_ASSERT_TRUE(precedes_int(&i1,&i2));
 }
 
 static void test_structure_reverse(){
   int i1 = 7;
   int i2 = 1;
-  TEST_ASSERT_FALSE(precedes_int(i1,i2))
+  TEST_ASSERT_FALSE(precedes_int(&i1,&i2))
 }
 
 //il numero di elementi del array appena creato dovrà essere zero
