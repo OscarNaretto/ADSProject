@@ -1,22 +1,22 @@
 CFLAGS = -g -O1 -Wall -Wextra -Wpedantic -Wconversion
 COMMON_DEPS = src/*.h Makefile
 
-all: bin/ordered_array bin/ordered_array_tests
+all: bin/generic_array bin/generic_array_tests
 
-run: bin/ordered_array
-	bin/ordered_array $(input) $(output) $(K)
+run: bin/generic_array
+	bin/generic_array $(input) $(output) $(K)
 
-tests: bin/ordered_array_tests
-	bin/ordered_array_tests
+tests: bin/generic_array_tests
+	bin/generic_array_tests
 
 build/%.o: src/%.c $(COMMON_DEPS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-bin/ordered_array: build/ordered_array.o build/ordered_array_main.o $(COMMON_DEPS)
-	$(CC) -o bin/ordered_array build/ordered_array.o build/ordered_array_main.o
+bin/generic_array: build/generic_array.o build/generic_array_main.o $(COMMON_DEPS)
+	$(CC) -o bin/generic_array build/generic_array.o build/generic_array_main.o
 
-bin/ordered_array_tests: build/ordered_array_tests.o build/ordered_array.o build/unity.o $(COMMON_DEPS)
-	$(CC) -o bin/ordered_array_tests build/ordered_array_tests.o build/ordered_array.o build/unity.o
+bin/generic_array_tests: build/generic_array_tests.o build/generic_array.o build/unity.o $(COMMON_DEPS)
+	$(CC) -o bin/generic_array_tests build/generic_array_tests.o build/generic_array.o build/unity.o
 
 clean:
 	$(RM) build/*

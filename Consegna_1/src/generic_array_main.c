@@ -6,7 +6,7 @@
 #include <string.h>
 #include <time.h>
 #include <ctype.h>
-#include "ordered_array.h"
+#include "generic_array.h"
 
 #define BUFFER_SIZE 1024
 
@@ -17,7 +17,7 @@ typedef struct _record {
   double float_field;
 } Record;
 
-void sorting_algorithm(OrderedArray *ordered_array, int (*compare)(void*, void*), int low, int high);
+void sorting_algorithm(GenericArray *ordered_array, int (*compare)(void*, void*), int low, int high);
 void set_k_value(const char *k_value_char);
 
 /*
@@ -136,23 +136,23 @@ static int succedes_record_string_field(void *r1_p, void *r2_p) {
   return strcmp(rec1_p->string_field, rec2_p->string_field) > 0;
 }
 
-static  void free_array(OrderedArray *array) {
-  unsigned long size = ordered_array_size(array);
+static  void free_array(GenericArray *array) {
+  unsigned long size = generic_array_size(array);
   for (unsigned long i = 0; i < size; i++) {
-    Record *array_element = (Record*)ordered_array_get(array, i);
+    Record *array_element = (Record*)generic_array_get(array, i);
     free(array_element->id_field);  
     free(array_element->string_field);
     free(array_element);
   }
-  ordered_array_free_memory(array);
+  generic_array_free_memory(array);
 }
 
 // print on file
-void print_file_array(OrderedArray *array, char *output_file) {
+void print_file_array(GenericArray *array, char *output_file) {
     FILE *ordered;
     
     ordered = fopen(output_file, "w"); //tmp solution
-    unsigned long size = ordered_array_size(array);
+    unsigned long size = generic_array_size(array);
 
     if (array == NULL) {
         fprintf(stderr, "print_file_array: array parameter is a null pointer");
@@ -164,17 +164,18 @@ void print_file_array(OrderedArray *array, char *output_file) {
     }
         
     Record *array_element;
-    if (ordered_array_is_empty(array)) {
+    if (generic_array_is_empty(array)) {
         fprintf(ordered, "Empty array\n");
     } else {
         for (unsigned long i = 0; i < size; i++) {
-            array_element = (Record*)ordered_array_get(array, i);
+            array_element = (Record*)generic_array_get(array, i);
             fprintf(ordered, "%s, %s, %d, %.9f\n", array_element->id_field, array_element->string_field, array_element->integer_field, array_element->float_field);
         }
     }
+    fclose(ordered);
 }
 
-static void load_array(const char *file_name, OrderedArray *array) {
+static void load_array(const char *file_name, GenericArray *array) {
   char buffer[BUFFER_SIZE];
   FILE *fp;
 
@@ -210,13 +211,13 @@ static void load_array(const char *file_name, OrderedArray *array) {
     strcpy(record_p->string_field, string_field_in_read_line_p);
     record_p->integer_field = atoi(integer_field_in_read_line_p);
     record_p->float_field = atof(float_field_in_read_line_p);
-    ordered_array_add(array, (void*)record_p);
+    generic_array_add(array, (void*)record_p);
   }
   fclose(fp);
 }
 
 static void data_elaboration_method(const char *input_file, char *output_file, int (*compare)(void*, void*)) {
-  OrderedArray *array = ordered_array_create(compare);
+  GenericArray *array = generic_array_create(compare);
   clock_t start_t, end_t, init_t;
   
   start_t = init_t = clock();
@@ -225,7 +226,7 @@ static void data_elaboration_method(const char *input_file, char *output_file, i
   printf("\nData loaded; took %f sec\n", (double)(end_t - start_t) / CLOCKS_PER_SEC);
 
   start_t = clock();
-  sorting_algorithm(array, compare, 0, ordered_array_size(array) - 1);
+  sorting_algorithm(array, compare, 0, generic_array_size(array) - 1);
   end_t = clock();
   printf("Data sorted; took %f sec\n", (double)(end_t - start_t) / CLOCKS_PER_SEC);
 
