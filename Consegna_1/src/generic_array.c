@@ -6,7 +6,7 @@
 #define INITIAL_CAPACITY 2
 //costante di confronto per il passaggio da mergesort a insertionsort
 
-unsigned long k_value = 10; 
+unsigned long k_value = 35; 
 
 //It represents the internal structure of this implementation of ordered arrays
 struct _GenericArray {

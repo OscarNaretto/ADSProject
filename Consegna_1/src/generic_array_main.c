@@ -252,7 +252,7 @@ int main(int argc, char const *argv[]) {
     printf("Invalid arguments\n\n");
     printf("Terminal usage:\n - pass input_file_path as first argument\n - pass output_directory_path as second argument (output files will be named after their sorting field type)\n - (OPTIONAL)pass k_value as third argument");
     printf("Example: ./Main records.csv ../\n\n");
-    printf("Make usage: make run input=input_file_path output=output_directory_path #OPTIONAL#K=int_k_value\n");
+    printf("Make usage: make run input=input_file_path output=output_directory_path #OPTIONAL#K=int_k_value\n\n");
     exit(EXIT_FAILURE);
   }
   char string_path[strlen(argv[2]) + 1], int_path[strlen(argv[2]) + 1], float_path[strlen(argv[2]) + 1];
