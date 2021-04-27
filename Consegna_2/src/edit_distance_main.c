@@ -4,13 +4,12 @@
 #include <limits.h>
 
 int min(int a, int b, int c) {
-	int min = a;
-
-	if(b < min)
-	    min = b;
-	if(c < min)
-	    min = c;
-	return min;
+	if(a <= b && a <= c) return a;
+	if(b <= c){
+        return b;
+    } else {
+        return c;
+    }
 }
 
 int edit_distance(char *string1, char *string2){
@@ -39,7 +38,7 @@ int edit_distance(char *string1, char *string2){
 int main(int argc, char const *argv[]){
 
     printf("Parole scelte: tassa  passato \n");
-    char string1[] = "passato";
+    char string1[] = "tassa";
     char string2[] = "passato";
     
     int res = edit_distance(string1, string2);      //primi tentativi
