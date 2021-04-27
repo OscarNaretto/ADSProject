@@ -1,43 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-/*
-int min3(int a, int b, int c){
-    if (a < b){
-        if (a < c){
-            return a;
-        } else {
-            return c;
-        }
-    } else if (b < c ){
-        return b;
-    } else {
-        return c;
-    }
-}*/
+#include <limits.h>
 
-int min3(int a, int b, int c) {
-	int min;
-
-	min=a;	
-	
+int min(int a, int b, int c) {
+	int min = a;
+    
 	if(b < min)
-	    min =b;
+	    min = b;
 	if(c < min)
 	    min = c;
-
 	return min;
 }
 
-int min2(int a, int b){
-    if (a < b){
-        return a;
-    } else {
-        return b;
-    }
-}
-
 int edit_distance(char *string1, char *string2){
+    int edit_distance_noop;
     if (strlen(string1) == 0){
         return strlen(string2);
     }
@@ -46,16 +23,19 @@ int edit_distance(char *string1, char *string2){
         return strlen(string1);
     }
 
-    char rest1[strlen(string1) - 1];
-    char rest2[strlen(string2) - 1];
+    char rest1[strlen(string1) - 1];        //oppure incremento puntatore della string
+    char rest2[strlen(string2) - 1];        //valutare cambio approccio
     strcpy(rest1, string1 + 1);
     strcpy(rest2, string2 + 1);
 
+
     if (string1[0] == string2[0]){
-        return min3(1 + edit_distance(string1, rest2), 1 + edit_distance(rest1, string2), edit_distance(rest1, rest2));
+        edit_distance_noop = edit_distance(rest1, rest2);
     } else {
-        return min2(1 + edit_distance(string1, rest2), 1 + edit_distance(rest1, string2));
+        edit_distance_noop = INT_MAX;
     }
+    
+    return min(1 + edit_distance(string1, rest2), 1 + edit_distance(rest1, string2), edit_distance(rest1, rest2));
 }
 
 int main(int argc, char const *argv[]){
