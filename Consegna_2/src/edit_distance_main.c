@@ -69,7 +69,7 @@ void correction(const char *correctme, const char *dictionary, int **recursive_c
     size_t str_size;
     FILE *dct, *out, *tobechecked, *word_corrections;
 
-    dct = fopen("dictionary.txt", "r");
+    dct = fopen(dictionary, "r");
     if (dct == NULL) {
         fprintf(stderr, "main: unable to open the dictionary file");
         exit(EXIT_FAILURE);
@@ -79,7 +79,7 @@ void correction(const char *correctme, const char *dictionary, int **recursive_c
         fprintf(stderr, "main: unable to create the corrected output file");
         exit(EXIT_FAILURE);
     }
-    tobechecked = fopen("correctme.txt", "r");
+    tobechecked = fopen(correctme, "r");
     if (out == NULL) {
         fprintf(stderr, "main: unable to open the file that has to be checked");
         exit(EXIT_FAILURE);

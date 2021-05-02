@@ -3,7 +3,7 @@ CFLAGS = -g -O1 -Wall -Wextra -Wpedantic -Wconversion
 all: bin/edit_distance_main
 
 run: bin/edit_distance_main
-	bin/edit_distance_main $(text) $(dct)
+	bin/edit_distance_main correctme.txt dictionary.txt
 
 build/%.o: src/%.c
 	$(CC) -c -o $@ $< $(CFLAGS) 
