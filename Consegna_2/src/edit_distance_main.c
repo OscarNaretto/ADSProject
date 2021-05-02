@@ -5,8 +5,8 @@
 #include <ctype.h>
 #include <time.h>
 
-#define MAX_WORD_LENGTH 100
-#define MAX_WORDS_NUMBER 1000 //da vedere
+#define MAX_WORD_LENGTH 30
+#define MAX_WORDS_NUMBER 100 //da vedere
 
 
 int min(int a, int b, int c) {
@@ -67,9 +67,9 @@ void correction(const char *correctme, const char *dictionary, int **recursive_c
     int correzione_minima_index = 0;
     int ch, newstr;
     size_t str_size;
-    FILE *dct, *out, *tobechecked;
+    FILE *dct, *out, *tobechecked, *word_corrections;
 
-    dct = fopen(dictionary, "r");
+    dct = fopen("dictionary.txt", "r");
     if (dct == NULL) {
         fprintf(stderr, "main: unable to open the dictionary file");
         exit(EXIT_FAILURE);
@@ -79,21 +79,28 @@ void correction(const char *correctme, const char *dictionary, int **recursive_c
         fprintf(stderr, "main: unable to create the corrected output file");
         exit(EXIT_FAILURE);
     }
-    tobechecked = fopen(correctme, "r");
+    tobechecked = fopen("correctme.txt", "r");
     if (out == NULL) {
         fprintf(stderr, "main: unable to open the file that has to be checked");
         exit(EXIT_FAILURE);
     }
+
+    word_corrections = fopen("wordcorrections.txt", "w");
+    if (out == NULL) {
+        fprintf(stderr, "main: unable to open the file that has to be checked");
+        exit(EXIT_FAILURE);
+    }
+
+
     while((ch = fgetc(tobechecked)) != EOF){
         //le stringhe verranno controllate e corrette utilizzando edit_distance_dynamic, i delimitatori verranno semplicemente trascritti
         //carico quindi tutti i caratteri alfabetici sulla stringa str
         if (isalpha(ch)){
             str[str_size] = (char)ch;
             str_size++;
-            newstr = 1; //posibile sostituirlo con strlen per non scrivere ogni volta memoria. Controllare
         } else {
             //uso un controllo su flag per assicurarmi che la stringa non sia vuota
-            if (newstr == 1){
+            if (strlen(str) != 0){
                 //allora ho una nuova stringa da valutare, oltre che della punteggiatura
                 //devo leggere il file dizionario e ciclare per ogni parola presente in esso
                 str[0] = tolower(str[0]);
@@ -129,12 +136,18 @@ void correction(const char *correctme, const char *dictionary, int **recursive_c
                     best_correction[0] = toupper(best_correction[0]);
                     uppercase = 0;
                 }
+                if (minimo > 0){
+                    fprintf(word_corrections, "%s -> ", str);
+                    for (int i = 0; i < correzione_minima_index; i++){
+                        fprintf(word_corrections, "%s ", correzione_minima[i]);
+                    }
+                    fprintf(word_corrections, "\n");
+                }
 
                 fputs(best_correction, out);
 
                 minimo = INT_MAX;
-                newstr = 0;
-                memset(str,0,strlen(str));
+                bzero(str, sizeof(str));
                 str_size = 0;
                 searching = 1;
                 bzero(correzione_minima, sizeof(correzione_minima));
@@ -150,6 +163,7 @@ void correction(const char *correctme, const char *dictionary, int **recursive_c
     fclose(dct);
     fclose(out);
     fclose(tobechecked);
+    fclose(word_corrections);
 }
 
 void init(const char *correctme, const char *dictionary){
@@ -186,3 +200,4 @@ int main(int argc, char const *argv[]){
     //- unit - test
 
     init(argv[1], argv[2]);
+}
