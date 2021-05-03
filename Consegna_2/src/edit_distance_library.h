@@ -1,1 +1,0 @@
-int edit_distance(char *string1, char *string2);
