@@ -10,8 +10,8 @@ run: bin/edit_distance_main
 build/%.o: src/%.c $(COMMON_DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS) 
 
-bin/edit_distance_main: build/edit_distance_lib.o build/edit_distance_main.o $(COMMON_DEPS)
-	$(CC) -o bin/edit_distance_main build/edit_distance_lib.o build/edit_distance_main.o
+bin/edit_distance_main: build/edit_distance_lib.o build/dictionary.o build/edit_distance_main.o $(COMMON_DEPS)
+	$(CC) -o bin/edit_distance_main build/edit_distance_lib.o build/dictionary.o build/edit_distance_main.o
 
 clean:
 	$(RM) build/*

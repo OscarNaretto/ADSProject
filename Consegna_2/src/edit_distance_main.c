@@ -5,26 +5,28 @@
 #include <ctype.h>
 #include <time.h>
 #include "edit_distance_lib.h"
+#include "dictionary.h"
+
 
 #define MAX_WORD_LENGTH 30
 #define MAX_WORDS_NUMBER 100
 
-void correction(const char *correctme, const char *dictionary, int **recursive_calls_table){
-    int minimo = INT_MAX, distanza, searching = 1, uppercase = 1;
-    char str[MAX_WORD_LENGTH];
-    char correzione[MAX_WORD_LENGTH];
+void correction(const char *correctme, Dictionary *dictionary_array, int **recursive_calls_table){
+    int minimo = INT_MAX, distanza, uppercase = 1;
+    char *str;
+    char *correzione;
     char correzione_minima[MAX_WORDS_NUMBER][MAX_WORD_LENGTH];
-    char best_correction[MAX_WORD_LENGTH];
+    char *best_correction;
     int correzione_minima_index = 0;
-    int ch, newstr;
+    int ch;
+    unsigned long dct_index;
     size_t str_size;
-    FILE *dct, *out, *tobechecked, *word_corrections;
+    FILE *out, *tobechecked, *word_corrections;
 
-    dct = fopen(dictionary, "r");
-    if (dct == NULL) {
-        fprintf(stderr, "main: unable to open the dictionary file");
-        exit(EXIT_FAILURE);
-    }
+    correzione = malloc((MAX_WORD_LENGTH) * sizeof(char));
+    best_correction = malloc((MAX_WORD_LENGTH) * sizeof(char));
+    str = malloc((MAX_WORD_LENGTH) * sizeof(char));
+
     out = fopen("corrected.txt", "w");
     if (out == NULL) {
         fprintf(stderr, "main: unable to create the corrected output file");
@@ -54,56 +56,51 @@ void correction(const char *correctme, const char *dictionary, int **recursive_c
             if (strlen(str) != 0){
                 //allora ho una nuova stringa da valutare, oltre che della punteggiatura
                 //devo leggere il file dizionario e ciclare per ogni parola presente in esso
-                str[0] = tolower(str[0]);
+                str[0] = (char)tolower(str[0]);
                 printf("Analizzo %s\n", str);
-                while(fscanf(dct, "%s", correzione) != EOF && searching){
+
+                if (dictionary_is_present(dictionary_array, str) == -1){
                     //setto la matrice a -1 per corretto funzionamento
-                    for (int i = 0; i < strlen(str); i++){
+                    for (int i = 0; i < (int)strlen(str); i++){
                         for (int j = 0; j < MAX_WORD_LENGTH; j++){
                             recursive_calls_table[i][j] = -1;
                         }
                     }
-
-                    distanza = edit_distance_dynamic(str, correzione, strlen(str), strlen(correzione), recursive_calls_table);
-                    if (distanza < minimo){
-                        if (distanza == 0){
-                            searching = 0;  //oppure break?
-                        }
-                        //reset dell'arry di stringhe
-                        bzero(correzione_minima, sizeof(correzione_minima));
-                        correzione_minima_index = 0;
+                    for (dct_index = 0; dct_index < dictionary_array_size(dictionary_array); dct_index++){
+                        strcpy(correzione, dictionary_get_elem(dictionary_array, dct_index));
+                        distanza = edit_distance_dynamic(str, correzione, (int)strlen(str), (int)strlen(correzione), recursive_calls_table);
                         
-                        strcpy(correzione_minima[correzione_minima_index], correzione);
-                        minimo = distanza;
-                        correzione_minima_index++;
-                    } else if (distanza == minimo){
+                        //non calcola più correttamente edit distance
+
+                        if (distanza < minimo){                      
+                            //reset dell'array di stringhe
+                            bzero(correzione_minima, sizeof(correzione_minima));
+                            correzione_minima_index = 0; 
+                        }
                         strcpy(correzione_minima[correzione_minima_index], correzione);
                         minimo = distanza;
                         correzione_minima_index++;
                     }
-                }
-                strcpy(best_correction, correzione_minima[best_correction_index(correzione_minima, str, correzione_minima_index)]);
-                if (uppercase == 1){
-                    best_correction[0] = toupper(best_correction[0]);
-                    uppercase = 0;
-                }
-                if (minimo > 0){
+                    
+                    strcpy(best_correction, correzione_minima[best_correction_index(correzione_minima, str, correzione_minima_index)]);
                     fprintf(word_corrections, "%s -> ", str);
                     for (int i = 0; i < correzione_minima_index; i++){
                         fprintf(word_corrections, "%s ", correzione_minima[i]);
                     }
                     fprintf(word_corrections, "\n");
+                            
+                } else {
+                    strcpy(best_correction, str);
                 }
-
+                if (uppercase == 1){
+                    best_correction[0] = (char)toupper(best_correction[0]);
+                    uppercase = 0;
+                }
                 fputs(best_correction, out);
-
                 minimo = INT_MAX;
-                bzero(str, sizeof(str));
+                bzero(str, strlen(str));
                 str_size = 0;
-                searching = 1;
-                bzero(correzione_minima, sizeof(correzione_minima));
-
-                fseek(dct,0,SEEK_SET);
+                bzero(correzione_minima, sizeof(correzione_minima)); 
             }
             fputc(ch, out);
             if (ch == '.'){
@@ -111,7 +108,6 @@ void correction(const char *correctme, const char *dictionary, int **recursive_c
             }
         }
     }
-    fclose(dct);
     fclose(out);
     fclose(tobechecked);
     fclose(word_corrections);
@@ -124,10 +120,12 @@ void init(const char *correctme, const char *dictionary){
     for (int i = 0; i < MAX_WORD_LENGTH; i++){
         recursive_calls_table[i] = malloc(MAX_WORD_LENGTH * sizeof(int));
     }
-    
-  
+
+    Dictionary *dictionary_array = dictionary_create();
+    load_dictionary(dictionary, dictionary_array);
+
     start_t = clock();
-    correction(correctme, dictionary, recursive_calls_table);
+    correction(correctme, dictionary_array, recursive_calls_table);
     end_t = clock();
     printf("Correction took: ~%f sec\n", (double)(end_t - start_t) / CLOCKS_PER_SEC);
 
@@ -135,6 +133,9 @@ void init(const char *correctme, const char *dictionary){
         free(recursive_calls_table[i]);
     }
     free(recursive_calls_table);
+
+    
+    dictionary_array_free(dictionary_array);
 }
 
 int main(int argc, char const *argv[]){
@@ -146,7 +147,6 @@ int main(int argc, char const *argv[]){
     }
 
     //  Da fare:
-    //- array dinamico per dizionario
     //- valutare altre strutture dati, giusto per volersi male. Limitato però a edit_distance_dynamic
     //- istruzioni per l'input da terminale
     //- aggiustare directory passate per argomento tramite make. segfault11 da vedere
