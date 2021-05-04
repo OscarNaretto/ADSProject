@@ -140,8 +140,8 @@ void init(const char *correctme, const char *dictionary){
 int main(int argc, char const *argv[]){
     if (argc < 3){
         printf("Errore nel passaggio dei parametri a linea di comando\n");
-        printf("Istruzioni per l'utilizzo: ");
-        printf("1- Caricare testo da valutare e correggere.\n2- Caricare dizionario ");
+        printf("Istruzioni per l'utilizzo, seguite l'ordine di caricamento :\n");
+        printf("1- Caricare testo da valutare e correggere.\n2- Caricare il dizionario.\n");
 
         exit(EXIT_FAILURE);
     }
@@ -149,7 +149,6 @@ int main(int argc, char const *argv[]){
     //  Da fare:
     //- array dinamico per dizionario
     //- valutare altre strutture dati, giusto per volersi male. Limitato però a edit_distance_dynamic
-    //- istruzioni per l'input da terminale
     //- aggiustare directory passate per argomento tramite make. segfault11 da vedere
     //- unit - test
 
