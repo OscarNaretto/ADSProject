@@ -141,6 +141,7 @@ int main(int argc, char const *argv[]){
     if (argc < 3){
         printf("Errore nel passaggio dei parametri a linea di comando\n");
         printf("Istruzioni per l'utilizzo: ");
+        printf("1- Caricare testo da valutare e correggere.\n2- Caricare dizionario ");
 
         exit(EXIT_FAILURE);
     }
