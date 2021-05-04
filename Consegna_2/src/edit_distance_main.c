@@ -13,19 +13,15 @@
 
 void correction(const char *correctme, Dictionary *dictionary_array, int **recursive_calls_table){
     int minimo = INT_MAX, distanza, uppercase = 1;
-    char *str;
-    char *correzione;
+    char str[MAX_WORD_LENGTH];
+    char correzione[MAX_WORD_LENGTH];
     char correzione_minima[MAX_WORDS_NUMBER][MAX_WORD_LENGTH];
-    char *best_correction;
+    char best_correction[MAX_WORD_LENGTH];
     int correzione_minima_index = 0;
     int ch;
     unsigned long dct_index;
     size_t str_size;
     FILE *out, *tobechecked, *word_corrections;
-
-    correzione = malloc((MAX_WORD_LENGTH) * sizeof(char));
-    best_correction = malloc((MAX_WORD_LENGTH) * sizeof(char));
-    str = malloc((MAX_WORD_LENGTH) * sizeof(char));
 
     out = fopen("corrected.txt", "w");
     if (out == NULL) {
