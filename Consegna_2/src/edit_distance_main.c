@@ -8,7 +8,7 @@
 #include "dictionary.h"
 
 
-#define MAX_WORD_LENGTH 30
+#define MAX_WORD_LENGTH 50
 #define MAX_WORDS_NUMBER 100
 
 void correction(const char *correctme, Dictionary *dictionary_array, int **recursive_calls_table){
@@ -45,39 +45,37 @@ void correction(const char *correctme, Dictionary *dictionary_array, int **recur
         //le stringhe verranno controllate e corrette utilizzando edit_distance_dynamic, i delimitatori verranno semplicemente trascritti
         //carico quindi tutti i caratteri alfabetici sulla stringa str
         if (isalpha(ch)){
-            str[str_size] = (char)ch;
-            str_size++;
+            strncat(str, &ch, 1);
         } else {
             //uso un controllo su flag per assicurarmi che la stringa non sia vuota
             if (strlen(str) != 0){
                 //allora ho una nuova stringa da valutare, oltre che della punteggiatura
                 //devo leggere il file dizionario e ciclare per ogni parola presente in esso
                 str[0] = (char)tolower(str[0]);
-                printf("Analizzo %s\n", str);
-
                 if (dictionary_is_present(dictionary_array, str) == -1){
-                    //setto la matrice a -1 per corretto funzionamento
-                    for (int i = 0; i < (int)strlen(str); i++){
-                        for (int j = 0; j < MAX_WORD_LENGTH; j++){
-                            recursive_calls_table[i][j] = -1;
-                        }
-                    }
                     for (dct_index = 0; dct_index < dictionary_array_size(dictionary_array); dct_index++){
+                        //setto la matrice a -1 per corretto funzionamento
+                        for (int i = 0; i < strlen(str); i++){
+                            for (int j = 0; j < MAX_WORD_LENGTH; j++){
+                                recursive_calls_table[i][j] = -1;
+                            }
+                        }
                         strcpy(correzione, dictionary_get_elem(dictionary_array, dct_index));
-                        distanza = edit_distance_dynamic(str, correzione, (int)strlen(str), (int)strlen(correzione), recursive_calls_table);
-                        
-                        //non calcola più correttamente edit distance
+                        distanza = edit_distance_dynamic(str, correzione, strlen(str), strlen(correzione), recursive_calls_table);
 
                         if (distanza < minimo){                      
                             //reset dell'array di stringhe
                             bzero(correzione_minima, sizeof(correzione_minima));
                             correzione_minima_index = 0; 
+                            minimo = distanza;
+
+                            strcpy(correzione_minima[correzione_minima_index], correzione);
+                            correzione_minima_index++;
+                        } else if (distanza == minimo){
+                            strcpy(correzione_minima[correzione_minima_index], correzione);
+                            correzione_minima_index++;
                         }
-                        strcpy(correzione_minima[correzione_minima_index], correzione);
-                        minimo = distanza;
-                        correzione_minima_index++;
                     }
-                    
                     strcpy(best_correction, correzione_minima[best_correction_index(correzione_minima, str, correzione_minima_index)]);
                     fprintf(word_corrections, "%s -> ", str);
                     for (int i = 0; i < correzione_minima_index; i++){
@@ -95,7 +93,6 @@ void correction(const char *correctme, Dictionary *dictionary_array, int **recur
                 fputs(best_correction, out);
                 minimo = INT_MAX;
                 bzero(str, strlen(str));
-                str_size = 0;
                 bzero(correzione_minima, sizeof(correzione_minima)); 
             }
             fputc(ch, out);
