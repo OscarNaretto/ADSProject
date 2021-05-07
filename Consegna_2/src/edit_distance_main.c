@@ -33,7 +33,6 @@ void correction(const char *correctme, Dictionary *dictionary_array, int **recur
     char str[MAX_WORD_LENGTH], correzione[MAX_WORD_LENGTH], correzione_minima[MAX_WORDS_NUMBER][MAX_WORD_LENGTH], best_correction[MAX_WORD_LENGTH], ch;
     unsigned long dct_index;
     FILE *out, *tobechecked;
-    char vuoto;
 
     out = fopen("corrected.txt", "w");
     if (out == NULL) {
