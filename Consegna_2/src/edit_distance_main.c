@@ -33,6 +33,7 @@ void correction(const char *correctme, Dictionary *dictionary_array, int **recur
     char str[MAX_WORD_LENGTH], correzione[MAX_WORD_LENGTH], correzione_minima[MAX_WORDS_NUMBER][MAX_WORD_LENGTH], best_correction[MAX_WORD_LENGTH], ch;
     unsigned long dct_index;
     FILE *out, *tobechecked;
+    char vuoto;
 
     out = fopen("corrected.txt", "w");
     if (out == NULL) {
@@ -45,6 +46,9 @@ void correction(const char *correctme, Dictionary *dictionary_array, int **recur
         exit(EXIT_FAILURE);
     }
 
+    //Inizializzo le variabili, e pulisco str
+    ch = '\0';
+    str[0] = '\0'; 
     while((ch = (char)fgetc(tobechecked)) != EOF){
         //le stringhe verranno controllate e corrette utilizzando edit_distance_dynamic, i delimitatori verranno semplicemente trascritti
         //carico quindi tutti i caratteri alfabetici sulla stringa str
