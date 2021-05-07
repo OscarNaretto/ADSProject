@@ -10,17 +10,29 @@
 
 #define MAX_WORD_LENGTH 30
 #define MAX_WORDS_NUMBER 100
+#define MAX_CORRECTIONS_NUMBER 5
 
+void word_corrections_print(char str[MAX_WORD_LENGTH], char correzione_minima[MAX_WORDS_NUMBER][MAX_WORD_LENGTH], int correzione_minima_index){
+    FILE *word_corrections;
+    word_corrections = fopen("wordcorrections.txt", "a");    
+    if (word_corrections == NULL) {
+        fprintf(stderr, "main: unable to open the file that has to be checked");
+        exit(EXIT_FAILURE);
+    }
+
+    fprintf(word_corrections, "%s -> ", str);
+    for (int i = 0; i < MAX_CORRECTIONS_NUMBER && i < correzione_minima_index; i++){
+        fprintf(word_corrections, "%s ", correzione_minima[i]);
+    }
+    fprintf(word_corrections, "\n");
+
+    fclose(word_corrections);
+}
 void correction(const char *correctme, Dictionary *dictionary_array, int **recursive_calls_table){
-    int minimo = INT_MAX, distanza, uppercase = 1;
-    char str[MAX_WORD_LENGTH];
-    char correzione[MAX_WORD_LENGTH];
-    char correzione_minima[MAX_WORDS_NUMBER][MAX_WORD_LENGTH];
-    char best_correction[MAX_WORD_LENGTH];
-    int correzione_minima_index = 0;
-    char ch;
+    int minimo = INT_MAX, distanza, uppercase = 1, correzione_minima_index = 0;
+    char str[MAX_WORD_LENGTH], correzione[MAX_WORD_LENGTH], correzione_minima[MAX_WORDS_NUMBER][MAX_WORD_LENGTH], best_correction[MAX_WORD_LENGTH], ch;
     unsigned long dct_index;
-    FILE *out, *tobechecked, *word_corrections;
+    FILE *out, *tobechecked;
 
     out = fopen("corrected.txt", "w");
     if (out == NULL) {
@@ -28,17 +40,10 @@ void correction(const char *correctme, Dictionary *dictionary_array, int **recur
         exit(EXIT_FAILURE);
     }
     tobechecked = fopen(correctme, "r");
-    if (out == NULL) {
+    if (tobechecked == NULL) {
         fprintf(stderr, "main: unable to open the file that has to be checked");
         exit(EXIT_FAILURE);
     }
-
-    word_corrections = fopen("wordcorrections.txt", "w");
-    if (out == NULL) {
-        fprintf(stderr, "main: unable to open the file that has to be checked");
-        exit(EXIT_FAILURE);
-    }
-
 
     while((ch = (char)fgetc(tobechecked)) != EOF){
         //le stringhe verranno controllate e corrette utilizzando edit_distance_dynamic, i delimitatori verranno semplicemente trascritti
@@ -76,12 +81,7 @@ void correction(const char *correctme, Dictionary *dictionary_array, int **recur
                         }
                     }
                     strcpy(best_correction, correzione_minima[best_correction_index(correzione_minima, str, correzione_minima_index)]);
-                    fprintf(word_corrections, "%s -> ", str);
-                    for (int i = 0; i < correzione_minima_index; i++){
-                        fprintf(word_corrections, "%s ", correzione_minima[i]);
-                    }
-                    fprintf(word_corrections, "\n");
-                            
+                    word_corrections_print(str, correzione_minima, correzione_minima_index);
                 } else {
                     strcpy(best_correction, str);
                 }
@@ -102,12 +102,12 @@ void correction(const char *correctme, Dictionary *dictionary_array, int **recur
     }
     fclose(out);
     fclose(tobechecked);
-    fclose(word_corrections);
 }
 
 void init(const char *correctme, const char *dictionary){
     clock_t start_t, end_t;
     int **recursive_calls_table;
+    FILE *word_corrections;
     recursive_calls_table = (int **)malloc(MAX_WORD_LENGTH * sizeof(int*));  
     for (int i = 0; i < MAX_WORD_LENGTH; i++){
         recursive_calls_table[i] = malloc(MAX_WORD_LENGTH * sizeof(int));
@@ -115,6 +115,10 @@ void init(const char *correctme, const char *dictionary){
 
     Dictionary *dictionary_array = dictionary_create();
     load_dictionary(dictionary, dictionary_array);
+
+    //cleaning wordcorrections file
+    word_corrections = fopen("wordcorrections.txt", "w");
+    fclose(word_corrections);   
 
     start_t = clock();
     correction(correctme, dictionary_array, recursive_calls_table);
@@ -125,7 +129,6 @@ void init(const char *correctme, const char *dictionary){
         free(recursive_calls_table[i]);
     }
     free(recursive_calls_table);
-
     
     dictionary_array_free(dictionary_array);
 }
@@ -140,9 +143,10 @@ int main(int argc, char const *argv[]){
     }
 
     //  Da fare:
+    //- estrapolare stampa wordcorrections in metodo a parte. Aggiungere un limite tramite macro alle parole stampate
     //- valutare altre strutture dati, giusto per volersi male. Limitato però a edit_distance_dynamic
     //- aggiustare directory passate per argomento tramite make. segfault11 da vedere
-    //- unit - test
+    //- unit-test
 
     init(argv[1], argv[2]);
 }
