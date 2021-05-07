@@ -1,5 +1,6 @@
+CC=gcc
 CFLAGS = -g -O1 -Wall -Wextra -Wpedantic -Wconversion
-COMMON_DEPS = src/*.h Makefile
+COMMON_DEPS = src/*.h makefile
 
 all: bin/edit_distance_main
 
