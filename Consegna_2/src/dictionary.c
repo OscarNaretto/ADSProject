@@ -71,15 +71,15 @@ void load_dictionary(const char *dictionary, Dictionary *dictionary_array){
     fclose(fp);
 }
 
-int dictionary_is_present(Dictionary *dictionary_array, char *key){
+long dictionary_is_present(Dictionary *dictionary_array, char *key){
     return dictionary_search(dictionary_array, 0, dictionary_array->size, key);
 }
 
-int dictionary_search(Dictionary *dictionary_array, unsigned long low, unsigned long high, char *key){
+long dictionary_search(Dictionary *dictionary_array, unsigned long low, unsigned long high, char *key){
     if (high >= low){
-        int mid = low + (high - low) / 2;
+        unsigned long mid = low + (high - low) / 2;
         
-        if (strcmp(dictionary_array->array[mid], key) == 0) return mid;
+        if (strcmp(dictionary_array->array[mid], key) == 0) return (long)mid;
        
         if (strcmp(dictionary_array->array[mid], key) > 0) return dictionary_search(dictionary_array, low, mid - 1, key);
  

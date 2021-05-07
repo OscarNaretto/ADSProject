@@ -14,9 +14,9 @@ unsigned long dictionary_array_size(Dictionary *dictionary_array);
 
 void load_dictionary(const char *dictionary, Dictionary *dictionary_array);
 
-int dictionary_is_present(Dictionary *dictionary_array, char *key);
+long dictionary_is_present(Dictionary *dictionary_array, char *key);
 
-int dictionary_search(Dictionary *dictionary_array, unsigned long low, unsigned long high, char *key);
+long dictionary_search(Dictionary *dictionary_array, unsigned long low, unsigned long high, char *key);
 
 const char* dictionary_get_elem(Dictionary *dictionary_array, unsigned long i);
 

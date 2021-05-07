@@ -8,7 +8,7 @@
 #include "dictionary.h"
 
 
-#define MAX_WORD_LENGTH 50
+#define MAX_WORD_LENGTH 30
 #define MAX_WORDS_NUMBER 100
 
 void correction(const char *correctme, Dictionary *dictionary_array, int **recursive_calls_table){
@@ -18,9 +18,8 @@ void correction(const char *correctme, Dictionary *dictionary_array, int **recur
     char correzione_minima[MAX_WORDS_NUMBER][MAX_WORD_LENGTH];
     char best_correction[MAX_WORD_LENGTH];
     int correzione_minima_index = 0;
-    int ch;
+    char ch;
     unsigned long dct_index;
-    size_t str_size;
     FILE *out, *tobechecked, *word_corrections;
 
     out = fopen("corrected.txt", "w");
@@ -41,7 +40,7 @@ void correction(const char *correctme, Dictionary *dictionary_array, int **recur
     }
 
 
-    while((ch = fgetc(tobechecked)) != EOF){
+    while((ch = (char)fgetc(tobechecked)) != EOF){
         //le stringhe verranno controllate e corrette utilizzando edit_distance_dynamic, i delimitatori verranno semplicemente trascritti
         //carico quindi tutti i caratteri alfabetici sulla stringa str
         if (isalpha(ch)){
@@ -55,13 +54,13 @@ void correction(const char *correctme, Dictionary *dictionary_array, int **recur
                 if (dictionary_is_present(dictionary_array, str) == -1){
                     for (dct_index = 0; dct_index < dictionary_array_size(dictionary_array); dct_index++){
                         //setto la matrice a -1 per corretto funzionamento
-                        for (int i = 0; i < strlen(str); i++){
+                        for (int i = 0; i < (int)strlen(str); i++){
                             for (int j = 0; j < MAX_WORD_LENGTH; j++){
                                 recursive_calls_table[i][j] = -1;
                             }
                         }
                         strcpy(correzione, dictionary_get_elem(dictionary_array, dct_index));
-                        distanza = edit_distance_dynamic(str, correzione, strlen(str), strlen(correzione), recursive_calls_table);
+                        distanza = edit_distance_dynamic(str, correzione, (int)strlen(str), (int)strlen(correzione), recursive_calls_table);
 
                         if (distanza < minimo){                      
                             //reset dell'array di stringhe
