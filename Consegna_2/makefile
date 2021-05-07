@@ -1,7 +1,6 @@
 CFLAGS = -g -O1 -Wall -Wextra -Wpedantic -Wconversion
 COMMON_DEPS = src/*.h Makefile
 
-
 all: bin/edit_distance_main
 
 run: bin/edit_distance_main
