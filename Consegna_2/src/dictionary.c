@@ -79,7 +79,7 @@ long dictionary_search(Dictionary *dictionary_array, unsigned long low, unsigned
     if (high >= low){
         unsigned long mid = low + (high - low) / 2;
         
-        //if (strcmp(dictionary_array->array[mid], key) == 0) return (long)mid;
+        if (strcmp(dictionary_array->array[mid], key) == 0) return (long)mid;
        
         if (strcmp(dictionary_array->array[mid], key) > 0) return dictionary_search(dictionary_array, low, mid - 1, key);
  
