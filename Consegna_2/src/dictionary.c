@@ -75,14 +75,13 @@ long dictionary_is_present(Dictionary *dictionary_array, char *key){
     return dictionary_search(dictionary_array, 0, dictionary_array->size, key);
 }
 
-//AGGIUSTARE STRCMP -> SEG FAULT
 long dictionary_search(Dictionary *dictionary_array, unsigned long low, unsigned long high, char *key){
     if (high >= low){
         unsigned long mid = low + (high - low) / 2;
         
         //if (strcmp(dictionary_array->array[mid], key) == 0) return (long)mid;
        
-        //if (strcmp(dictionary_array->array[mid], key) > 0) return dictionary_search(dictionary_array, low, mid - 1, key);
+        if (strcmp(dictionary_array->array[mid], key) > 0) return dictionary_search(dictionary_array, low, mid - 1, key);
  
         return dictionary_search(dictionary_array, mid + 1, high, key);
     }
