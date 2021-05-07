@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include "unity.h"
-#include "edit_distance_library.h"
+#include "edit_distance_lib.h"
 
 static void test_edit_distance_empty(){
     TEST_ASSERT_EQUAL_INT(0, edit_distance("",""));
