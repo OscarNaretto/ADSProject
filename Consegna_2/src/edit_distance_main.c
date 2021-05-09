@@ -143,6 +143,7 @@ int main(int argc, char const *argv[]){
     }
 
     //  Da fare:
+    //- cambiare i nomi delle variabili per coerenza
     //- estrapolare stampa wordcorrections in metodo a parte. Aggiungere un limite tramite macro alle parole stampate
     //- valutare altre strutture dati, giusto per volersi male. Limitato però a edit_distance_dynamic
     //- aggiustare directory passate per argomento tramite make. segfault11 da vedere
