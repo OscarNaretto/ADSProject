@@ -45,6 +45,9 @@ void correction(const char *correctme, Dictionary *dictionary_array, int **recur
         exit(EXIT_FAILURE);
     }
 
+    //Inizializzo le variabili, e pulisco str
+    ch = '\0';
+    str[0] = '\0'; 
     while((ch = (char)fgetc(tobechecked)) != EOF){
         //le stringhe verranno controllate e corrette utilizzando edit_distance_dynamic, i delimitatori verranno semplicemente trascritti
         //carico quindi tutti i caratteri alfabetici sulla stringa str

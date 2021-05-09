@@ -69,6 +69,7 @@ void load_dictionary(const char *dictionary, Dictionary *dictionary_array){
       dictionary_add(dictionary_array, word);
     }
     fclose(fp);
+    free(word);
 }
 
 long dictionary_is_present(Dictionary *dictionary_array, char *key){
