@@ -4,11 +4,11 @@
 
 //Initial capacity for the array
 #define INITIAL_CAPACITY 2
-//costante di confronto per il passaggio da mergesort a insertionsort
 
+//costante di confronto per il passaggio da mergesort a insertionsort
 unsigned long k_value = 35; 
 
-//It represents the internal structure of this implementation of ordered arrays
+//It represents the internal structure of this implementation of generic arrays
 struct _GenericArray {
   void **array;
   unsigned long size;
@@ -96,7 +96,7 @@ void generic_array_free_memory(GenericArray *generic_array) {
   free(generic_array);
 }
 
-void merge(GenericArray *generic_array, int (*compare)(void*, void*), int p, int q, int r){
+void merge(GenericArray *generic_array, int (*compare)(void*, void*), unsigned long p, unsigned long q, unsigned long r){
     
     unsigned long k = 0, i = p, j = q + 1;
 
@@ -130,7 +130,7 @@ void merge(GenericArray *generic_array, int (*compare)(void*, void*), int p, int
     generic_array_free_memory(tmp_array);
 }
 
-int binarySearch(GenericArray *generic_array, void *item, int low, int high) {
+unsigned long binarySearch(GenericArray *generic_array, void *item, unsigned long low, unsigned long high) {
 
     if (high <= low) {
         if (generic_array->compare(generic_array->array[low], item)){
@@ -140,24 +140,24 @@ int binarySearch(GenericArray *generic_array, void *item, int low, int high) {
         }
     }
 
-    int mid = (low + high)/2;
+    unsigned long mid = (low + high)/2;
     if (generic_array->compare(generic_array->array[mid], item)){
         return binarySearch(generic_array, item, mid+1, high);
     }
     return binarySearch(generic_array, item, low, mid-1);  
 }
 
-void sorting_algorithm(GenericArray *generic_array, int (*compare)(void*, void*), int low, int high){
+void sorting_algorithm(GenericArray *generic_array, int (*compare)(void*, void*), unsigned long low, unsigned long high){
 
     if (high - low + 1 <= k_value){
 
-        for (int i = low + 1; i  < high + 1; i++){
-            int j = i - 1;
+        for (unsigned long i = low + 1; i  < high + 1; i++){
+            unsigned long j = i - 1;
             GenericArray *tmp_array = generic_array_create(compare);
             tmp_array->array[0] = generic_array->array[i];
 
             //posizione in cui deve essere inserito selezionato
-            int index = binarySearch(generic_array, tmp_array->array[0], low, j);
+            unsigned long index = binarySearch(generic_array, tmp_array->array[0], low, j);
 
             //ciclo per spostare l'elemento cosi da fare 
             //spazio per l'elemento da inserire
@@ -170,7 +170,7 @@ void sorting_algorithm(GenericArray *generic_array, int (*compare)(void*, void*)
             generic_array_free_memory(tmp_array);
         }
     }else{
-        int mid;
+        unsigned long mid;
         if (low < high) {
             mid = (low+high)/2;
             sorting_algorithm(generic_array, compare, low, mid);
@@ -181,5 +181,5 @@ void sorting_algorithm(GenericArray *generic_array, int (*compare)(void*, void*)
 }
 
 void set_k_value(const char *k_value_char){
-  k_value = atoi(k_value_char);
+  k_value = strtoul(k_value_char,NULL,10);
 }

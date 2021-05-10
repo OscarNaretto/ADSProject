@@ -1,13 +1,6 @@
-#ifndef ORDERED_ARRAY_H
-#define ORDERED_ARRAY_H
+#ifndef GENERIC_ARRAY_H
+#define GENERIC_ARRAY_H
 
-// Alternatively, we can use
-// #pragma once
-
-/*
- * An array of any number of elements of any kind, ordered in non descending
- * order according to a specific precedence relation
- */
 typedef struct _GenericArray GenericArray;
 
 /* It creates an empty ordered array and returns the created ordered array.
@@ -52,8 +45,8 @@ void *generic_array_get(GenericArray*, unsigned long);
  */
 void generic_array_free_memory(GenericArray*);
 
-void sorting_algorithm(GenericArray *ordered_array, int (*compare)(void*, void*), int low, int high);
+void sorting_algorithm(GenericArray *ordered_array, int (*compare)(void*, void*), unsigned long low, unsigned long high);
 
 void set_k_value(const char *k_value_char);
 
-#endif // ORDERED_ARRAY_H
+#endif

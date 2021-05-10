@@ -1,6 +1,3 @@
-//include da aggiungere, valutare codice da riciclare per confronti strutture generiche. Scrivere dichiarazioni in .h
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -16,9 +13,6 @@ typedef struct _record {
   int integer_field;
   double float_field;
 } Record;
-
-void sorting_algorithm(GenericArray *ordered_array, int (*compare)(void*, void*), int low, int high);
-void set_k_value(const char *k_value_char);
 
 /*
  * It takes as input two pointers to Record.
@@ -151,7 +145,7 @@ static  void free_array(GenericArray *array) {
 void print_file_array(GenericArray *array, char *output_file) {
     FILE *ordered;
     
-    ordered = fopen(output_file, "w"); //tmp solution
+    ordered = fopen(output_file, "w");
     unsigned long size = generic_array_size(array);
 
     if (array == NULL) {
@@ -234,7 +228,7 @@ static void data_elaboration_method(const char *input_file, char *output_file, i
   print_file_array(array, output_file);
   end_t = clock();
   printf("Data saved; took %f sec\n", (double)(end_t - start_t) / CLOCKS_PER_SEC);
-  printf("Saved in ordered.csv, located at %s\n", output_file);
+  printf("Saved in %s\n", output_file);
   
   start_t = clock();
   free_array(array);
@@ -260,14 +254,13 @@ int main(int argc, char const *argv[]) {
   strcpy(int_path, argv[2]);
   strcpy(float_path, argv[2]);
 
-
   printf("Goodmorning\n\nSelect sorting order with the proper parameter:\n");
   printf("- Increasing --> I/i\n");
   printf("- Decreasing --> D/d\n");
 
   char order;
   scanf(" %c", &order);
-  order = tolower(order);
+  order = (char)tolower(order);
   if (order != 'i' && order != 'd'){
     printf("Invalid parameter, closing current session\n");
     exit(EXIT_FAILURE);
@@ -282,7 +275,7 @@ int main(int argc, char const *argv[]) {
 
   char control;
   scanf(" %c", &control);
-  control = tolower(control);
+  control = (char)tolower(control);
 
   switch (control) {
     case 's':
