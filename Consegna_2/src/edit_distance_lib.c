@@ -2,8 +2,8 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define MAX_WORD_LENGTH 30
-#define MAX_WORDS_NUMBER 100
+#define MAX_WORD_LENGTH 20
+#define MAX_WORDS_NUMBER 30
 
 int min(int a, int b, int c) {
 	if(a <= b && a <= c) return a;

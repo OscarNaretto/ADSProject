@@ -8,8 +8,8 @@
 #include "dictionary.h"
 
 
-#define MAX_WORD_LENGTH 30
-#define MAX_WORDS_NUMBER 100
+#define MAX_WORD_LENGTH 20
+#define MAX_WORDS_NUMBER 30
 #define MAX_CORRECTIONS_NUMBER 5
 
 void word_corrections_print(char str[MAX_WORD_LENGTH], char correzione_minima[MAX_WORDS_NUMBER][MAX_WORD_LENGTH], int correzione_minima_index){
@@ -108,16 +108,18 @@ void correction(const char *correctme, Dictionary *dictionary_array, int **recur
 }
 
 void init(const char *correctme, const char *dictionary){
-    clock_t start_t, end_t;
+    clock_t init_t, start_t, end_t;
     int **recursive_calls_table;
     FILE *word_corrections;
     recursive_calls_table = (int **)malloc(MAX_WORD_LENGTH * sizeof(int*));  
     for (int i = 0; i < MAX_WORD_LENGTH; i++){
         recursive_calls_table[i] = malloc(MAX_WORD_LENGTH * sizeof(int));
     }
-
+    init_t = start_t = clock();
     Dictionary *dictionary_array = dictionary_create();
     load_dictionary(dictionary, dictionary_array);
+    end_t = clock();
+    printf("Dictionary loaded correctly, took: ~%f sec\n", (double)(end_t - start_t) / CLOCKS_PER_SEC);
 
     //cleaning wordcorrections file
     word_corrections = fopen("wordcorrections.txt", "w");
@@ -126,30 +128,33 @@ void init(const char *correctme, const char *dictionary){
     start_t = clock();
     correction(correctme, dictionary_array, recursive_calls_table);
     end_t = clock();
-    printf("Correction took: ~%f sec\n", (double)(end_t - start_t) / CLOCKS_PER_SEC);
+    printf("Correction written correctly, took: ~%f sec\n", (double)(end_t - start_t) / CLOCKS_PER_SEC);
 
+    start_t = clock();
     for (int i = 0; i < MAX_WORD_LENGTH; i++){
         free(recursive_calls_table[i]);
     }
     free(recursive_calls_table);
-    
     dictionary_array_free(dictionary_array);
+    end_t = clock();
+    printf("Memory freed correctly, took: ~%f sec\n", (double)(end_t - start_t) / CLOCKS_PER_SEC);
+
+    printf("Whole execution took: ~%f sec\n\n", (double)(end_t - init_t) / CLOCKS_PER_SEC);
+    printf("corrected.txt contains corrected input, wordcorrections.txt contains %d corrected words for each input mistake, within minimun edit_distance\n", MAX_CORRECTIONS_NUMBER);
+
 }
 
 int main(int argc, char const *argv[]){
     if (argc < 3){
         printf("Errore nel passaggio dei parametri a linea di comando\n");
-        printf("Istruzioni per l'utilizzo, seguite l'ordine di caricamento :\n");
-        printf("1- Caricare testo da valutare e correggere.\n2- Caricare il dizionario.\n");
+        printf("Istruzioni per l'utilizzo, seguire l'ordine di caricamento :\n");
+        printf("1- Caricare testo da valutare e correggere.\n2- Caricare il dizionario.\n Esempio: ./main correctme.txt dictionary.txt \n");
 
         exit(EXIT_FAILURE);
     }
 
     //  Da fare:
     //- cambiare i nomi delle variabili per coerenza
-    //- estrapolare stampa wordcorrections in metodo a parte. Aggiungere un limite tramite macro alle parole stampate
-    //- valutare altre strutture dati, giusto per volersi male. Limitato però a edit_distance_dynamic
-    //- aggiustare directory passate per argomento tramite make. segfault11 da vedere
     //- unit-test
 
     init(argv[1], argv[2]);

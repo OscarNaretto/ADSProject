@@ -4,8 +4,8 @@
 #include "dictionary.h"
 
 #define INITIAL_CAPACITY 2
-#define MAX_WORD_LENGTH 30
-#define MAX_WORDS_NUMBER 100
+#define MAX_WORD_LENGTH 20
+#define MAX_WORDS_NUMBER 30
 
 
 Dictionary *dictionary_create() {
