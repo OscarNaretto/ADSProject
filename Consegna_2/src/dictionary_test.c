@@ -38,7 +38,7 @@ static void test_not_present(){
     dictionary_add(dictionary_array,"aaa");
     dictionary_add(dictionary_array,"bbb");
     dictionary_add(dictionary_array,"ccc");
-    TEST_ASSERT_EQUAL_INT(0,dictionary_is_present(dictionary_array,"aas"));
+    TEST_ASSERT_EQUAL_INT(0,dictionary_is_present(dictionary_array,"fas"));
     dictionary_array_free(dictionary_array);
 }
 
