@@ -44,7 +44,7 @@ static void test_edit_distance_example_name_o(){
 static void test_edit_distance_example_name_v(){
     TEST_ASSERT_EQUAL_INT(3,edit_distance("vince","vincenzo")); //controllare 
 }
-/*--------TEST PARTE DINAMICA --------------------------------------------------
+/*--------TEST PARTE DINAMICA --------------------------------------------------*/
 static void test_edit_distance_dyn_empty(){
     TEST_ASSERT_EQUAL_INT(0, edit_distance_dynamic("","",0,0,NULL));
 }
@@ -81,13 +81,13 @@ static void test_edit_distance_example_name_d(){
 }
 
 static void test_edit_distance_example_name_o(){
-    TEST_ASSERT_EQUAL_INT(5,edit_distance("oscar","omahr")); //controllare 
+    TEST_ASSERT_EQUAL_INT(5,edit_distance("oscar","omahr")); 
 }
 
 static void test_edit_distance_example_name_v(){
-    TEST_ASSERT_EQUAL_INT(3,edit_distance("vince","vincenzo")); //controllare 
+    TEST_ASSERT_EQUAL_INT(3,edit_distance("vince","vincenzo"));
 }
-*/
+
 
 int main(){
     UNITY_BEGIN();
