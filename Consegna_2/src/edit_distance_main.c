@@ -59,7 +59,7 @@ void correction(const char *correctme, Dictionary *dictionary_array, int **recur
                 //allora ho una nuova stringa da valutare, oltre che della punteggiatura
                 //devo leggere il file dizionario e ciclare per ogni parola presente in esso
                 str[0] = (char)tolower(str[0]);
-                if (dictionary_is_present(dictionary_array, str) == -1){
+                if (!dictionary_is_present(dictionary_array, str)){
                     for (dct_index = 0; dct_index < dictionary_array_size(dictionary_array); dct_index++){
                         //setto la matrice a -1 per corretto funzionamento
                         for (int i = 0; i < (int)strlen(str); i++){

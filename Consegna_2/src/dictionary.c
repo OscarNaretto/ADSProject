@@ -73,7 +73,7 @@ void load_dictionary(const char *dictionary, Dictionary *dictionary_array){
 }
 
 long dictionary_is_present(Dictionary *dictionary_array, char *key){
-    return dictionary_search(dictionary_array, 0, dictionary_array->size, key);
+    return dictionary_search(dictionary_array, 0, dictionary_array->size, key) != -1;
 }
 
 long dictionary_search(Dictionary *dictionary_array, unsigned long low, unsigned long high, char *key){
