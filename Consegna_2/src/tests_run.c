@@ -240,7 +240,6 @@ static void test_edit_distance_dny_example_name_v(){
 }
 
 /*---------- TEST STRUTTURA DIZIONARIO -------------*/
-
 static void test_dictionary_array_size_zero_el(){
     Dictionary *dictionary_array = dictionary_create();
     TEST_ASSERT_EQUAL_INT(0, dictionary_array_size(dictionary_array));
@@ -306,7 +305,6 @@ static void test_get_element(){
     dictionary_add(dictionary_array,"ddd");
     TEST_ASSERT_EQUAL_STRING("ddd",dictionary_get_elem(dictionary_array,3)); 
     dictionary_array_free(dictionary_array);
-
 }
 
 int main(){

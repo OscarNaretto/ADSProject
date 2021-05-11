@@ -7,12 +7,11 @@
 #include "edit_distance_lib.h"
 #include "dictionary.h"
 
-
 #define MAX_WORD_LENGTH 20
 #define MAX_WORDS_NUMBER 30
 #define MAX_CORRECTIONS_NUMBER 5
 
-void word_corrections_print(char str[MAX_WORD_LENGTH], char correzione_minima[MAX_WORDS_NUMBER][MAX_WORD_LENGTH], int correzione_minima_index){
+void word_corrections_print(char str[MAX_WORD_LENGTH], char minimum_corrections_array[MAX_WORDS_NUMBER][MAX_WORD_LENGTH], int minimum_corrections_size){
     FILE *word_corrections;
     word_corrections = fopen("wordcorrections.txt", "a");    
     if (word_corrections == NULL) {
@@ -21,16 +20,16 @@ void word_corrections_print(char str[MAX_WORD_LENGTH], char correzione_minima[MA
     }
 
     fprintf(word_corrections, "%s -> ", str);
-    for (int i = 0; i < MAX_CORRECTIONS_NUMBER && i < correzione_minima_index; i++){
-        fprintf(word_corrections, "%s ", correzione_minima[i]);
+    for (int i = 0; i < MAX_CORRECTIONS_NUMBER && i < minimum_corrections_size; i++){
+        fprintf(word_corrections, "%s ", minimum_corrections_array[i]);
     }
     fprintf(word_corrections, "\n");
 
     fclose(word_corrections);
 }
 void correction(const char *correctme, Dictionary *dictionary_array, int **recursive_calls_table){
-    int minimo = INT_MAX, distanza, uppercase = 1, correzione_minima_index = 0;
-    char str[MAX_WORD_LENGTH], correzione[MAX_WORD_LENGTH], correzione_minima[MAX_WORDS_NUMBER][MAX_WORD_LENGTH], best_correction[MAX_WORD_LENGTH], ch;
+    int min_distance = INT_MAX, distance, uppercase = 1, minimum_corrections_size = 0;
+    char str[MAX_WORD_LENGTH], correzione[MAX_WORD_LENGTH], minimum_corrections_array[MAX_WORDS_NUMBER][MAX_WORD_LENGTH], best_correction[MAX_WORD_LENGTH], ch;
     unsigned long dct_index;
     FILE *out, *tobechecked;
 
@@ -68,23 +67,23 @@ void correction(const char *correctme, Dictionary *dictionary_array, int **recur
                             }
                         }
                         strcpy(correzione, dictionary_get_elem(dictionary_array, dct_index));
-                        distanza = edit_distance_dynamic(str, correzione, (int)strlen(str), (int)strlen(correzione), recursive_calls_table);
+                        distance = edit_distance_dynamic(str, correzione, (int)strlen(str), (int)strlen(correzione), recursive_calls_table);
 
-                        if (distanza < minimo){                      
+                        if (distance < min_distance){                      
                             //reset dell'array di stringhe
-                            bzero(correzione_minima, sizeof(correzione_minima));
-                            correzione_minima_index = 0; 
-                            minimo = distanza;
+                            bzero(minimum_corrections_array, sizeof(minimum_corrections_array));
+                            minimum_corrections_size = 0; 
+                            min_distance = distance;
 
-                            strcpy(correzione_minima[correzione_minima_index], correzione);
-                            correzione_minima_index++;
-                        } else if (distanza == minimo){
-                            strcpy(correzione_minima[correzione_minima_index], correzione);
-                            correzione_minima_index++;
+                            strcpy(minimum_corrections_array[minimum_corrections_size], correzione);
+                            minimum_corrections_size++;
+                        } else if (distance == min_distance){
+                            strcpy(minimum_corrections_array[minimum_corrections_size], correzione);
+                            minimum_corrections_size++;
                         }
                     }
-                    strcpy(best_correction, correzione_minima[best_correction_index(correzione_minima, str, correzione_minima_index)]);
-                    word_corrections_print(str, correzione_minima, correzione_minima_index);
+                    strcpy(best_correction, minimum_corrections_array[best_correction_index(minimum_corrections_array, str, minimum_corrections_size)]);
+                    word_corrections_print(str, minimum_corrections_array, minimum_corrections_size);
                 } else {
                     strcpy(best_correction, str);
                 }
@@ -93,9 +92,9 @@ void correction(const char *correctme, Dictionary *dictionary_array, int **recur
                     uppercase = 0;
                 }
                 fputs(best_correction, out);
-                minimo = INT_MAX;
+                min_distance = INT_MAX;
                 bzero(str, strlen(str));
-                bzero(correzione_minima, sizeof(correzione_minima)); 
+                bzero(minimum_corrections_array, sizeof(minimum_corrections_array)); 
             }
             fputc(ch, out);
             if (ch == '.'){
