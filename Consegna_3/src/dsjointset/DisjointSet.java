@@ -1,38 +1,32 @@
-package dsnode;
+package disjointset;
 
-import java.util.ArrayList;
-
-
-public class DisjointSet {
-
-    private static ArrayList<DSNode> treesArray = null;
-
-    public DisjointSet(){
-        treesArray = new ArrayList<DSNode>();
-    }
+/**
+ * @param <T>
+ */
+public class DisjointSet<T> {
     
-    public static void MakeSet(DSNode node){
-        DSNode newNode = new DSNode(node.getElem());
+    public Node<T> makeSet(Node<T> node){
+        Node<T> newNode = new Node<>(node.getElem());
         newNode.setParent(newNode);
-        treesArray.add(newNode);
+        return newNode;
     } 
 
-    public static void union(DSNode nodex, DSNode nodey){
+    public void union(Node<T> nodex, Node<T> nodey){
         link(findSet(nodex), findSet(nodey));
     }
 
-    public static void link(DSNode nodex, DSNode nodey){
+    public void link(Node<T> nodex, Node<T> nodey){
         if (nodex.getRank() > nodey.getRank()){
             nodey.setParent(nodex);
         } else {
             nodex.setParent(nodey);
-            if (nodex.getRank() > nodey.getRank()){
+            if (nodex.getRank() == nodey.getRank()){
                 nodey.setRank(nodey.getRank() + 1);
             }
         }
     }
 
-    public static DSNode findSet(DSNode node){
+    public Node<T> findSet(Node<T> node){
         if (node != node.getParent()){
             node.setParent(findSet(node.getParent()));
         }
