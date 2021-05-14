@@ -1,19 +1,21 @@
-package dsnode;
+package disjointset;
 
-public class DSNode{
-
-    private DSNode parent;
-    private int elem;
+/**
+ * @param <T>
+ */
+public class Node<T>{
+    private Node<T> parent;
+    private T elem;
     private int rank;
 
 
-    DSNode(int elem){ 
+    Node(T elem){ 
         this.elem = elem;
         this.parent = null;
         this.rank = 0;
     }
 
-    void setElem(int elem){
+    void setElem(T elem){
         this.elem = elem;
     }
 
@@ -21,11 +23,11 @@ public class DSNode{
         this.rank = rank;
     }
 
-    void setParent(DSNode parent){
+    void setParent(Node<T> parent){
         this.parent = parent;
     }
     
-    DSNode getParent(){
+    Node<T> getParent(){
         return parent;
     }
 
@@ -33,8 +35,7 @@ public class DSNode{
         return rank;
     }
 
-    int getElem(){
+    T getElem(){
         return elem;
-    }
-    
+    } 
 }
