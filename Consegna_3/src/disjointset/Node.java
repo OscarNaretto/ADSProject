@@ -8,7 +8,6 @@ public class Node<T>{
     private T elem;
     private int rank;
 
-
     Node(T elem){ 
         this.elem = elem;
         this.parent = null;
