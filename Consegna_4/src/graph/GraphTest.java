@@ -3,6 +3,10 @@ package graph;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -142,5 +146,53 @@ public class GraphTest {
 
         assertFalse(testNDirected.isEdgePresent("vertice_c", "vertice_d"));
         assertFalse(testNDirected.isEdgePresent("vertice_d", "vertice_c"));
+    }
+
+    @Test
+    public void getAllVertexesTest(){
+        Set<String> keys = new HashSet<>();
+
+        assertEquals(keys, testEmpty.getAllVertexes());
+
+        keys.add("vertice_a");
+        keys.add("vertice_b");
+        keys.add("vertice_c");
+        keys.add("vertice_d");
+
+        assertEquals(keys, testDirected.getAllVertexes());
+    }
+
+    @Test
+    public void getAllEdgesTest(){
+        Set<Edge<String, Integer>> edges = new HashSet<>();
+        Set<Edge<String, Integer>> edgesTaken = new HashSet<>();
+
+        Edge<String, Integer> e1 = new Edge <>("vertice_a", "vertice_b", 10);
+        Edge<String, Integer> e2 = new Edge <>("vertice_c", "vertice_b", 2);
+        Edge<String, Integer> e3 = new Edge <>("vertice_c", "vertice_d", 4);
+        Edge<String, Integer> e4 = new Edge <>("vertice_c", "vertice_d", 4);
+        
+        edges.add(e1);
+        edges.add(e3);
+        edges.add(e2);
+        
+        assertEquals(e3, e4);   //metodo edge.equals(Object o) testato
+        
+        edgesTaken = testDirected.getAllEdges();
+        //assertEquals(edges, edgesTaken);
+    }
+
+        
+
+
+
+    @Test
+    public void getAllAdjVertexes(){
+        Set<String> adjVertexes = new HashSet<>();
+
+        adjVertexes.add("vertice_b");
+        adjVertexes.add("vertice_d");
+
+        assertEquals(adjVertexes, testDirected.getAllAdjVertexes("vertice_c"));
     }
 }
