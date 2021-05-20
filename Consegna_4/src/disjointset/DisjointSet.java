@@ -9,7 +9,7 @@ public class DisjointSet<T> {
     public HashMap <T,Node<T>> map;
     
     public DisjointSet(){
-        this.map = new HashMap<T, Node<T>>();
+        this.map = new HashMap<>();
     }
 
     public void makeSet(T element){

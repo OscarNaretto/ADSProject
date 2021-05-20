@@ -15,11 +15,12 @@ public class DisjointSetTest {
     @Before
     public void NodesGenerator(){
         test = new DisjointSet<Integer>();
+        testEmpty = new DisjointSet<Integer>();
+        
         test.makeSet(1);
         test.makeSet(2);
         test.makeSet(3);
         test.makeSet(4);
-        testEmpty = new DisjointSet<Integer>();
     }
 
     @Test

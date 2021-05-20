@@ -1,6 +1,9 @@
 package graph;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -82,7 +85,66 @@ public class Graph<V,D>{
         return adjacencyLists.get(start).get(end);
     }
 
-    //Recupero dei nodi del grafo – O(n)            da capire solo in quale forma ritornare! semplice get() o altro?
-    //Recupero degli archi del grafo – O(n)
+    //Recupero dei nodi del grafo – O(n)            
+    public Set<V> getAllVertexes(){
+        Set<V> keys = adjacencyLists.keySet();
+        return keys;
+    }
+
+    //Recupero degli archi del grafo – O(n) DA CONFERMARE: O(n) CON n NUMERO DI ARCHI. 
+    //Si può ottenere O(1) salvando ogni nuovo arco in un Set, ma si rallenta il resto anche quando non richiesto
+    public Set<Edge> getEdges() {
+        if(edgesNumber() == 0) { return null; }
+
+        Set<Edge> edgesSet = new HashSet<>();
+
+        for (Map.Entry<V,HashMap<V,D>> node : adjacencyLists.entrySet()){
+            for (Map.Entry<V,D> edge : node.getValue().entrySet()) {
+                edgesSet.add(new Edge(node.getKey(), edge.getKey(), edge.getValue()));
+            }
+        }
+        return edgesSet;
+    }
+
     //Recupero nodi adiacenti di un dato nodo – O(1) 
+    public Set<V> getAllAdjVertexes(V vertex){
+        Set<V> keys = this.adjacencyLists.get(vertex).keySet();
+        return keys;
+    }
+
+    public class Edge{
+        private V start;
+        private V end;
+        private D label;
+    
+        Edge(V start, V end, D label) {
+            this.start = start;
+            this.end = end;
+            this.label = label;
+        }
+        
+        public V getStart() {
+            return this.start;
+        }
+    
+        public void setStart(V start) {
+            this.start = start;
+        }
+    
+        public V getEnd() {
+            return this.end;
+        }
+    
+        public void setEnd(V end) {
+            this.end = end;
+        }
+    
+        public D getLabel() {
+            return this.label;
+        }
+    
+        public void setLabel(D label) {
+            this.label = label;
+        }
+    }
 }
