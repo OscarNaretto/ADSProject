@@ -3,9 +3,9 @@ package graph;
 public class Edge<V> implements Comparable<Edge<V>>{
     private V start;
     private V end;
-    private float label;
+    private double label;
 
-    Edge(V start, V end, float label) {
+    Edge(V start, V end, double label) {
         this.start = start;
         this.end = end;
         this.label = label;
@@ -27,11 +27,11 @@ public class Edge<V> implements Comparable<Edge<V>>{
         this.end = end;
     }
 
-    public float getLabel() {
+    public double getLabel() {
         return this.label;
     }
 
-    public void setLabel(float label) {
+    public void setLabel(double label) {
         this.label = label;
     }
 

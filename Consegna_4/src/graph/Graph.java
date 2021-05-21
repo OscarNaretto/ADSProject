@@ -12,7 +12,7 @@ import java.util.Set;
  */
 public class Graph<V>{
     private boolean directed;
-    private HashMap<V,HashMap<V, Float>> adjacencyLists;
+    private HashMap<V,HashMap<V, Double>> adjacencyLists;
     //HashMap<V,HashMap<V,D>> contains Vertexes of the Graph as keys and adjacencyLists as values (HashMap<V,D>)
     //HashMap<V,D> contains adjacency vertexes as keys and distances between Vertexes as values
 
@@ -62,7 +62,7 @@ public class Graph<V>{
         return adjacencyLists.containsKey(start) && adjacencyLists.get(start).containsKey(end);
     }
 
-    public void addEdge(V start, V end, float distance){
+    public void addEdge(V start, V end, double distance){
         if(isVertexPresent(start) && isVertexPresent(end) && !isEdgePresent(start, end)){
             this.adjacencyLists.get(start).put(end, distance);
             if (!isDirected()){
@@ -80,7 +80,7 @@ public class Graph<V>{
         }
     }
 
-    public float getEdgeLabel(V start, V end){
+    public double getEdgeLabel(V start, V end){
         if (!isEdgePresent(start, end)){ return 0; } //segnala errore con Exception
         return adjacencyLists.get(start).get(end);
     }
@@ -98,8 +98,8 @@ public class Graph<V>{
         if(edgesNumber() == 0) { return null; }
         LinkedList<Edge<V>> edgesList = new LinkedList<>();
 
-        for (Map.Entry<V,HashMap<V, Float>> node : adjacencyLists.entrySet()){
-            for (Map.Entry<V,Float> edge : node.getValue().entrySet()) {
+        for (Map.Entry<V,HashMap<V, Double>> node : adjacencyLists.entrySet()){
+            for (Map.Entry<V,Double> edge : node.getValue().entrySet()) {
                 edgesList.add(new Edge<>(node.getKey(), edge.getKey(), edge.getValue()));
             }
         }
