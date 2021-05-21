@@ -8,10 +8,9 @@ import java.util.Set;
 
 
 /**
- * @param <V,D>   //Vertex and Distance
+ * @param <V>   //Vertex and Distance
  */
-
-public class Graph<V,D>{
+public class Graph<V>{
     private boolean directed;
     private HashMap<V,HashMap<V, Float>> adjacencyLists;
     //HashMap<V,HashMap<V,D>> contains Vertexes of the Graph as keys and adjacencyLists as values (HashMap<V,D>)

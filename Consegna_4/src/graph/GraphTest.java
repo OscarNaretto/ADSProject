@@ -12,15 +12,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class GraphTest {
-    Graph<String, Integer> testDirected;
-    Graph<String, Integer> testNDirected;
-    Graph<String, Integer> testEmpty;
+    Graph<String> testDirected;
+    Graph<String> testNDirected;
+    Graph<String> testEmpty;
 
     @Before
     public void GraphsGenerator(){
-        testDirected = new Graph<String, Integer>(true);
-        testEmpty = new Graph<String, Integer>(false);
-        testNDirected = new Graph<String, Integer>(false);
+        testDirected = new Graph<String>(true);
+        testEmpty = new Graph<String>(false);
+        testNDirected = new Graph<String>(false);
 
         testDirected.addVertex("vertice_a");
         testDirected.addVertex("vertice_b");
