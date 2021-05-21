@@ -63,15 +63,15 @@ public class GraphTest {
 
     @Test
     public void distanceTest() throws Exception{
-        assertEquals(Integer.valueOf(10), testDirected.getEdgeLabel("vertice_a", "vertice_b"));
-        assertEquals(Integer.valueOf(2), testDirected.getEdgeLabel("vertice_c", "vertice_b"));
-        assertEquals(Integer.valueOf(4), testDirected.getEdgeLabel("vertice_c", "vertice_d"));
+        assertEquals(10, testDirected.getEdgeLabel("vertice_a", "vertice_b"), 0.0002);
+        assertEquals(2, testDirected.getEdgeLabel("vertice_c", "vertice_b"), 0.0002);
+        assertEquals(4, testDirected.getEdgeLabel("vertice_c", "vertice_d"), 0.0002);
     }
 
     @Test
     public void distanceEmptyTest() throws Exception{
-        assertEquals(null, testEmpty.getEdgeLabel("vertice_c", "vertice_b"));
-        assertEquals(null, testEmpty.getEdgeLabel("vertice_a", "vertice_b"));
+        assertEquals(0, testEmpty.getEdgeLabel("vertice_c", "vertice_b"), 0.0002);
+        assertEquals(0, testEmpty.getEdgeLabel("vertice_a", "vertice_b"), 0.0002);
     }
 
     @Test
@@ -163,13 +163,13 @@ public class GraphTest {
 
     @Test
     public void getAllEdgesEqualsTest(){
-        LinkedList<Edge<String, Integer>> edges = new LinkedList<>();
-        LinkedList<Edge<String, Integer>> edgesTaken = new LinkedList<>();
+        LinkedList<Edge<String>> edges = new LinkedList<>();
+        LinkedList<Edge<String>> edgesTaken = new LinkedList<>();
 
-        Edge<String, Integer> e1 = new Edge <>("vertice_a", "vertice_b", 10);
-        Edge<String, Integer> e2 = new Edge <>("vertice_c", "vertice_b", 2);
-        Edge<String, Integer> e3 = new Edge <>("vertice_c", "vertice_d", 4);
-        Edge<String, Integer> e4 = new Edge <>("vertice_c", "vertice_d", 4);
+        Edge<String> e1 = new Edge <>("vertice_a", "vertice_b", 10);
+        Edge<String> e2 = new Edge <>("vertice_c", "vertice_b", 2);
+        Edge<String> e3 = new Edge <>("vertice_c", "vertice_d", 4);
+        Edge<String> e4 = new Edge <>("vertice_c", "vertice_d", 4);
         
         edges.add(e1);
         edges.add(e2);
@@ -193,9 +193,9 @@ public class GraphTest {
 
     @Test
     public void compareToTest(){
-        Edge<String, Integer> e1 = new Edge <>("vertice_a", "vertice_b", 10);
-        Edge<String, Integer> e2 = new Edge <>("vertice_c", "vertice_b", 2);
-        Edge<String, Integer> e3 = new Edge <>("vertice_c", "vertice_b", 2);
+        Edge<String> e1 = new Edge <>("vertice_a", "vertice_b", 10);
+        Edge<String> e2 = new Edge <>("vertice_c", "vertice_b", 2);
+        Edge<String> e3 = new Edge <>("vertice_c", "vertice_b", 2);
 
         assertEquals(1, e1.compareTo(e2));
         assertEquals(-1, e2.compareTo(e1));

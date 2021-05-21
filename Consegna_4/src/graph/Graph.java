@@ -13,7 +13,7 @@ import java.util.Set;
 
 public class Graph<V,D>{
     private boolean directed;
-    private HashMap<V,HashMap<V,D>> adjacencyLists;
+    private HashMap<V,HashMap<V, Float>> adjacencyLists;
     //HashMap<V,HashMap<V,D>> contains Vertexes of the Graph as keys and adjacencyLists as values (HashMap<V,D>)
     //HashMap<V,D> contains adjacency vertexes as keys and distances between Vertexes as values
 
@@ -63,7 +63,7 @@ public class Graph<V,D>{
         return adjacencyLists.containsKey(start) && adjacencyLists.get(start).containsKey(end);
     }
 
-    public void addEdge(V start, V end, D distance){
+    public void addEdge(V start, V end, float distance){
         if(isVertexPresent(start) && isVertexPresent(end) && !isEdgePresent(start, end)){
             this.adjacencyLists.get(start).put(end, distance);
             if (!isDirected()){
@@ -81,8 +81,8 @@ public class Graph<V,D>{
         }
     }
 
-    public D getEdgeLabel(V start, V end){
-        if (!isEdgePresent(start, end)){ return null; }
+    public float getEdgeLabel(V start, V end){
+        if (!isEdgePresent(start, end)){ return 0; } //segnala errore con Exception
         return adjacencyLists.get(start).get(end);
     }
 
@@ -95,12 +95,12 @@ public class Graph<V,D>{
 
     //Recupero degli archi del grafo – O(n) DA CONFERMARE: O(n) CON n NUMERO DI ARCHI. 
     //Si può ottenere O(1) salvando ogni nuovo arco in un Set, ma si rallenta il resto anche quando non richiesto
-    public LinkedList<Edge<V, D>> getAllEdges() {
+    public LinkedList<Edge<V>> getAllEdges() {
         if(edgesNumber() == 0) { return null; }
-        LinkedList<Edge<V, D>> edgesList = new LinkedList<>();
+        LinkedList<Edge<V>> edgesList = new LinkedList<>();
 
-        for (Map.Entry<V,HashMap<V,D>> node : adjacencyLists.entrySet()){
-            for (Map.Entry<V,D> edge : node.getValue().entrySet()) {
+        for (Map.Entry<V,HashMap<V, Float>> node : adjacencyLists.entrySet()){
+            for (Map.Entry<V,Float> edge : node.getValue().entrySet()) {
                 edgesList.add(new Edge<>(node.getKey(), edge.getKey(), edge.getValue()));
             }
         }

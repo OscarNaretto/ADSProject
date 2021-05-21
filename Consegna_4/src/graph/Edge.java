@@ -1,11 +1,11 @@
 package graph;
 
-public class Edge<V, D> implements Comparable<Edge<V, D>>{
+public class Edge<V> implements Comparable<Edge<V>>{
     private V start;
     private V end;
-    private D label;
+    private float label;
 
-    Edge(V start, V end, D label) {
+    Edge(V start, V end, float label) {
         this.start = start;
         this.end = end;
         this.label = label;
@@ -27,11 +27,11 @@ public class Edge<V, D> implements Comparable<Edge<V, D>>{
         this.end = end;
     }
 
-    public D getLabel() {
+    public float getLabel() {
         return this.label;
     }
 
-    public void setLabel(D label) {
+    public void setLabel(float label) {
         this.label = label;
     }
 
@@ -40,15 +40,19 @@ public class Edge<V, D> implements Comparable<Edge<V, D>>{
         if (!(o instanceof Edge)){ 
             return false; 
         } else {
-            Edge<V, D> e = (Edge<V, D>) o;
+            Edge<V> e = (Edge<V>) o;
             return this.start == e.getStart() && this.end == e.getEnd() && this.label == e.getLabel();
         }   
     }
 
     @Override
-    public int compareTo(Edge<V, D> edge){
-        D l;
-        l = edge.getLabel();
-        return (((Comparable)label).compareTo((Comparable)l));
+    public int compareTo(Edge<V> edge){
+        if (this.label > edge.getLabel()){
+            return 1;
+        } else if (this.label == edge.getLabel()){
+            return 0;
+        }else {
+            return -1;
+        }
     }
 }
