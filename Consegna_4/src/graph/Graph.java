@@ -16,9 +16,31 @@ public class Graph<V>{
     //HashMap<V,HashMap<V,D>> contains Vertexes of the Graph as keys and adjacencyLists as values (HashMap<V,D>)
     //HashMap<V,D> contains adjacency vertexes as keys and distances between Vertexes as values
 
+    public Graph(){
+        this(true);
+    }
+
+    //standard behaviour: directed graph
     public Graph(boolean directed){
         this.directed = directed;
         this.adjacencyLists = new HashMap<>();
+    }
+
+    public Graph(LinkedList<Edge<V>> edgesList){
+        this(true, edgesList);
+    }
+
+    public Graph(boolean directed, LinkedList<Edge<V>> edgesList){
+        this.directed = directed;
+        this.adjacencyLists = new HashMap<>();
+
+        for (Edge<V> edge : edgesList) {
+            V start = edge.getStart();
+            V end = edge.getEnd();
+            this.addVertex(start);
+            this.addVertex(end);
+            this.addEdge(start, end, edge.getLabel());
+        }
     }
 
     public boolean isDirected(){
