@@ -2,6 +2,7 @@ package graph;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
@@ -94,17 +95,16 @@ public class Graph<V,D>{
 
     //Recupero degli archi del grafo – O(n) DA CONFERMARE: O(n) CON n NUMERO DI ARCHI. 
     //Si può ottenere O(1) salvando ogni nuovo arco in un Set, ma si rallenta il resto anche quando non richiesto
-    public Set<Edge<V, D>> getAllEdges() {
+    public LinkedList<Edge<V, D>> getAllEdges() {
         if(edgesNumber() == 0) { return null; }
-
-        Set<Edge<V, D>> edgesSet = new HashSet<>();
+        LinkedList<Edge<V, D>> edgesList = new LinkedList<>();
 
         for (Map.Entry<V,HashMap<V,D>> node : adjacencyLists.entrySet()){
             for (Map.Entry<V,D> edge : node.getValue().entrySet()) {
-                edgesSet.add(new Edge<>(node.getKey(), edge.getKey(), edge.getValue()));
+                edgesList.add(new Edge<>(node.getKey(), edge.getKey(), edge.getValue()));
             }
         }
-        return edgesSet;
+        return edgesList;
     }
 
     //Recupero nodi adiacenti di un dato nodo – O(1) 

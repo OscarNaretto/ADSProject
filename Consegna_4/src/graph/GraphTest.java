@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
 
 import org.junit.Before;
@@ -20,7 +21,6 @@ public class GraphTest {
         testDirected = new Graph<String, Integer>(true);
         testEmpty = new Graph<String, Integer>(false);
         testNDirected = new Graph<String, Integer>(false);
-
 
         testDirected.addVertex("vertice_a");
         testDirected.addVertex("vertice_b");
@@ -59,7 +59,6 @@ public class GraphTest {
     @Test
     public void isDirectedFalseTest() throws Exception{
         assertFalse(testEmpty.isDirected());
-
     }
 
     @Test
@@ -163,9 +162,9 @@ public class GraphTest {
     }
 
     @Test
-    public void getAllEdgesTest(){
-        Set<Edge<String, Integer>> edges = new HashSet<>();
-        Set<Edge<String, Integer>> edgesTaken = new HashSet<>();
+    public void getAllEdgesEqualsTest(){
+        LinkedList<Edge<String, Integer>> edges = new LinkedList<>();
+        LinkedList<Edge<String, Integer>> edgesTaken = new LinkedList<>();
 
         Edge<String, Integer> e1 = new Edge <>("vertice_a", "vertice_b", 10);
         Edge<String, Integer> e2 = new Edge <>("vertice_c", "vertice_b", 2);
@@ -173,18 +172,14 @@ public class GraphTest {
         Edge<String, Integer> e4 = new Edge <>("vertice_c", "vertice_d", 4);
         
         edges.add(e1);
-        edges.add(e3);
         edges.add(e2);
+        edges.add(e3);
         
         assertEquals(e3, e4);   //metodo edge.equals(Object o) testato
         
         edgesTaken = testDirected.getAllEdges();
-        //assertEquals(edges, edgesTaken);
+        assertEquals(edges, edgesTaken);
     }
-
-        
-
-
 
     @Test
     public void getAllAdjVertexes(){
@@ -194,5 +189,16 @@ public class GraphTest {
         adjVertexes.add("vertice_d");
 
         assertEquals(adjVertexes, testDirected.getAllAdjVertexes("vertice_c"));
+    }
+
+    @Test
+    public void compareToTest(){
+        Edge<String, Integer> e1 = new Edge <>("vertice_a", "vertice_b", 10);
+        Edge<String, Integer> e2 = new Edge <>("vertice_c", "vertice_b", 2);
+        Edge<String, Integer> e3 = new Edge <>("vertice_c", "vertice_b", 2);
+
+        assertEquals(1, e1.compareTo(e2));
+        assertEquals(-1, e2.compareTo(e1));
+        assertEquals(0, e2.compareTo(e3));
     }
 }

@@ -1,6 +1,6 @@
 package graph;
 
-public class Edge<V, D>{
+public class Edge<V, D> implements Comparable<Edge<V, D>>{
     private V start;
     private V end;
     private D label;
@@ -43,5 +43,12 @@ public class Edge<V, D>{
             Edge<V, D> e = (Edge<V, D>) o;
             return this.start == e.getStart() && this.end == e.getEnd() && this.label == e.getLabel();
         }   
+    }
+
+    @Override
+    public int compareTo(Edge<V, D> edge){
+        D l;
+        l = edge.getLabel();
+        return (((Comparable)label).compareTo((Comparable)l));
     }
 }
