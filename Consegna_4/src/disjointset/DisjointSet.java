@@ -1,6 +1,7 @@
 package disjointset;
 
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  * @param <T>
@@ -12,6 +13,14 @@ public class DisjointSet<T> {
         this.map = new HashMap<>();
     }
 
+    public DisjointSet(Set<T> vertexesSet){
+        this();
+        for (T vertex: vertexesSet){
+            makeSet(vertex);
+        }
+    }
+
+
     public void makeSet(T element){
         if (element != null && !isPresent(element)){
             Node<T> newNode = new Node<>(element);
@@ -22,20 +31,25 @@ public class DisjointSet<T> {
         }
     } 
 
-    public void union(T elemx, T elemy){
-        if (isPresent(elemx) && isPresent(elemy)){
+    //changed from void to bool to check in KruskalMST if the operation succedeed correctly
+    public boolean union(T elemx, T elemy){
+        if (isPresent(elemx) && isPresent(elemy) && elemx != null && elemy != null){
             Node<T> nodex = (Node<T>) map.get(elemx);
             Node<T> nodey = (Node<T>) map.get(elemy);
 
-            link(findSet(nodex), findSet(nodey));
+            
+            return true && link(findSet(nodex), findSet(nodey));
         } else {
             System.out.println("Element not present");
+            return false;
         }
     }
 
-    private void link(Node<T> nodex, Node<T> nodey){
+    //changed from void to bool to check in KruskalMST if the operation succedeed correctly
+    private boolean link(Node<T> nodex, Node<T> nodey){
         if (nodex == nodey){
             System.out.println("Elements already connected");
+            return false;
         } else {
             if (nodex.getRank() > nodey.getRank()){
                 nodey.setParent(nodex);
@@ -47,6 +61,7 @@ public class DisjointSet<T> {
                 }
                 map.put(nodex.getElem(), nodey);
             }
+            return true;
         }  
     }
 
