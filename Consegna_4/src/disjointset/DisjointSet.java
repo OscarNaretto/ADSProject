@@ -13,7 +13,7 @@ public class DisjointSet<T> {
         this.map = new HashMap<>();
     }
 
-    public DisjointSet(Set<T> vertexesSet){
+    public DisjointSet(Set<T> vertexesSet) throws DisjointSetException{
         this();
         for (T vertex: vertexesSet){
             makeSet(vertex);
@@ -21,24 +21,22 @@ public class DisjointSet<T> {
     }
 
 
-    public void makeSet(T element){
-        if (element != null && !isPresent(element)){
+    public void makeSet(T element) throws DisjointSetException{
+        if (element == null) { throw new DisjointSetException("DisjointSet makeSet: cannot accept null as element"); } 
+        if(!isPresent(element)){
             Node<T> newNode = new Node<>(element);
             newNode.setParent(newNode);
             map.put(element, newNode);
-        } else {
-            System.out.println("Element already present or null");
         }
     } 
 
     //changed from void to bool to check in KruskalMST if the operation succedeed correctly
-    public boolean union(T elemx, T elemy){
-        if (isPresent(elemx) && isPresent(elemy) && elemx != null && elemy != null){
+    public boolean union(T elemx, T elemy) throws DisjointSetException{
+        if (elemx == null || elemy == null ){ throw new DisjointSetException("DisjointSet union: cannot accept null as element");}
+        if (isPresent(elemx) && isPresent(elemy)){
             Node<T> nodex = (Node<T>) map.get(elemx);
             Node<T> nodey = (Node<T>) map.get(elemy);
-
-            
-            return true && link(findSet(nodex), findSet(nodey));
+            return link(findSet(nodex), findSet(nodey));
         } else {
             System.out.println("Element not present");
             return false;
@@ -75,7 +73,8 @@ public class DisjointSet<T> {
         return this.map.size();
     }
     
-    public boolean isPresent(T elem){
+    public boolean isPresent(T elem) throws DisjointSetException{
+        if (elem == null){ throw new DisjointSetException("DisjointSet isPresent: cannot accept null as element");}
         if (map.get(elem) != null) {
             Node<T> node = (Node<T>) map.get(elem);
             if (node != null) {

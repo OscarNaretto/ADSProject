@@ -5,6 +5,8 @@ import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 
 public class DisjointSetTestRunner {
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BLUE = "\u001B[34m";
     /**
      * @param args the command line arguments
      */
@@ -15,6 +17,6 @@ public class DisjointSetTestRunner {
             System.out.println(failure.toString());
         }
         
-        System.out.println("DisjointSetTest completed, result: " + result.wasSuccessful());
+        System.out.println(ANSI_BLUE + "DisjointSetTest completed, result: " + result.wasSuccessful() + ANSI_RESET);
     }
 }

@@ -7,41 +7,62 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedList;
+
+import disjointset.DisjointSetException;
+
 import java.nio.file.Files;
 
 import graph.Edge;
 import graph.Graph;
+import graph.GraphException;
 import kruskalmst.KruskalMST;
 
 public class KruskalUsage{
     private static final Charset ENCODING = StandardCharsets.UTF_8;
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_RED = "\u001B[31m";
 
-    private static Graph<String> loadGraph(String filepath) throws NumberFormatException, IOException{
-        System.out.println("\nLoading data from file...\n");
+    private static Graph<String> loadGraph(String filepath) throws NumberFormatException, IOException, GraphException{
         LinkedList<Edge<String>> edgesList = new LinkedList<>();
         
         Path inputFilePath = Paths.get(filepath);
-        BufferedReader fileInputReader = Files.newBufferedReader(inputFilePath, ENCODING);
-        String line = null;
-        while((line = fileInputReader.readLine()) != null){      
-            String[] lineElements = line.split(",");  
-            Edge<String> edge = new Edge<String>(lineElements[0], lineElements[1], Double.parseDouble(lineElements[2])); 
-            edgesList.add(edge);
+        try(BufferedReader fileInputReader = Files.newBufferedReader(inputFilePath, ENCODING)){
+            String line = null;
+            while((line = fileInputReader.readLine()) != null){      
+                String[] lineElements = line.split(",");  
+                Edge<String> edge = new Edge<String>(lineElements[0], lineElements[1], Double.parseDouble(lineElements[2])); 
+                edgesList.add(edge);
+            }
         }
         Graph<String> graph = new Graph<String>(false, edgesList);
-        System.out.println("\nData loaded\n");
         return graph;
     }
 
-    private static void kruskalExecution(String filepath) throws IOException{
+    private static void kruskalExecution(String filepath) throws IOException, NumberFormatException, GraphException, DisjointSetException{
+        long start, initial; 
+        float elapsed; 
         Graph<String> graph;
+
+        System.out.println(ANSI_RED + "Loading data:" + ANSI_RESET);
+        start = initial = System.currentTimeMillis();
         graph = loadGraph(filepath);
+        elapsed = (System.currentTimeMillis() - start)/1000F;
+        System.out.println("Data loaded, took: " + elapsed + "sec\n");
+
         KruskalMST<String> mst = new KruskalMST<>(graph); 
+        System.out.println(ANSI_RED + "Calculating MST:" + ANSI_RESET);
+        start = System.currentTimeMillis();
         mst.MST();
-        System.out.println("Statistiche raccolte:");
-        System.out.println("- Nodi della foresta minima: " + mst.getMst().vertexesNumber());
-        System.out.println("- Archi della foresta minima: " + mst.getMst().edgesNumber());
-        System.out.println("- Peso della foresta minima: " + mst.getTotalDistance()/1000);
+        elapsed = (System.currentTimeMillis() - start)/1000F;
+        System.out.println("MST calculated, took: " + elapsed + "sec\n");
+
+        System.out.println(ANSI_RED + "Stats:" + ANSI_RESET);
+        System.out.println("Minimum spanning tree vertexes count: " + mst.getMst().vertexesNumber());
+        System.out.println("Minimum spanning tree edges count: " + mst.getMst().edgesNumber());
+        System.out.println("Minimum spanning tree weight: " + mst.getTotalDistance()/1000 + "km\n");
+
+        elapsed = (System.currentTimeMillis() - initial)/1000F;
+        System.out.println("Whole execution took: " + elapsed + "sec\n");
     }
     
     /**
@@ -49,9 +70,9 @@ public class KruskalUsage{
      * specifying the filepath of the data file
      */
     public static void main(String[] args) throws IOException, Exception {
-        if(args.length < 0)
-        throw new Exception("Usage: OrderedArrayUsageJava <file_name>");
-        
-        kruskalExecution("italian_dist_graph.csv");
+        if(args.length < 1) {
+            throw new Exception("Usage: OrderedArrayUsageJava <file_name>");
+        }
+        kruskalExecution(args[0]);
     } 
 }

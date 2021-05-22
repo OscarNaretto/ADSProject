@@ -55,6 +55,14 @@
         </jar>
     </target>
 
+    <target name="testDisjointSet">
+        <java jar="build/DisjointSetTest.jar" fork="true"/>
+    </target>
+
+    <target name="testGraph">
+        <java jar="build/GraphTest.jar" fork="true"/>
+    </target>
+
     <target name="testRun">
         <java jar="build/DisjointSetTest.jar" fork="true"/>
         <java jar="build/GraphTest.jar" fork="true"/>

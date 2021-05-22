@@ -13,7 +13,7 @@ public class DisjointSetTest {
 
 
     @Before
-    public void NodesGenerator(){
+    public void NodesGenerator() throws DisjointSetException{
         test = new DisjointSet<Integer>();
         testEmpty = new DisjointSet<Integer>();
         

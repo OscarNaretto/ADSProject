@@ -98,22 +98,23 @@ public class Graph<V>{
         }   
     }
 
-    public void removeEdge(V source, V destination){
-        if(isVertexPresent(source) && isVertexPresent(destination)){
+    public void removeEdge(V source, V destination) throws GraphException{
+        if(isVertexPresent(source) && isVertexPresent(destination) && isEdgePresent(source, destination)){
             this.adjacencyLists.get(source).remove(destination);
             if (!isDirected()) {
                 this.adjacencyLists.get(destination).remove(source);
             }
             //nel caso, implementare rimozione dalla List
+        } else {
+            throw new GraphException("Graph removeEdge: cannot remove inexistent edge");
         }
     }
 
-    public double getEdgeLabel(V source, V destination){
-        if (!isEdgePresent(source, destination)){ return 0; } //segnala errore con Exception
+    public double getEdgeLabel(V source, V destination) throws GraphException{
+        if (!isEdgePresent(source, destination)){ throw new GraphException("Graph getEdgeLabel: cannot get label if the edge is not present"); } //segnala errore con Exception
         return adjacencyLists.get(source).get(destination);
     }
 
-    //Recupero dei nodi del grafo – O(n)            
     public Set<V> getAllVertexes(){
         Set<V> keys = new HashSet<>();
         keys = adjacencyLists.keySet();
@@ -122,8 +123,8 @@ public class Graph<V>{
 
     //Recupero degli archi del grafo – O(n) DA CONFERMARE: O(n) CON n NUMERO DI ARCHI. 
     //Si può ottenere O(1) salvando ogni nuovo arco in un Set, ma si rallenta il resto anche quando non richiesto
-    public LinkedList<Edge<V>> getAllEdges() {
-        if(edgesNumber() == 0) { return null; }
+    public LinkedList<Edge<V>> getAllEdges() throws GraphException {
+        if(edgesNumber() == 0) { throw new GraphException("Graph getAllEdges: no edges present"); }
         LinkedList<Edge<V>> edgesList = new LinkedList<>();
 
         for (Map.Entry<V,HashMap<V, Double>> vert : adjacencyLists.entrySet()){
@@ -134,7 +135,6 @@ public class Graph<V>{
         return edgesList;
     }
 
-    //Recupero nodi adiacenti di un dato nodo – O(1) 
     public Set<V> getAllAdjVertexes(V vertex){
         Set<V> keys = this.adjacencyLists.get(vertex).keySet();
         return keys;

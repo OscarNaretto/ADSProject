@@ -68,10 +68,9 @@ public class GraphTest {
         assertEquals(4, testDirected.getEdgeLabel("vertice_c", "vertice_d"), 0.0002);
     }
 
-    @Test
+    @Test(expected = GraphException.class)
     public void distanceEmptyTest() throws Exception{
-        assertEquals(0, testEmpty.getEdgeLabel("vertice_c", "vertice_b"), 0.0002);
-        assertEquals(0, testEmpty.getEdgeLabel("vertice_a", "vertice_b"), 0.0002);
+        testEmpty.getEdgeLabel("vertice_c", "vertice_b");
     }
 
     @Test
@@ -120,16 +119,19 @@ public class GraphTest {
     }
 
     @Test
-    public void removeEdgeTest(){
+    public void removeEdgeTest() throws GraphException{
         testDirected.removeEdge("vertice_a", "vertice_b");
-        testEmpty.removeEdge("vertice_c", "vertice_b");
-
         assertFalse(testDirected.isEdgePresent("vertice_a", "vertice_b"));
-        assertFalse(testEmpty.isEdgePresent("vertice_a", "vertice_b"));
     }
 
+    @Test(expected = GraphException.class)
+    public void removeEdgeEmptyTest() throws GraphException{
+        testEmpty.removeEdge("vertice_c", "vertice_b");
+    }
+    
+
     @Test
-    public void directedGraphEdgeTest(){
+    public void directedGraphEdgeTest() throws GraphException{
         assertTrue(testNDirected.isEdgePresent("vertice_a", "vertice_b"));
         assertTrue(testNDirected.isEdgePresent("vertice_b", "vertice_a"));
 
@@ -162,7 +164,7 @@ public class GraphTest {
     }
 
     @Test
-    public void getAllEdgesEqualsTest(){
+    public void getAllEdgesEqualsTest() throws GraphException{
         LinkedList<Edge<String>> edges = new LinkedList<>();
         LinkedList<Edge<String>> edgesTaken = new LinkedList<>();
 
@@ -192,7 +194,7 @@ public class GraphTest {
     }
 
     @Test
-    public void compareToTest(){
+    public void compareToTest() throws GraphException{
         Edge<String> e1 = new Edge <>("vertice_a", "vertice_b", 10);
         Edge<String> e2 = new Edge <>("vertice_c", "vertice_b", 2);
         Edge<String> e3 = new Edge <>("vertice_c", "vertice_b", 2);
