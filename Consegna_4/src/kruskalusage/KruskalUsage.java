@@ -33,7 +33,7 @@ public class KruskalUsage{
         return graph;
     }
 
-    private static void testWithComparisonFunction(String filepath) throws IOException{
+    private static void kruskalExecution(String filepath) throws IOException{
         Graph<String> graph;
         graph = loadGraph(filepath);
         KruskalMST<String> mst = new KruskalMST<>(graph); 
@@ -52,6 +52,6 @@ public class KruskalUsage{
         if(args.length < 0)
         throw new Exception("Usage: OrderedArrayUsageJava <file_name>");
         
-        testWithComparisonFunction("italian_dist_graph.csv");
+        kruskalExecution("italian_dist_graph.csv");
     } 
 }

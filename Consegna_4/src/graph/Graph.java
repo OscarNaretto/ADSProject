@@ -90,6 +90,11 @@ public class Graph<V>{
             if (!isDirected()){
                 this.adjacencyLists.get(destination).put(source, distance);
             }
+
+            //Se aggiungo l'arco anche alla List, usata come attributo di Graph, getAllEdges è in O(1) e addEdge rimane costante
+            //Edge<V> e = new Edge<>(source, destination, distance);    
+            //edgesList = new LinkedList<>();
+            //edgesList.add(e);
         }   
     }
 
@@ -99,6 +104,7 @@ public class Graph<V>{
             if (!isDirected()) {
                 this.adjacencyLists.get(destination).remove(source);
             }
+            //nel caso, implementare rimozione dalla List
         }
     }
 
@@ -120,9 +126,9 @@ public class Graph<V>{
         if(edgesNumber() == 0) { return null; }
         LinkedList<Edge<V>> edgesList = new LinkedList<>();
 
-        for (Map.Entry<V,HashMap<V, Double>> node : adjacencyLists.entrySet()){
-            for (Map.Entry<V,Double> edge : node.getValue().entrySet()) {
-                edgesList.add(new Edge<>(node.getKey(), edge.getKey(), edge.getValue()));
+        for (Map.Entry<V,HashMap<V, Double>> vert : adjacencyLists.entrySet()){
+            for (Map.Entry<V,Double> edge : vert.getValue().entrySet()) {
+                edgesList.add(new Edge<>(vert.getKey(), edge.getKey(), edge.getValue()));
             }
         }
         return edgesList;

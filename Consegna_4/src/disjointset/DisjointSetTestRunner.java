@@ -15,6 +15,6 @@ public class DisjointSetTestRunner {
             System.out.println(failure.toString());
         }
         
-        System.out.println("Test completed, result: " + result.wasSuccessful());
+        System.out.println("DisjointSetTest completed, result: " + result.wasSuccessful());
     }
 }

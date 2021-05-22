@@ -15,6 +15,6 @@ public class GraphTestRunner {
             System.out.println(failure.toString());
         }
         
-        System.out.println("Test completed, result: " + result.wasSuccessful());
+        System.out.println("GraphTest completed, result: " + result.wasSuccessful());
     }
 }
