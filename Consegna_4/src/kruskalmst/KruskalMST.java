@@ -21,7 +21,7 @@ public class KruskalMST<V> {
     public Graph<V> MST(){
         edges.sort(null);
         for (Edge<V> tmp: edges){
-            if(trees.union(tmp.getStart(), tmp.getEnd())) {
+            if(trees.union(tmp.getSource(), tmp.getDestination())) {
                 mstEdges.add(tmp);
             }
         }

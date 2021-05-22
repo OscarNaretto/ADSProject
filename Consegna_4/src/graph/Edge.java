@@ -1,30 +1,30 @@
 package graph;
 
 public class Edge<V> implements Comparable<Edge<V>>{
-    private V start;
-    private V end;
+    private V source;
+    private V destination;
     private double label;
 
     Edge(V start, V end, double label) {
-        this.start = start;
-        this.end = end;
+        this.source = start;
+        this.destination = end;
         this.label = label;
     }
     
-    public V getStart() {
-        return this.start;
+    public V getSource() {
+        return this.source;
     }
 
-    public void setStart(V start) {
-        this.start = start;
+    public void setSource(V start) {
+        this.source = start;
     }
 
-    public V getEnd() {
-        return this.end;
+    public V getDestination() {
+        return this.destination;
     }
 
-    public void setEnd(V end) {
-        this.end = end;
+    public void setDestination(V end) {
+        this.destination = end;
     }
 
     public double getLabel() {
@@ -41,7 +41,7 @@ public class Edge<V> implements Comparable<Edge<V>>{
             return false; 
         } else {
             Edge<V> e = (Edge<V>) o;
-            return this.start == e.getStart() && this.end == e.getEnd() && this.label == e.getLabel();
+            return this.source == e.getSource() && this.destination == e.getDestination() && this.label == e.getLabel();
         }   
     }
 

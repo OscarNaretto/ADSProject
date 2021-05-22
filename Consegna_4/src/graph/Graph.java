@@ -35,11 +35,11 @@ public class Graph<V>{
         this.adjacencyLists = new HashMap<>();
 
         for (Edge<V> edge : edgesList) {
-            V start = edge.getStart();
-            V end = edge.getEnd();
-            this.addVertex(start);
-            this.addVertex(end);
-            this.addEdge(start, end, edge.getLabel());
+            V source = edge.getSource();
+            V destination = edge.getDestination();
+            this.addVertex(source);
+            this.addVertex(destination);
+            this.addEdge(source, destination, edge.getLabel());
         }
     }
 
@@ -80,31 +80,31 @@ public class Graph<V>{
         } 
     }
 
-    public boolean isEdgePresent(V start, V end) {
-        return adjacencyLists.containsKey(start) && adjacencyLists.get(start).containsKey(end);
+    public boolean isEdgePresent(V source, V destination) {
+        return adjacencyLists.containsKey(source) && adjacencyLists.get(source).containsKey(destination);
     }
 
-    public void addEdge(V start, V end, double distance){
-        if(isVertexPresent(start) && isVertexPresent(end) && !isEdgePresent(start, end)){
-            this.adjacencyLists.get(start).put(end, distance);
+    public void addEdge(V source, V destination, double distance){
+        if(isVertexPresent(source) && isVertexPresent(destination) && !isEdgePresent(source, destination)){
+            this.adjacencyLists.get(source).put(destination, distance);
             if (!isDirected()){
-                this.adjacencyLists.get(end).put(start, distance);
+                this.adjacencyLists.get(destination).put(source, distance);
             }
         }   
     }
 
-    public void removeEdge(V start, V end){
-        if(isVertexPresent(start) && isVertexPresent(end)){
-            this.adjacencyLists.get(start).remove(end);
+    public void removeEdge(V source, V destination){
+        if(isVertexPresent(source) && isVertexPresent(destination)){
+            this.adjacencyLists.get(source).remove(destination);
             if (!isDirected()) {
-                this.adjacencyLists.get(end).remove(start);
+                this.adjacencyLists.get(destination).remove(source);
             }
         }
     }
 
-    public double getEdgeLabel(V start, V end){
-        if (!isEdgePresent(start, end)){ return 0; } //segnala errore con Exception
-        return adjacencyLists.get(start).get(end);
+    public double getEdgeLabel(V source, V destination){
+        if (!isEdgePresent(source, destination)){ return 0; } //segnala errore con Exception
+        return adjacencyLists.get(source).get(destination);
     }
 
     //Recupero dei nodi del grafo – O(n)            
