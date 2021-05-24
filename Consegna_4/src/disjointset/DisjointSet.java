@@ -23,7 +23,9 @@ public class DisjointSet<T> {
 
     //
     public void makeSet(T element) throws DisjointSetException{
-        if (element == null) { throw new DisjointSetException("DisjointSet makeSet: cannot accept null as element"); } 
+        if (element == null){ 
+            throw new DisjointSetException("DisjointSet makeSet: cannot accept null as element"); 
+        } 
         if(!isPresent(element)){
             Node<T> newNode = new Node<>(element);
             newNode.setParent(newNode);
@@ -33,12 +35,14 @@ public class DisjointSet<T> {
 
     //changed from void to bool to check in KruskalMST if the operation succedeed correctly
     public boolean union(T elemx, T elemy) throws DisjointSetException{
-        if (elemx == null || elemy == null ){ throw new DisjointSetException("DisjointSet union: cannot accept null as element");}
+        if (elemx == null || elemy == null ){ 
+            throw new DisjointSetException("DisjointSet union: cannot accept null as element");
+        }
         if (isPresent(elemx) && isPresent(elemy)){
             Node<T> nodex = (Node<T>) map.get(elemx);
             Node<T> nodey = (Node<T>) map.get(elemy);
             return link(findSet(nodex), findSet(nodey));
-        } else {
+        }else{
             System.out.println("Element not present"); //lancia eccezione
             return false;
         }
@@ -48,7 +52,7 @@ public class DisjointSet<T> {
     private boolean link(Node<T> nodex, Node<T> nodey){
         if (nodex == nodey){
             return false;
-        } else {
+        }else{
             if (nodex.getRank() > nodey.getRank()){
                 nodey.setParent(nodex);
                 map.put(nodey.getElem(), nodex);
@@ -76,7 +80,9 @@ public class DisjointSet<T> {
     
     //cointrolla se togliere l'eccezione
     public boolean isPresent(T elem) throws DisjointSetException{
-        if (elem == null){ throw new DisjointSetException("DisjointSet isPresent: cannot accept null as element");}
+        if (elem == null){ 
+            throw new DisjointSetException("DisjointSet isPresent: cannot accept null as element");
+        }
         if (map.get(elem) != null) {
             Node<T> node = (Node<T>) map.get(elem);
             if (node != null) { //controllo necessario? rivedere
