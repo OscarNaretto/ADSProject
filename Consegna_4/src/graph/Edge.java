@@ -6,7 +6,7 @@ public class Edge<V> implements Comparable<Edge<V>>{
     private double label;
 
     public Edge(V source, V destination, double label) throws GraphException{
-        if(source == null || destination == null) {
+        if(source == null || destination == null){
             throw new GraphException("Edge constructor: Vertex parameters cannot be null");
         }
         this.source = source;
@@ -19,28 +19,28 @@ public class Edge<V> implements Comparable<Edge<V>>{
     }
 
     public void setSource(V source) throws GraphException{
-        if(source == null) {
+        if(source == null){
             throw new GraphException("Edge setSource: Vertex parameters cannot be null");
         }
         this.source = source;
     }
 
-    public V getDestination() {
+    public V getDestination(){
         return this.destination;
     }
 
     public void setDestination(V destination) throws GraphException{
-        if(destination == null) {
+        if(destination == null){
             throw new GraphException("Edge setDestination: Vertex parameters cannot be null");
         }
         this.destination = destination;
     }
 
-    public double getLabel() {
+    public double getLabel(){
         return this.label;
     }
 
-    public void setLabel(double label) {
+    public void setLabel(double label){
         this.label = label;
     }
 
@@ -49,7 +49,7 @@ public class Edge<V> implements Comparable<Edge<V>>{
         if (o instanceof Edge){ 
             Edge<V> e = (Edge<V>) o;
             return this.source == e.getSource() && this.destination == e.getDestination() && this.label == e.getLabel();
-        } else {
+        }else{
             return false; 
         }   
     }
@@ -60,7 +60,7 @@ public class Edge<V> implements Comparable<Edge<V>>{
             return 1;
         } else if (this.label == edge.getLabel()){
             return 0;
-        }else {
+        }else{
             return -1;
         }
     }

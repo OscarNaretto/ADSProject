@@ -34,7 +34,7 @@ public class Graph<V>{
         this.directed = directed;
         this.adjacencyLists = new HashMap<>();
 
-        for (Edge<V> edge : edgesList) {
+        for (Edge<V> edge : edgesList){
             V source = edge.getSource();
             V destination = edge.getDestination();
             this.addVertex(source);
@@ -57,13 +57,16 @@ public class Graph<V>{
         for (V key : adjacencyLists.keySet()){
             tot = tot + adjacencyLists.get(key).size();
         }
-        if (!isDirected()){ tot = tot / 2; }
-
+        if (!isDirected()){ 
+            tot = tot / 2; 
+        }
         return tot;
     }
 
     public boolean isVertexPresent(V vertex) throws GraphException{
-        if (vertex == null){ throw new GraphException("Graph isVertexPresent: cannot accept null as vertex"); }
+        if (vertex == null){ 
+            throw new GraphException("Graph isVertexPresent: cannot accept null as vertex"); 
+        }
         return this.adjacencyLists.containsKey(vertex); 
     }
 
@@ -76,13 +79,15 @@ public class Graph<V>{
     public void removeVertex(V vertex){
         this.adjacencyLists.remove(vertex);           //removes vertex
 
-        for (V key : this.adjacencyLists.keySet()) {  //removes "edges"; actually removes end vertex from HashMap<V,D>
+        for (V key : this.adjacencyLists.keySet()){  //removes "edges"; actually removes end vertex from HashMap<V,D>
             this.adjacencyLists.get(key).remove(vertex);
         } 
     }
 
     public boolean isEdgePresent(V source, V destination) throws GraphException {
-        if (source == null || destination == null){ throw new GraphException("Graph isVertexPresent: cannot accept null as vertex"); }
+        if (source == null || destination == null){ 
+            throw new GraphException("Graph isVertexPresent: cannot accept null as vertex"); 
+        }
         return adjacencyLists.containsKey(source) && adjacencyLists.get(source).containsKey(destination);
     }
 
@@ -103,17 +108,19 @@ public class Graph<V>{
     public void removeEdge(V source, V destination) throws GraphException{
         if(isVertexPresent(source) && isVertexPresent(destination) && isEdgePresent(source, destination)){
             this.adjacencyLists.get(source).remove(destination);
-            if (!isDirected()) {
+            if (!isDirected()){
                 this.adjacencyLists.get(destination).remove(source);
             }
             //nel caso, implementare rimozione dalla List. Ma come faccio in O(n)
-        } else {
+        } else{
             throw new GraphException("Graph removeEdge: cannot remove inexistent edge");
         }
     }
 
     public double getEdgeLabel(V source, V destination) throws GraphException{
-        if (!isEdgePresent(source, destination)){ throw new GraphException("Graph getEdgeLabel: cannot get label if the edge is not present"); } //segnala errore con Exception
+        if (!isEdgePresent(source, destination)){ 
+            throw new GraphException("Graph getEdgeLabel: cannot get label if the edge is not present"); //segnala errore con Exception
+        } 
         return adjacencyLists.get(source).get(destination);
     }
 
@@ -126,11 +133,13 @@ public class Graph<V>{
     //Recupero degli archi del grafo – O(n) DA CONFERMARE: O(n) CON n NUMERO DI ARCHI. 
     //Si può ottenere O(1) salvando ogni nuovo arco in un Set, ma si rallenta il resto anche quando non richiesto
     public LinkedList<Edge<V>> getAllEdges() throws GraphException {
-        if(edgesNumber() == 0) { throw new GraphException("Graph getAllEdges: no edges present"); }
+        if(edgesNumber() == 0){ 
+            throw new GraphException("Graph getAllEdges: no edges present"); 
+        }
         LinkedList<Edge<V>> edgesList = new LinkedList<>();
 
         for (Map.Entry<V,HashMap<V, Double>> vert : adjacencyLists.entrySet()){
-            for (Map.Entry<V,Double> edge : vert.getValue().entrySet()) {
+            for (Map.Entry<V,Double> edge : vert.getValue().entrySet()){
                 edgesList.add(new Edge<>(vert.getKey(), edge.getKey(), edge.getValue()));
             }
         }
