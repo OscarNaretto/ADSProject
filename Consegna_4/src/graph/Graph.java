@@ -13,24 +13,24 @@ import java.util.Set;
 public class Graph<V>{
     private boolean directed;
     private HashMap<V,HashMap<V, Double>> adjacencyLists;
-    //HashMap<V,HashMap<V,D>> contains Vertexes of the Graph as keys and adjacencyLists as values (HashMap<V,D>)
-    //HashMap<V,D> contains adjacency vertexes as keys and distances between Vertexes as values
+    //HashMap<V,HashMap<V,Double>> contains Vertexes of the Graph as keys and adjacencyLists as values (HashMap<V,D>)
+    //HashMap<V,Double> contains adjacency vertexes as keys and distances between Vertexes as values
 
     public Graph(){
-        this(true);
+        this(false);
     }
 
-    //standard behaviour: directed graph
+    //standard behaviour: non-directed graph
     public Graph(boolean directed){
         this.directed = directed;
         this.adjacencyLists = new HashMap<>();
     }
 
-    public Graph(LinkedList<Edge<V>> edgesList){
-        this(true, edgesList);
+    public Graph(LinkedList<Edge<V>> edgesList) throws GraphException{
+        this(false, edgesList);
     }
 
-    public Graph(boolean directed, LinkedList<Edge<V>> edgesList){
+    public Graph(boolean directed, LinkedList<Edge<V>> edgesList) throws GraphException{
         this.directed = directed;
         this.adjacencyLists = new HashMap<>();
 
@@ -44,7 +44,7 @@ public class Graph<V>{
     }
 
     public boolean isDirected(){
-        return directed; 
+        return this.directed; 
     }
 
     public int vertexesNumber(){ 
@@ -62,11 +62,12 @@ public class Graph<V>{
         return tot;
     }
 
-    public boolean isVertexPresent(V vertex){ 
+    public boolean isVertexPresent(V vertex) throws GraphException{
+        if (vertex == null){ throw new GraphException("Graph isVertexPresent: cannot accept null as vertex"); }
         return this.adjacencyLists.containsKey(vertex); 
     }
 
-    public void addVertex(V vertex){
+    public void addVertex(V vertex) throws GraphException{
         if(!isVertexPresent(vertex)){
             adjacencyLists.put(vertex,new HashMap<>());
         }   
@@ -80,11 +81,12 @@ public class Graph<V>{
         } 
     }
 
-    public boolean isEdgePresent(V source, V destination) {
+    public boolean isEdgePresent(V source, V destination) throws GraphException {
+        if (source == null || destination == null){ throw new GraphException("Graph isVertexPresent: cannot accept null as vertex"); }
         return adjacencyLists.containsKey(source) && adjacencyLists.get(source).containsKey(destination);
     }
 
-    public void addEdge(V source, V destination, double distance){
+    public void addEdge(V source, V destination, double distance) throws GraphException{
         if(isVertexPresent(source) && isVertexPresent(destination) && !isEdgePresent(source, destination)){
             this.adjacencyLists.get(source).put(destination, distance);
             if (!isDirected()){
@@ -104,7 +106,7 @@ public class Graph<V>{
             if (!isDirected()) {
                 this.adjacencyLists.get(destination).remove(source);
             }
-            //nel caso, implementare rimozione dalla List
+            //nel caso, implementare rimozione dalla List. Ma come faccio in O(n)
         } else {
             throw new GraphException("Graph removeEdge: cannot remove inexistent edge");
         }

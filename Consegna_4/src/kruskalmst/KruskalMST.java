@@ -24,7 +24,7 @@ public class KruskalMST<V> {
         directed = graph.isDirected();
     }
 
-    public void MST() throws DisjointSetException{
+    public void MST() throws DisjointSetException, GraphException{
         edges.sort(null);
         for (Edge<V> tmp: edges){
             if(trees.union(tmp.getSource(), tmp.getDestination())) {

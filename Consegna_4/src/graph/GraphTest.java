@@ -17,7 +17,7 @@ public class GraphTest {
     Graph<String> testEmpty;
 
     @Before
-    public void GraphsGenerator(){
+    public void GraphsGenerator() throws GraphException{
         testDirected = new Graph<String>(true);
         testEmpty = new Graph<String>(false);
         testNDirected = new Graph<String>(false);
@@ -108,7 +108,7 @@ public class GraphTest {
     }
 
     @Test
-    public void removeVertexTest(){
+    public void removeVertexTest() throws GraphException{
         testDirected.removeVertex("vertice_a");
         testEmpty.removeVertex("vertice_a");
 
@@ -123,7 +123,7 @@ public class GraphTest {
         testDirected.removeEdge("vertice_a", "vertice_b");
         assertFalse(testDirected.isEdgePresent("vertice_a", "vertice_b"));
     }
-
+    
     @Test(expected = GraphException.class)
     public void removeEdgeEmptyTest() throws GraphException{
         testEmpty.removeEdge("vertice_c", "vertice_b");

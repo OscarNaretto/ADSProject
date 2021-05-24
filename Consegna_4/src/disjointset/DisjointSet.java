@@ -9,6 +9,7 @@ import java.util.Set;
 public class DisjointSet<T> {
     public HashMap <T,Node<T>> map;
     
+    //Overload
     public DisjointSet(){
         this.map = new HashMap<>();
     }
@@ -20,7 +21,7 @@ public class DisjointSet<T> {
         }
     }
 
-
+    //
     public void makeSet(T element) throws DisjointSetException{
         if (element == null) { throw new DisjointSetException("DisjointSet makeSet: cannot accept null as element"); } 
         if(!isPresent(element)){
@@ -38,7 +39,7 @@ public class DisjointSet<T> {
             Node<T> nodey = (Node<T>) map.get(elemy);
             return link(findSet(nodex), findSet(nodey));
         } else {
-            System.out.println("Element not present");
+            System.out.println("Element not present"); //lancia eccezione
             return false;
         }
     }
@@ -73,11 +74,12 @@ public class DisjointSet<T> {
         return this.map.size();
     }
     
+    //cointrolla se togliere l'eccezione
     public boolean isPresent(T elem) throws DisjointSetException{
         if (elem == null){ throw new DisjointSetException("DisjointSet isPresent: cannot accept null as element");}
         if (map.get(elem) != null) {
             Node<T> node = (Node<T>) map.get(elem);
-            if (node != null) {
+            if (node != null) { //controllo necessario? rivedere
                 return findSet(node).getElem() != null;
             }
         }
