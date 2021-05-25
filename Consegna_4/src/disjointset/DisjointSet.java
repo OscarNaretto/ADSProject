@@ -43,8 +43,7 @@ public class DisjointSet<T> {
             Node<T> nodey = (Node<T>) map.get(elemy);
             return link(findSet(nodex), findSet(nodey));
         }else{
-            System.out.println("Element not present"); //lancia eccezione
-            return false;
+            throw new DisjointSetException("DisjointSet union: one or both elements not present");
         }
     }
 
