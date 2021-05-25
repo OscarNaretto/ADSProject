@@ -19,18 +19,18 @@ public class Edge<V, D> implements Comparable<Edge<V, D>>{
     }
 
     public void setSource(V source) throws GraphException{
-        if(source == null) {
+        if(source == null){
             throw new GraphException("Edge setSource: Vertex parameters cannot be null");
         }
         this.source = source;
     }
 
-    public V getDestination() {
+    public V getDestination(){
         return this.destination;
     }
 
     public void setDestination(V destination) throws GraphException{
-        if(destination == null) {
+        if(destination == null){
             throw new GraphException("Edge setDestination: Vertex parameters cannot be null");
         }
         this.destination = destination;

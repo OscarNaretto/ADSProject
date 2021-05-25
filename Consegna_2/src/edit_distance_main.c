@@ -153,8 +153,7 @@ int main(int argc, char const *argv[]){
     }
 
     //  Da fare:
-    //- cambiare i nomi delle variabili per coerenza
-    //- unit-test
+    //- Relazione della seconda consegna
 
     init(argv[1], argv[2]);
 }
