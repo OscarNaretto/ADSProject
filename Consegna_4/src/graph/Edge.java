@@ -1,11 +1,11 @@
 package graph;
 
-public class Edge<V> implements Comparable<Edge<V>>{
+public class Edge<V, D> implements Comparable<Edge<V, D>>{
     private V source;
     private V destination;
-    private double label;
+    private D label;
 
-    public Edge(V source, V destination, double label) throws GraphException{
+    public Edge(V source, V destination, D label) throws GraphException{
         if(source == null || destination == null) {
             throw new GraphException("Edge constructor: Vertex parameters cannot be null");
         }
@@ -36,32 +36,46 @@ public class Edge<V> implements Comparable<Edge<V>>{
         this.destination = destination;
     }
 
-    public double getLabel() {
+    public D getLabel() {
         return this.label;
     }
 
-    public void setLabel(double label) {
+    public void setLabel(D label) {
         this.label = label;
     }
 
     @Override
-    public boolean equals(Object o){
-        if (o instanceof Edge){ 
-            Edge<V> e = (Edge<V>) o;
-            return this.source == e.getSource() && this.destination == e.getDestination() && this.label == e.getLabel();
-        } else {
-            return false; 
-        }   
+    public int hashCode() {
+        int result = 1;
+        result = 31 * result + ((source == null) ? 0 : source.hashCode());
+        result = 31 * result + ((destination == null) ? 0 : destination.hashCode());
+        result = 31 * result + ((label == null) ? 0 : label.hashCode());
+        return result;
     }
 
     @Override
-    public int compareTo(Edge<V> edge){
-        if (this.label > edge.getLabel()){
-            return 1;
-        } else if (this.label == edge.getLabel()){
-            return 0;
-        }else {
-            return -1;
-        }
+    public boolean equals(Object o){
+        if (this == o){ return true; }
+        if (o == null) {return false; }
+        if (getClass() != o.getClass()){ return false; }
+        Edge<V, D> other = (Edge<V, D>) o;
+
+        if (source == null) {
+            if (other.source != null) {return false; }
+        } else if (!source.equals(other.source)) { return false; }
+
+        if (destination == null) {
+            if (other.destination != null) { return false; }
+        } else if (!destination.equals(other.destination)) { return false; }
+
+        if (label == null) {
+            if (other.label != null) { return false; }
+        } else if (!label.equals(other.label)) { return false; }
+        return true;
+    }
+
+    @Override
+    public int compareTo(Edge<V, D> edge){
+        return Double.compare((double)this.label, (double)edge.label);
     }
 }

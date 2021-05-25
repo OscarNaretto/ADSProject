@@ -9,38 +9,35 @@ import disjointset.DisjointSet;
 import disjointset.DisjointSetException;
 
 public class KruskalMST<V> {
-    LinkedList<Edge<V>> edges;
+    LinkedList<Edge<V, Double>> edges;
     DisjointSet<V> trees;
-    LinkedList<Edge<V>> mstEdges;
-    Graph<V> mst;
+    LinkedList<Edge<V, Double>> mstEdges;
+    Graph<V, Double> mst;
     double totalDistance;
-    boolean directed;
 
-    public KruskalMST(Graph<V> graph) throws GraphException, DisjointSetException{
-        edges = new LinkedList<Edge<V>>();
+    //controllo directed eccezione, controllo tipo etichetta
+    public KruskalMST(Graph<V, Double> graph) throws GraphException, DisjointSetException{
+        if (graph.isDirected()){ throw new GraphException("Cannot pass a directed graph to Kruskal algorithm"); }
+        edges = new LinkedList<Edge<V, Double>>();
         edges = graph.getAllEdges();
         trees = new DisjointSet<>(graph.getAllVertexes());
-        mstEdges = new LinkedList<Edge<V>>();
-        directed = graph.isDirected();
+        mstEdges = new LinkedList<Edge<V, Double>>();
     }
 
     public void MST() throws DisjointSetException, GraphException{
         edges.sort(null);
-        for (Edge<V> tmp: edges){
+        for (Edge<V, Double> tmp: edges){
             if(trees.union(tmp.getSource(), tmp.getDestination())) {
                 mstEdges.add(tmp);
             }
         }
-        mst = new Graph<V>(mstEdges);
+        mst = new Graph<V, Double>(false, mstEdges);
         setTotalDistance();
     }
 
     private void setTotalDistance(){
-        for(Edge<V> edge: mstEdges){
+        for(Edge<V, Double> edge: mstEdges){
             this.totalDistance += edge.getLabel();
-        }
-        if (!mst.isDirected()){
-            this.totalDistance = this.totalDistance/2;
         }
     }
 
@@ -48,7 +45,7 @@ public class KruskalMST<V> {
         return this.totalDistance;
     }
 
-    public Graph<V> getMst(){
+    public Graph<V, Double> getMst(){
         return this.mst;
     }
 }

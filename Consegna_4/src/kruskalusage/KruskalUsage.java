@@ -22,30 +22,28 @@ public class KruskalUsage{
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_RED = "\u001B[31m";
 
-    private static Graph<String> loadGraph(String filepath) throws NumberFormatException, IOException, GraphException{
-        LinkedList<Edge<String>> edgesList = new LinkedList<>();
+    private static LinkedList<Edge<String, Double>> loadGraph(String filepath) throws NumberFormatException, IOException, GraphException{
+        LinkedList<Edge<String, Double>> edgesList = new LinkedList<>();
         
         Path inputFilePath = Paths.get(filepath);
         try(BufferedReader fileInputReader = Files.newBufferedReader(inputFilePath, ENCODING)){
             String line = null;
             while((line = fileInputReader.readLine()) != null){      
                 String[] lineElements = line.split(",");  
-                Edge<String> edge = new Edge<String>(lineElements[0], lineElements[1], Double.parseDouble(lineElements[2])); 
+                Edge<String, Double> edge = new Edge<String, Double>(lineElements[0], lineElements[1], Double.parseDouble(lineElements[2])); 
                 edgesList.add(edge);
             }
         }
-        Graph<String> graph = new Graph<String>(false, edgesList);
-        return graph;
+        return edgesList;
     }
 
     private static void kruskalExecution(String filepath) throws IOException, NumberFormatException, GraphException, DisjointSetException{
         long start, initial; 
         float elapsed; 
-        Graph<String> graph;
 
         System.out.println(ANSI_RED + "Loading data:" + ANSI_RESET);
         start = initial = System.currentTimeMillis();
-        graph = loadGraph(filepath);
+        Graph<String, Double> graph = new Graph<String, Double>(false, loadGraph(filepath));
         elapsed = (System.currentTimeMillis() - start)/1000F;
         System.out.println("Data loaded, took: " + elapsed + "sec\n");
 

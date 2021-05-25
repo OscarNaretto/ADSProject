@@ -3,38 +3,31 @@ package graph;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Map;
 import java.util.Set;
 
 
 /**
  * @param <V>   //Vertex and Distance
  */
-public class Graph<V>{
+public class Graph<V, D>{
     private boolean directed;
-    private HashMap<V,HashMap<V, Double>> adjacencyLists;
+    private HashMap<V,HashMap<V, D>> adjacencyListsMap;
     //HashMap<V,HashMap<V,Double>> contains Vertexes of the Graph as keys and adjacencyLists as values (HashMap<V,D>)
     //HashMap<V,Double> contains adjacency vertexes as keys and distances between Vertexes as values
+    private HashMap<Integer, Edge<V, D>> edgesMap;
 
-    public Graph(){
-        this(false);
-    }
-
-    //standard behaviour: non-directed graph
     public Graph(boolean directed){
         this.directed = directed;
-        this.adjacencyLists = new HashMap<>();
+        this.adjacencyListsMap = new HashMap<>();
+        this.edgesMap = new HashMap<>();
     }
 
-    public Graph(LinkedList<Edge<V>> edgesList) throws GraphException{
-        this(false, edgesList);
-    }
-
-    public Graph(boolean directed, LinkedList<Edge<V>> edgesList) throws GraphException{
+    public Graph(boolean directed, LinkedList<Edge<V, D>> edgesList) throws GraphException{
         this.directed = directed;
-        this.adjacencyLists = new HashMap<>();
+        this.adjacencyListsMap = new HashMap<>();
+        this.edgesMap = new HashMap<>();
 
-        for (Edge<V> edge : edgesList) {
+        for (Edge<V, D> edge : edgesList) {
             V source = edge.getSource();
             V destination = edge.getDestination();
             this.addVertex(source);
@@ -48,97 +41,89 @@ public class Graph<V>{
     }
 
     public int vertexesNumber(){ 
-        return this.adjacencyLists.size(); 
+        return this.adjacencyListsMap.size(); 
     }
 
     public int edgesNumber(){
         int tot = 0;
 
-        for (V key : adjacencyLists.keySet()){
-            tot = tot + adjacencyLists.get(key).size();
+        for (V key : adjacencyListsMap.keySet()){
+            tot = tot + adjacencyListsMap.get(key).size();
         }
         if (!isDirected()){ tot = tot / 2; }
-
         return tot;
     }
 
     public boolean isVertexPresent(V vertex) throws GraphException{
         if (vertex == null){ throw new GraphException("Graph isVertexPresent: cannot accept null as vertex"); }
-        return this.adjacencyLists.containsKey(vertex); 
+        return this.adjacencyListsMap.containsKey(vertex); 
     }
 
     public void addVertex(V vertex) throws GraphException{
         if(!isVertexPresent(vertex)){
-            adjacencyLists.put(vertex,new HashMap<>());
+            adjacencyListsMap.put(vertex,new HashMap<>());
         }   
     }
 
     public void removeVertex(V vertex){
-        this.adjacencyLists.remove(vertex);           //removes vertex
+        this.adjacencyListsMap.remove(vertex);           
 
-        for (V key : this.adjacencyLists.keySet()) {  //removes "edges"; actually removes end vertex from HashMap<V,D>
-            this.adjacencyLists.get(key).remove(vertex);
+        for (V key : this.adjacencyListsMap.keySet()) {  
+            this.adjacencyListsMap.get(key).remove(vertex);
         } 
     }
 
     public boolean isEdgePresent(V source, V destination) throws GraphException {
         if (source == null || destination == null){ throw new GraphException("Graph isVertexPresent: cannot accept null as vertex"); }
-        return adjacencyLists.containsKey(source) && adjacencyLists.get(source).containsKey(destination);
+        return adjacencyListsMap.containsKey(source) && adjacencyListsMap.get(source).containsKey(destination);
     }
 
-    public void addEdge(V source, V destination, double distance) throws GraphException{
+    public void addEdge(V source, V destination, D distance) throws GraphException{
         if(isVertexPresent(source) && isVertexPresent(destination) && !isEdgePresent(source, destination)){
-            this.adjacencyLists.get(source).put(destination, distance);
+            this.adjacencyListsMap.get(source).put(destination, distance);
             if (!isDirected()){
-                this.adjacencyLists.get(destination).put(source, distance);
+                this.adjacencyListsMap.get(destination).put(source, distance);
             }
 
-            //Se aggiungo l'arco anche alla List, usata come attributo di Graph, getAllEdges è in O(1) e addEdge rimane costante
-            //Edge<V> e = new Edge<>(source, destination, distance);    
-            //edgesList = new LinkedList<>();
-            //edgesList.add(e);
+            Edge<V, D> tmp = new Edge<>(source, destination, distance);
+            edgesMap.put(tmp.hashCode(), tmp);
         }   
     }
 
     public void removeEdge(V source, V destination) throws GraphException{
         if(isVertexPresent(source) && isVertexPresent(destination) && isEdgePresent(source, destination)){
-            this.adjacencyLists.get(source).remove(destination);
+            int code = this.adjacencyListsMap.get(source).get(destination).hashCode();
+            this.adjacencyListsMap.get(source).remove(destination);
+            edgesMap.remove(code);
             if (!isDirected()) {
-                this.adjacencyLists.get(destination).remove(source);
+                int codeBis = this.adjacencyListsMap.get(destination).get(source).hashCode();
+                this.adjacencyListsMap.get(destination).remove(source);
+                edgesMap.remove(codeBis);
             }
-            //nel caso, implementare rimozione dalla List. Ma come faccio in O(n)
         } else {
             throw new GraphException("Graph removeEdge: cannot remove inexistent edge");
         }
     }
 
-    public double getEdgeLabel(V source, V destination) throws GraphException{
+    public D getEdgeLabel(V source, V destination) throws GraphException{
         if (!isEdgePresent(source, destination)){ throw new GraphException("Graph getEdgeLabel: cannot get label if the edge is not present"); } //segnala errore con Exception
-        return adjacencyLists.get(source).get(destination);
+        return adjacencyListsMap.get(source).get(destination);
     }
 
     public Set<V> getAllVertexes(){
         Set<V> keys = new HashSet<>();
-        keys = adjacencyLists.keySet();
+        keys = adjacencyListsMap.keySet();
         return keys;
     }
 
-    //Recupero degli archi del grafo – O(n) DA CONFERMARE: O(n) CON n NUMERO DI ARCHI. 
-    //Si può ottenere O(1) salvando ogni nuovo arco in un Set, ma si rallenta il resto anche quando non richiesto
-    public LinkedList<Edge<V>> getAllEdges() throws GraphException {
+    public LinkedList<Edge<V, D>> getAllEdges() throws GraphException {
         if(edgesNumber() == 0) { throw new GraphException("Graph getAllEdges: no edges present"); }
-        LinkedList<Edge<V>> edgesList = new LinkedList<>();
-
-        for (Map.Entry<V,HashMap<V, Double>> vert : adjacencyLists.entrySet()){
-            for (Map.Entry<V,Double> edge : vert.getValue().entrySet()) {
-                edgesList.add(new Edge<>(vert.getKey(), edge.getKey(), edge.getValue()));
-            }
-        }
+        LinkedList<Edge<V, D>> edgesList = new LinkedList<>(edgesMap.values());
         return edgesList;
     }
 
     public Set<V> getAllAdjVertexes(V vertex){
-        Set<V> keys = this.adjacencyLists.get(vertex).keySet();
+        Set<V> keys = this.adjacencyListsMap.get(vertex).keySet();
         return keys;
     }
 }

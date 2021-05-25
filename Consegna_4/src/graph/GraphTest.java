@@ -12,31 +12,31 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class GraphTest {
-    Graph<String> testDirected;
-    Graph<String> testNDirected;
-    Graph<String> testEmpty;
+    Graph<String, Double> testDirected;
+    Graph<String, Double> testNDirected;
+    Graph<String, Double> testEmpty;
 
     @Before
     public void GraphsGenerator() throws GraphException{
-        testDirected = new Graph<String>(true);
-        testEmpty = new Graph<String>(false);
-        testNDirected = new Graph<String>(false);
+        testDirected = new Graph<String, Double>(true);
+        testEmpty = new Graph<String, Double>(false);
+        testNDirected = new Graph<String, Double>(false);
 
         testDirected.addVertex("vertice_a");
         testDirected.addVertex("vertice_b");
         testDirected.addVertex("vertice_c");
         testDirected.addVertex("vertice_d");
-        testDirected.addEdge("vertice_a", "vertice_b", 10);
-        testDirected.addEdge("vertice_c", "vertice_b", 2);
-        testDirected.addEdge("vertice_c", "vertice_d", 4);
+        testDirected.addEdge("vertice_a", "vertice_b", (double)10);
+        testDirected.addEdge("vertice_c", "vertice_b", (double)2);
+        testDirected.addEdge("vertice_c", "vertice_d", (double)4);
 
         testNDirected.addVertex("vertice_a");
         testNDirected.addVertex("vertice_b");
         testNDirected.addVertex("vertice_c");
         testNDirected.addVertex("vertice_d");
-        testNDirected.addEdge("vertice_a", "vertice_b", 10);
-        testNDirected.addEdge("vertice_c", "vertice_b", 2);
-        testNDirected.addEdge("vertice_c", "vertice_d", 4);
+        testNDirected.addEdge("vertice_a", "vertice_b", (double)10);
+        testNDirected.addEdge("vertice_c", "vertice_b", (double)2);
+        testNDirected.addEdge("vertice_c", "vertice_d", (double)4);
     }
 
     @Test
@@ -165,13 +165,13 @@ public class GraphTest {
 
     @Test
     public void getAllEdgesEqualsTest() throws GraphException{
-        LinkedList<Edge<String>> edges = new LinkedList<>();
-        LinkedList<Edge<String>> edgesTaken = new LinkedList<>();
+        LinkedList<Edge<String, Double>> edges = new LinkedList<>();
+        LinkedList<Edge<String, Double>> edgesTaken = new LinkedList<>();
 
-        Edge<String> e1 = new Edge <>("vertice_a", "vertice_b", 10);
-        Edge<String> e2 = new Edge <>("vertice_c", "vertice_b", 2);
-        Edge<String> e3 = new Edge <>("vertice_c", "vertice_d", 4);
-        Edge<String> e4 = new Edge <>("vertice_c", "vertice_d", 4);
+        Edge<String, Double> e1 = new Edge <>("vertice_a", "vertice_b", (double)10);
+        Edge<String, Double> e2 = new Edge <>("vertice_c", "vertice_b", (double)2);
+        Edge<String, Double> e3 = new Edge <>("vertice_c", "vertice_d", (double)4);
+        Edge<String, Double> e4 = new Edge <>("vertice_c", "vertice_d", (double)4);
         
         edges.add(e1);
         edges.add(e2);
@@ -180,6 +180,8 @@ public class GraphTest {
         assertEquals(e3, e4);   //metodo edge.equals(Object o) testato
         
         edgesTaken = testDirected.getAllEdges();
+        edges.sort(null);
+        edgesTaken.sort(null);
         assertEquals(edges, edgesTaken);
     }
 
@@ -195,9 +197,9 @@ public class GraphTest {
 
     @Test
     public void compareToTest() throws GraphException{
-        Edge<String> e1 = new Edge <>("vertice_a", "vertice_b", 10);
-        Edge<String> e2 = new Edge <>("vertice_c", "vertice_b", 2);
-        Edge<String> e3 = new Edge <>("vertice_c", "vertice_b", 2);
+        Edge<String, Double> e1 = new Edge <>("vertice_a", "vertice_b", (double)10);
+        Edge<String, Double> e2 = new Edge <>("vertice_c", "vertice_b", (double)2);
+        Edge<String, Double> e3 = new Edge <>("vertice_c", "vertice_b", (double)2);
 
         assertEquals(1, e1.compareTo(e2));
         assertEquals(-1, e2.compareTo(e1));
