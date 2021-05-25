@@ -78,16 +78,12 @@ public class DisjointSet<T> {
         return this.map.size();
     }
     
-    //cointrolla se togliere l'eccezione
     public boolean isPresent(T elem) throws DisjointSetException{
         if (elem == null){ 
             throw new DisjointSetException("DisjointSet isPresent: cannot accept null as element");
         }
         if (map.get(elem) != null) {
-            Node<T> node = (Node<T>) map.get(elem);
-            if (node != null) { //controllo necessario? rivedere
-                return findSet(node).getElem() != null;
-            }
+            return findSet(map.get(elem)).getElem() != null;
         }
         return false;
     }
