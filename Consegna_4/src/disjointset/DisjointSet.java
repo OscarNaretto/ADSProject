@@ -38,7 +38,9 @@ public class DisjointSet<T> {
             Node<T> newNode = new Node<>(element);
             newNode.setParent(newNode);
             map.put(element, newNode);
-        } else { throw new DisjointSetException("DisjointSet makeSet: cannot add element already present"); }
+        } else { 
+            throw new DisjointSetException("DisjointSet makeSet: cannot add element already present"); 
+        }
     } 
 
     /**
