@@ -6,10 +6,6 @@ import java.util.LinkedList;
 import java.util.Set;
 
 
-/**
- * @param <V>   V is Vertex type 
- * @param <D>   D is Distance type
- */
 public class Graph<V, D>{
     private boolean directed;
     private HashMap<V,HashMap<V, D>> adjacencyListsMap;

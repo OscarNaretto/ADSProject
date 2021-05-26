@@ -82,13 +82,14 @@ public class KruskalUsage{
     /**
      * 
      * @param args the command line arguments. It should contain only one argument specifying the filepath of the data file
-     * @throws IOException
-     * @throws NumberFormatException
-     * @throws GraphException
-     * @throws DisjointSetException
-     * @throws Exception
+     * @throws IOException signals that an I/O exception of some kind has occurred
+     * @throws NumberFormatException thrown to indicate that the application has attempted to convert a string to one of the numeric types, but that the string does not have the appropriate format
+     * @throws IllegalArgumentException generally if a null value is passed; go to 'see'
+     * @throws GraphException generally thrown by Graph constructor; go to 'see'
+     * @throws DisjointSetException generally thrown by DisjointSet constructor; go to 'see'
+     * @throws Exception generic execption
      */
-    public static void main(String[] args) throws IOException, NumberFormatException, GraphException,DisjointSetException, Exception {
+    public static void main(String[] args) throws IOException, NumberFormatException, IllegalArgumentException, GraphException, DisjointSetException, Exception {
         if(args.length < 1) {
             throw new Exception("Usage: OrderedArrayUsageJava <file_name>");
         }

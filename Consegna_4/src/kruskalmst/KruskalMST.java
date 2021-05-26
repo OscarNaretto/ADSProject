@@ -16,7 +16,7 @@ public class KruskalMST<V> {
     double totalDistance;
     
     /**
-     * @param graph composed of a type <V> which indicates the vertex of the graph and a type <Double> which indicates the label of the graph vertex
+     * @param graph composed of a type V which indicates the vertex of the graph and a type Double which indicates the label of the graph vertex
      * @throws IllegalArgumentException if one of the elements passed to the DisjointSet constructor is null
      * @throws GraphException if i pass a direct graph to the algorithm i generate this exception or if the passed graph has no edges
      * @throws DisjointSetException if we try to add an element already present
@@ -52,7 +52,7 @@ public class KruskalMST<V> {
     }
     
     /**
-     * @return returns the total distance of the arcs in the graph
+     * @return returns the total distance of the edges in the graph
      */
     public double getTotalDistance(){
         return this.totalDistance;
