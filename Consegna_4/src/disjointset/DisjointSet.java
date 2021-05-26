@@ -21,7 +21,7 @@ public class DisjointSet<T> {
         }
     }
 
-    //
+    
     public void makeSet(T element) throws DisjointSetException{
         if (element == null){ 
             throw new DisjointSetException("DisjointSet makeSet: cannot accept null as element"); 

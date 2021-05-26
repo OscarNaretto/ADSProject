@@ -5,10 +5,8 @@ public class Edge<V, D> implements Comparable<Edge<V, D>>{
     private V destination;
     private D label;
 
-    public Edge(V source, V destination, D label) throws GraphException{
-        if(source == null || destination == null) {
-            throw new GraphException("Edge constructor: Vertex parameters cannot be null");
-        }
+    public Edge(V source, V destination, D label) throws IllegalArgumentException{
+        if(source == null || destination == null || label == null) { throw new IllegalArgumentException("Edge constructor: parameters cannot be null"); }
         this.source = source;
         this.destination = destination;
         this.label = label;
@@ -18,10 +16,8 @@ public class Edge<V, D> implements Comparable<Edge<V, D>>{
         return this.source;
     }
 
-    public void setSource(V source) throws GraphException{
-        if(source == null){
-            throw new GraphException("Edge setSource: Vertex parameters cannot be null");
-        }
+    public void setSource(V source) throws IllegalArgumentException{
+        if(source == null){ throw new IllegalArgumentException("Edge setSource: Vertex parameters cannot be null"); }
         this.source = source;
     }
 
@@ -29,10 +25,8 @@ public class Edge<V, D> implements Comparable<Edge<V, D>>{
         return this.destination;
     }
 
-    public void setDestination(V destination) throws GraphException{
-        if(destination == null){
-            throw new GraphException("Edge setDestination: Vertex parameters cannot be null");
-        }
+    public void setDestination(V destination) throws IllegalArgumentException{
+        if(destination == null){ throw new IllegalArgumentException("Edge setDestination: Vertex parameters cannot be null"); }
         this.destination = destination;
     }
 
@@ -76,6 +70,13 @@ public class Edge<V, D> implements Comparable<Edge<V, D>>{
 
     @Override
     public int compareTo(Edge<V, D> edge){
+        if (!(edge.label instanceof Double)){ 
+            try {
+                throw new GraphException("Edge compareTo: label type D is not an instance of Double");
+            } catch (GraphException e) {
+                e.printStackTrace();
+            } 
+        }
         return Double.compare((double)this.label, (double)edge.label);
     }
 }
