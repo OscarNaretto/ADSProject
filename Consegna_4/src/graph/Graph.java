@@ -29,7 +29,7 @@ public class Graph<V, D>{
     /**
     * @param directed   if true the graph will be directed; if false will be non-directed
     * @param edgesList  represents the linkedList containing all the edges of the graph that needs to be created
-    * @throws IllegalArgumentException  throws an exception received from addVertex or addEdge
+    * @throws IllegalArgumentException  if we try to add a null Edge or Vertex to the graph
     * @throws GraphException if the user tries to add and already existing Vertex or Edge  
     */
     public Graph(boolean directed, LinkedList<Edge<V, D>> edgesList) throws IllegalArgumentException, GraphException{
@@ -40,9 +40,9 @@ public class Graph<V, D>{
         for (Edge<V, D> edge : edgesList) {
             V source = edge.getSource();
             V destination = edge.getDestination();
-            this.addVertex(source);
-            this.addVertex(destination);
-            this.addEdge(source, destination, edge.getLabel());
+            if (!this.isVertexPresent(source)) { this.addVertex(source); }
+            if (!this.isVertexPresent(destination)) { this.addVertex(destination); }
+            if (!this.isEdgePresent(source, destination)) { this.addEdge(source, destination, edge.getLabel()); }
         }
     }
 
@@ -92,7 +92,7 @@ public class Graph<V, D>{
         if(!isVertexPresent(vertex)){
             adjacencyListsMap.put(vertex,new HashMap<>());
         } else {
-            throw new GraphException("Graph addEdge: cannot add and Edge already present");
+            throw new GraphException("Graph addEVertex: cannot add a Vertex already present");
         }
     }
 
@@ -126,7 +126,7 @@ public class Graph<V, D>{
     * @throws GraphException if the user tries to add and already existing Edge
     */
     public void addEdge(V source, V destination, D distance) throws IllegalArgumentException, GraphException{
-        if (isEdgePresent(source, destination)){ throw new GraphException("Graph addEdge: cannot add and Edge already present"); }
+        if (isEdgePresent(source, destination)){ throw new GraphException("Graph addEdge: cannot add and Edge already present" + source + destination); }
         if(isVertexPresent(source) && isVertexPresent(destination)){
             this.adjacencyListsMap.get(source).put(destination, distance);
             if (!isDirected()){

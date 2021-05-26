@@ -9,47 +9,47 @@ import java.util.Set;
 public class DisjointSet<T> {
     public HashMap <T,Node<T>> map;
     
-    //Overload
     public DisjointSet(){
         this.map = new HashMap<>();
     }
 
-/**
- * @param vertexesSet collection of vertexes used to inizialize disjointset using makeSet
- */
-    public DisjointSet(Set<T> vertexesSet) throws DisjointSetException{
+    /**
+     * @param vertexesSet collection of vertexes used to inizialize disjointset using makeSet
+     * @throws IllegalArgumentException if the elements in the collection is null
+     * @throws DisjointSetException if the element is already present and so cannot be add
+     */
+    public DisjointSet(Set<T> vertexesSet) throws IllegalArgumentException, DisjointSetException{
         this();
         for (T vertex: vertexesSet){
             makeSet(vertex);
         }
     }
     
-/**
-* @param element element to insert in the map
-* @throws DisjointSetException if the element is null it throws the exception
-*/
-    public void makeSet(T element) throws DisjointSetException{
+    /**
+    * @param element element to insert in the map
+    * @throws IllegalArgumentException if the elements is null
+    * @throws DisjointSetException if the element is already present and so cannot be add
+    */
+    public void makeSet(T element) throws IllegalArgumentException, DisjointSetException{
         if (element == null){ 
             throw new IllegalArgumentException("DisjointSet makeSet: cannot accept null as element"); 
         } 
-        if(!isPresent(element)){
+        if (!isPresent(element)){
             Node<T> newNode = new Node<>(element);
             newNode.setParent(newNode);
             map.put(element, newNode);
-        }else{
-            throw new DisjointSetException("DisjointSet makeSet: cannot add element already present"); 
-        }
+        } else { throw new DisjointSetException("DisjointSet makeSet: cannot add element already present"); }
     } 
 
-/**
-* @param elemx element x to be link with another element 
-* @param elemy element y to be link with another element 
-* @return it returns true if the union was successful, otherwise it returns false
-* @throws DisjointSetException if one element or both elements are null or not present it throws the exception
-
-*/
+    /**
+    * @param elemx element x to be link with another element 
+    * @param elemy element y to be link with another element 
+    * @return it returns true if the union was successful, otherwise it returns false
+    * @throws IllegalArgumentException if one of the elements is null
+    * @throws DisjointSetException if one element or both elements are not present
+    */
     //changed from void to bool to check in KruskalMST if the operation succedeed correctly
-    public boolean union(T elemx, T elemy) throws DisjointSetException{
+    public boolean union(T elemx, T elemy) throws IllegalArgumentException, DisjointSetException{
         if (elemx == null || elemy == null ){ 
             throw new IllegalArgumentException("DisjointSet union: cannot accept null as element");
         }
@@ -62,12 +62,11 @@ public class DisjointSet<T> {
         }
     }
 
-/**
-* @param nodex node x to be link with another node 
-* @param nodey node y to be link with another node
-* @return it returns true if the link was successful, otherwise it returns false(example, the nodes are the same)
-*/
-    //changed from void to bool to check in KruskalMST if the operation succedeed correctly
+    /**
+    * @param nodex node x to be link with another node 
+    * @param nodey node y to be link with another node
+    * @return it returns true if the link was successful, otherwise it returns false(example, the nodes are the same)
+    */
     private boolean link(Node<T> nodex, Node<T> nodey){
         if (nodex == nodey){
             return false;
@@ -86,10 +85,10 @@ public class DisjointSet<T> {
         }  
     }
 
-/**
-* @param node child of the identifier, that we are looking for
-* @return it returns the identifier of the collection
-*/
+    /**
+    * @param node child of the identifier, that we are looking for
+    * @return it returns the identifier of the collection
+    */
     private Node<T> findSet(Node<T> node){
         if (node != node.getParent()){
             node.setParent(findSet(node.getParent()));
@@ -97,20 +96,19 @@ public class DisjointSet<T> {
         return node.getParent();
     }
 
-/**
- * @return it returns the size of the map
- */
+    /**
+     * @return it returns the size of the map
+     */
     public int mapSize(){
         return this.map.size();
     }
    
-/**
-* @param elem element to understand if it is present in the map
-* @return it returns true if the element is present in the collection, otherwise it returns false
-* @throws DisjointSetException if the element is null it throws the exception
-
-*/    
-    public boolean isPresent(T elem) throws DisjointSetException{
+    /**
+    * @param elem element to understand if it is present in the map
+    * @return it returns true if the element is present in the collection, otherwise it returns false
+    * @throws IllegalArgumentException if the element is null it throws the exception
+    */    
+    public boolean isPresent(T elem) throws IllegalArgumentException{
         if (elem == null){ 
             throw new IllegalArgumentException("DisjointSet isPresent: cannot accept null as element");
         }

@@ -216,14 +216,23 @@ public class GraphTest {
     public void getAllVertexesTest() throws GraphException, Exception{
         Set<String> keys = new HashSet<>();
 
-        assertEquals(keys, testEmpty.getAllVertexes());
-
         keys.add("vertice_a");
         keys.add("vertice_b");
         keys.add("vertice_c");
         keys.add("vertice_d");
 
         assertEquals(keys, testDirected.getAllVertexes());
+    }
+
+    /**
+     * @throws GraphException if the Graph has no Vertexes
+     * @throws Exception generic test exception
+     */
+    @Test(expected = GraphException.class)
+    public void getAllVertexesTestEmpty() throws GraphException, Exception{
+        Set<String> keys = new HashSet<>();
+
+        assertEquals(keys, testEmpty.getAllVertexes());
     }
 
     /**
