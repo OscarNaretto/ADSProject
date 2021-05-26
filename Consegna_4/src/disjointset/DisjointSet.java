@@ -30,12 +30,14 @@ public class DisjointSet<T> {
 */
     public void makeSet(T element) throws DisjointSetException{
         if (element == null){ 
-            throw new DisjointSetException("DisjointSet makeSet: cannot accept null as element"); 
+            throw new IllegalArgumentException("DisjointSet makeSet: cannot accept null as element"); 
         } 
         if(!isPresent(element)){
             Node<T> newNode = new Node<>(element);
             newNode.setParent(newNode);
             map.put(element, newNode);
+        }else{
+            throw new DisjointSetException("DisjointSet makeSet: cannot add element already present"); 
         }
     } 
 
@@ -48,7 +50,7 @@ public class DisjointSet<T> {
     //changed from void to bool to check in KruskalMST if the operation succedeed correctly
     public boolean union(T elemx, T elemy) throws DisjointSetException{
         if (elemx == null || elemy == null ){ 
-            throw new DisjointSetException("DisjointSet union: cannot accept null as element");
+            throw new IllegalArgumentException("DisjointSet union: cannot accept null as element");
         }
         if (isPresent(elemx) && isPresent(elemy)){
             Node<T> nodex = (Node<T>) map.get(elemx);
@@ -108,7 +110,7 @@ public class DisjointSet<T> {
 */    
     public boolean isPresent(T elem) throws DisjointSetException{
         if (elem == null){ 
-            throw new DisjointSetException("DisjointSet isPresent: cannot accept null as element");
+            throw new IllegalArgumentException("DisjointSet isPresent: cannot accept null as element");
         }
         if (map.get(elem) != null) {
             return findSet(map.get(elem)).getElem() != null;
