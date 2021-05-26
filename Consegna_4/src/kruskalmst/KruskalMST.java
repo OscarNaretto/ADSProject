@@ -15,7 +15,13 @@ public class KruskalMST<V> {
     Graph<V, Double> mst;
     double totalDistance;
 
-    //controllo directed eccezione, controllo tipo etichetta
+    
+    /**
+     * 
+     * @param graph composed of a type <V> which indicates the vertex of the graph and a type <Double> which indicates the label of the graph vertex
+     * @throws GraphException if i pass a direct graph to the algorithm i generate this exception
+     * @throws DisjointSetException generic exception
+     */
     public KruskalMST(Graph<V, Double> graph) throws GraphException, DisjointSetException{
         if (graph.isDirected()){ throw new GraphException("Cannot pass a directed graph to Kruskal algorithm"); }
         edges = new LinkedList<Edge<V, Double>>();
@@ -24,6 +30,10 @@ public class KruskalMST<V> {
         mstEdges = new LinkedList<Edge<V, Double>>();
     }
 
+   /**  
+     * @throws GraphException if i pass a direct graph to the algorithm i generate this exception
+     * @throws DisjointSetException generic exception
+     */
     public void MST() throws DisjointSetException, GraphException{
         edges.sort(null);
         for (Edge<V, Double> tmp: edges){
@@ -40,11 +50,19 @@ public class KruskalMST<V> {
             this.totalDistance += edge.getLabel();
         }
     }
-
+    
+    /**
+     * 
+     * @return returns the total distance of the arcs in the graph
+     */
     public double getTotalDistance(){
         return this.totalDistance;
     }
 
+    /**
+     * 
+     * @return the Minimum spanning tree
+     */
     public Graph<V, Double> getMst(){
         return this.mst;
     }

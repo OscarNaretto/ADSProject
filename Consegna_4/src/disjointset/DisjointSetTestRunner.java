@@ -7,6 +7,7 @@ import org.junit.runner.notification.Failure;
 public class DisjointSetTestRunner {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLUE = "\u001B[34m";
+    
     /**
      * @param args the command line arguments
      */
