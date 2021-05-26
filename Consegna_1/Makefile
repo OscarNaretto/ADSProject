@@ -4,7 +4,7 @@ COMMON_DEPS = src/*.h Makefile
 all: bin/generic_array bin/generic_array_tests
 
 run: bin/generic_array
-	bin/generic_array $(input) $(output) $(K)
+	bin/generic_array records.csv ./ $(K)
 
 tests: bin/generic_array_tests
 	bin/generic_array_tests

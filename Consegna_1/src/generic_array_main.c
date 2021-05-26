@@ -40,11 +40,11 @@ static int precedes_record_int_field(void *r1_p, void *r2_p) {
 */
 static int succedes_record_int_field(void *r1_p, void *r2_p) {
   if (r1_p == NULL) {
-    fprintf(stderr, "precedes_record_int_field: the first parameter is a null pointer");
+    fprintf(stderr, "succedes_record_int_field: the first parameter is a null pointer");
     exit(EXIT_FAILURE);
   }
   if (r2_p == NULL) {
-    fprintf(stderr, "precedes_record_int_field: the second parameter is a null pointer");
+    fprintf(stderr, "succedes_record_int_field: the second parameter is a null pointer");
     exit(EXIT_FAILURE);
   }
   Record *rec1_p = (Record*)r1_p;
@@ -59,11 +59,11 @@ static int succedes_record_int_field(void *r1_p, void *r2_p) {
 */
 static int precedes_record_float_field(void *r1_p, void *r2_p) {
   if (r1_p == NULL) {
-    fprintf(stderr, "precedes_record_int_field: the first parameter is a null pointer");
+    fprintf(stderr, "precedes_record_float_field: the first parameter is a null pointer");
     exit(EXIT_FAILURE);
   }
   if (r2_p == NULL) {
-    fprintf(stderr, "precedes_record_int_field: the second parameter is a null pointer");
+    fprintf(stderr, "precedes_record_float_field: the second parameter is a null pointer");
     exit(EXIT_FAILURE);
   }
   Record *rec1_p = (Record*)r1_p;
@@ -78,11 +78,11 @@ static int precedes_record_float_field(void *r1_p, void *r2_p) {
 */
 static int succedes_record_float_field(void *r1_p, void *r2_p) {
   if (r1_p == NULL) {
-    fprintf(stderr, "precedes_record_int_field: the first parameter is a null pointer");
+    fprintf(stderr, "succedes_record_float_field: the first parameter is a null pointer");
     exit(EXIT_FAILURE);
   }
   if (r2_p == NULL) {
-    fprintf(stderr, "precedes_record_int_field: the second parameter is a null pointer");
+    fprintf(stderr, "succedes_record_float_field: the second parameter is a null pointer");
     exit(EXIT_FAILURE);
   }
   Record *rec1_p = (Record*)r1_p;

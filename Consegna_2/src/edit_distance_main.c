@@ -128,7 +128,7 @@ void init(const char *correctme, const char *dictionary){
     correction(correctme, dictionary_array, recursive_calls_table);
     end_t = clock();
     printf("Correction written correctly, took: ~%f sec\n", (double)(end_t - start_t) / CLOCKS_PER_SEC);
-
+    
     start_t = clock();
     for (int i = 0; i < MAX_WORD_LENGTH; i++){
         free(recursive_calls_table[i]);
