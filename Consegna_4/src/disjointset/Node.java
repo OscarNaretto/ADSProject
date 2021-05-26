@@ -38,14 +38,23 @@ public class Node<T>{
         this.parent = parent;
     }
     
+/**
+ * @return it returns the parent
+ */
     Node<T> getParent(){
         return parent;
     }
 
+/**
+ * @return it returns the rank
+ */    
     int getRank(){
         return rank;
     }
 
+/**
+ * @return it returns the element
+ */
     T getElem(){
         return elem;
     } 
