@@ -11,9 +11,12 @@ public class DisjointSetTest {
     DisjointSet<Integer> test;
     DisjointSet<Integer> testEmpty;
 
-
+    /**
+     * @throws DisjointSetException element already present
+     * @throws Exception generic test exception
+     */
     @Before
-    public void NodesGenerator() throws DisjointSetException{
+    public void NodesGenerator() throws DisjointSetException, Exception{
         test = new DisjointSet<Integer>();
         testEmpty = new DisjointSet<Integer>();
         
@@ -23,6 +26,9 @@ public class DisjointSetTest {
         test.makeSet(4);
     }
 
+    /**
+     * @throws Exception generic test exception
+     */
     @Test
     public void makeSetTestRank() throws Exception{
         test.union(1, 2);
@@ -36,6 +42,9 @@ public class DisjointSetTest {
         assertTrue(test.map.get(3).getElem() == 2);
     }
 
+    /**
+     * @throws Exception generic test exception
+     */
     @Test
     public void makeSetTestElem() throws Exception{
         test.union(1, 2);
@@ -45,29 +54,44 @@ public class DisjointSetTest {
         assertTrue(test.map.get(3).getElem() == 2);
     }
 
+    /**
+     * @throws Exception generic test exception
+     */    
     @Test
     public void testUnionSetZeroElem() throws Exception{
         assertEquals(0, testEmpty.mapSize());
     }
 
+    /**
+     * @throws Exception generic test exception
+     */    
     @Test
     public void testUnionSetFourElem() throws Exception{
         assertEquals(4, test.mapSize());
     }
 
+    /**
+     * @throws IllegalArgumentException element is null
+     * @throws Exception generic test exception
+     */    
     @Test
-    public void testUnionSetIsPresent() throws Exception{
+    public void testUnionSetIsPresent() throws IllegalArgumentException, Exception{
         assertTrue(test.isPresent(1));
         assertTrue(test.isPresent(3));
         assertTrue(test.isPresent(2));
         assertTrue(test.isPresent(4));
     }
 
+    /**
+     * @throws IllegalArgumentException element is null
+     * @throws Exception generic test exception
+     */
     @Test
-    public void testUnionSetIsNotPresent() throws Exception{
+    public void testUnionSetIsNotPresent() throws IllegalArgumentException, Exception{
         assertTrue(test.isPresent(1));
         assertTrue(test.isPresent(3));
         assertTrue(test.isPresent(2));
         assertFalse(test.isPresent(5));
     }
 }
+
