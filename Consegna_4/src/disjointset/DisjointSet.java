@@ -13,7 +13,7 @@ public class DisjointSet<T> {
     public DisjointSet(){
         this.map = new HashMap<>();
     }
-    
+
 /**
  * @param vertexesSet vertex to be set
  */
@@ -26,6 +26,7 @@ public class DisjointSet<T> {
 
 /**
 * @param element element to insert in the map
+* @throws DisjointSetException if the element is null it throws the exception
 */
     public void makeSet(T element) throws DisjointSetException{
         if (element == null){ 
@@ -41,6 +42,7 @@ public class DisjointSet<T> {
 /**
 * @param elemx element x to be link with another element 
 * @param elemy element y to be link with another element 
+* @throws DisjointSetException if one element or both elements are null or not present it throws the exception
 */
     //changed from void to bool to check in KruskalMST if the operation succedeed correctly
     public boolean union(T elemx, T elemy) throws DisjointSetException{
@@ -95,6 +97,7 @@ public class DisjointSet<T> {
    
 /**
 * @param elem element to understand if it is present in the map
+* @throws DisjointSetException if the element is null it throws the exception
 */    
     public boolean isPresent(T elem) throws DisjointSetException{
         if (elem == null){ 
