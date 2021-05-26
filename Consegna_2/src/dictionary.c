@@ -64,6 +64,10 @@ void load_dictionary(const char *dictionary, Dictionary *dictionary_array){
     word = malloc(MAX_WORD_LENGTH * sizeof(char));
 
     fp = fopen(dictionary, "r");
+    if (fp == NULL) {
+        fprintf(stderr, "dictionary: unable to open the dictionary file");
+        exit(EXIT_FAILURE);
+    }
 
     while(fscanf(fp, "%s", word) != EOF){
       dictionary_add(dictionary_array, word);
