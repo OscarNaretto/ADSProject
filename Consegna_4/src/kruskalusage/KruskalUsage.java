@@ -22,6 +22,14 @@ public class KruskalUsage{
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_RED = "\u001B[31m";
 
+    /**
+     * 
+     * @param filepath file to be read consisting of an unspecified number of strings
+     * @return a list of arches
+     * @throws NumberFormatException thrown to indicate that the application has attempted to convert a string to one of the numeric types, but that the string does not have the appropriate format
+     * @throws IOException signals that an I/O exception of some kind has occurred
+     * @throws GraphException generic exception
+     */
     private static LinkedList<Edge<String, Double>> loadGraph(String filepath) throws NumberFormatException, IOException, GraphException{
         LinkedList<Edge<String, Double>> edgesList = new LinkedList<>();
         
@@ -36,7 +44,14 @@ public class KruskalUsage{
         }
         return edgesList;
     }
-
+/**
+ * 
+ * @param filepath file to be read consisting of an unspecified number of strings
+ * @throws IOException signals that an I/O exception of some kind has occurred
+ * @throws NumberFormatException thrown to indicate that the application has attempted to convert a string to one of the numeric types, but that the string does not have the appropriate format
+ * @throws GraphException generic exception
+ * @throws DisjointSetExceptiongeneric exception
+ */
     private static void kruskalExecution(String filepath) throws IOException, NumberFormatException, GraphException, DisjointSetException{
         long start, initial; 
         float elapsed; 
