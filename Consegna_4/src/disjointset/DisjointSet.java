@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 /**
- * @param <T>
+ * @param <T> //Generic Type
  */
 public class DisjointSet<T> {
     public HashMap <T,Node<T>> map;
@@ -13,7 +13,10 @@ public class DisjointSet<T> {
     public DisjointSet(){
         this.map = new HashMap<>();
     }
-
+    
+/**
+ * @param vertexesSet vertex to be set
+ */
     public DisjointSet(Set<T> vertexesSet) throws DisjointSetException{
         this();
         for (T vertex: vertexesSet){
@@ -21,7 +24,9 @@ public class DisjointSet<T> {
         }
     }
 
-    //
+/**
+* @param element element to insert in the map
+*/
     public void makeSet(T element) throws DisjointSetException{
         if (element == null){ 
             throw new DisjointSetException("DisjointSet makeSet: cannot accept null as element"); 
@@ -33,6 +38,10 @@ public class DisjointSet<T> {
         }
     } 
 
+/**
+* @param elemx element x to be link with another element 
+* @param elemy element y to be link with another element 
+*/
     //changed from void to bool to check in KruskalMST if the operation succedeed correctly
     public boolean union(T elemx, T elemy) throws DisjointSetException{
         if (elemx == null || elemy == null ){ 
@@ -47,6 +56,10 @@ public class DisjointSet<T> {
         }
     }
 
+/**
+* @param nodex node x to be link with another node 
+* @param nodey node y to be link with another node 
+*/
     //changed from void to bool to check in KruskalMST if the operation succedeed correctly
     private boolean link(Node<T> nodex, Node<T> nodey){
         if (nodex == nodey){
@@ -66,6 +79,9 @@ public class DisjointSet<T> {
         }  
     }
 
+/**
+* @param node child of the identifier, that we are looking for
+*/
     private Node<T> findSet(Node<T> node){
         if (node != node.getParent()){
             node.setParent(findSet(node.getParent()));
@@ -76,7 +92,10 @@ public class DisjointSet<T> {
     public int mapSize(){
         return this.map.size();
     }
-    
+   
+/**
+* @param elem element to understand if it is present in the map
+*/    
     public boolean isPresent(T elem) throws DisjointSetException{
         if (elem == null){ 
             throw new DisjointSetException("DisjointSet isPresent: cannot accept null as element");
