@@ -106,7 +106,6 @@ static int precedes_record_string_field(void *r1_p, void *r2_p) {
   }
   Record *rec1_p = (Record*)r1_p;
   Record *rec2_p = (Record*)r2_p;
-
   return strcmp(rec1_p->string_field, rec2_p->string_field) < 0;
 }
 

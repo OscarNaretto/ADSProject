@@ -96,13 +96,13 @@ void generic_array_free_memory(GenericArray *generic_array) {
   free(generic_array);
 }
 
-void merge(GenericArray *generic_array, int (*compare)(void*, void*), unsigned long p, unsigned long q, unsigned long r){
+void merge(GenericArray *generic_array, int (*compare)(void*, void*), unsigned long low, unsigned long mid, unsigned long high){
     
-    unsigned long k = 0, i = p, j = q + 1;
+    unsigned long k = 0, i = low, j = mid + 1;
 
     GenericArray *tmp_array = generic_array_create(compare);
 
-    while (i<=q && j<=r){
+    while (i <= mid && j <= high){
         if(generic_array->compare(generic_array->array[i], generic_array->array[j])){
             generic_array_add(tmp_array, generic_array->array[i]);
             i++;
@@ -112,19 +112,19 @@ void merge(GenericArray *generic_array, int (*compare)(void*, void*), unsigned l
         }
     }
     
-    while(i <= q){
+    while(i <= mid){
         generic_array_add(tmp_array, generic_array->array[i]);
         i++;
     }
     
-    while(j <= r){
+    while(j <= high){
         generic_array_add(tmp_array, generic_array->array[j]);
         j++;
     }
   
-    k = p;
-    while(k <= r){
-        generic_array->array[k] = tmp_array->array[k-p];
+    k = low;
+    while(k <= high){
+        generic_array->array[k] = tmp_array->array[k-low];
         k++;
     }
     generic_array_free_memory(tmp_array);
@@ -139,7 +139,6 @@ unsigned long binarySearch(GenericArray *generic_array, void *item, unsigned lon
             return low;
         }
     }
-
     unsigned long mid = (low + high)/2;
     if (generic_array->compare(generic_array->array[mid], item)){
         return binarySearch(generic_array, item, mid+1, high);
@@ -152,7 +151,7 @@ void sorting_algorithm(GenericArray *generic_array, int (*compare)(void*, void*)
     if (high - low + 1 <= k_value){
 
         for (unsigned long i = low + 1; i  < high + 1; i++){
-            unsigned long j = i - 1;
+            long j = i - 1;
             GenericArray *tmp_array = generic_array_create(compare);
             tmp_array->array[0] = generic_array->array[i];
 
@@ -161,8 +160,9 @@ void sorting_algorithm(GenericArray *generic_array, int (*compare)(void*, void*)
 
             //ciclo per spostare l'elemento cosi da fare 
             //spazio per l'elemento da inserire
-            while (j >= index){
-                generic_array->array[j+1] = generic_array->array[j];
+            while (j >= (long)index){ //se j è unsigned long e va in negativo, prende con valore massimo; se confronto un long con unsigned long, finisce male con i negativi
+              printf("J vale %ld\n", j);
+                generic_array->array[j+1] = generic_array->array[j];  
                 j--;
             }
             generic_array->array[index] = tmp_array->array[0]; 
@@ -174,7 +174,7 @@ void sorting_algorithm(GenericArray *generic_array, int (*compare)(void*, void*)
         if (low < high) {
             mid = (low+high)/2;
             sorting_algorithm(generic_array, compare, low, mid);
-            sorting_algorithm(generic_array, compare, mid+1, high);
+            sorting_algorithm(generic_array, compare, mid + 1, high);
             merge(generic_array, compare, low, mid, high);
         }
     }
