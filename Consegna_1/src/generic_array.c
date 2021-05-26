@@ -130,7 +130,7 @@ void merge(GenericArray *generic_array, int (*compare)(void*, void*), unsigned l
     generic_array_free_memory(tmp_array);
 }
 
-unsigned long binarySearch(GenericArray *generic_array, void *item, unsigned long low, unsigned long high) {
+long binarySearch(GenericArray *generic_array, void *item, long low, long high) {
 
     if (high <= low) {
         if (generic_array->compare(generic_array->array[low], item)){
@@ -139,11 +139,11 @@ unsigned long binarySearch(GenericArray *generic_array, void *item, unsigned lon
             return low;
         }
     }
-    unsigned long mid = (low + high)/2;
+    long mid = (low + high)/2;
     if (generic_array->compare(generic_array->array[mid], item)){
-        return binarySearch(generic_array, item, mid+1, high);
+        return binarySearch(generic_array, item, mid + 1, high);
     }
-    return binarySearch(generic_array, item, low, mid-1);  
+    return binarySearch(generic_array, item, low, mid - 1);  
 }
 
 void sorting_algorithm(GenericArray *generic_array, int (*compare)(void*, void*), unsigned long low, unsigned long high){
@@ -151,16 +151,16 @@ void sorting_algorithm(GenericArray *generic_array, int (*compare)(void*, void*)
     if (high - low + 1 <= k_value){
 
         for (unsigned long i = low + 1; i  < high + 1; i++){
-            long j = i - 1;
+            long j = (long)i - 1;
             GenericArray *tmp_array = generic_array_create(compare);
             tmp_array->array[0] = generic_array->array[i];
 
             //posizione in cui deve essere inserito selezionato
-            unsigned long index = binarySearch(generic_array, tmp_array->array[0], low, j);
+            long index = binarySearch(generic_array, tmp_array->array[0], (long)low, j);
 
             //ciclo per spostare l'elemento cosi da fare 
             //spazio per l'elemento da inserire
-            while (j >= (long)index){ //se j è unsigned long e va in negativo, prende con valore massimo; se confronto un long con unsigned long, finisce male con i negativi
+            while (j >= index){ //se j è unsigned long e va in negativo, prende con valore massimo; se confronto un long con unsigned long, finisce male con i negativi
               printf("J vale %ld\n", j);
                 generic_array->array[j+1] = generic_array->array[j];  
                 j--;
