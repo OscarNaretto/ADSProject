@@ -190,13 +190,19 @@ public class Graph<V, D>{
 
     /**
     * @param vertex
-    * @return the Collection of all Edges, loaded in a LinkedList in order to keep track of the order for KruskalMST
+    * @return the Collection of all adiacent vertexes, loaded into a Set<V>
     * @throws GraphException if the Graph has no Edges
     */
-    //DA CONTROLLARE ANCHE GLI ALTRI VERTICI IN CASO DI GRAFO NON DIRETTO?
     public Set<V> getAllAdjVertexes(V vertex) throws GraphException{
         if(!this.directed && this.adjacencyListsMap.get(vertex).size() == 0) { throw new GraphException("Graph getAllAdjVertexes: no edges present with vertex as source or destination"); }
         Set<V> keys = this.adjacencyListsMap.get(vertex).keySet();
+
+        for (V key : this.adjacencyListsMap.keySet()) {  
+            if (this.adjacencyListsMap.get(key).get(vertex) != null){
+                keys.add(key);
+            }
+        }
+        if(keys.size() == 0) { throw new GraphException("Graph getAllAdjVertexes: no edges present with vertex as source or destination"); }
         return keys;
     }
 }

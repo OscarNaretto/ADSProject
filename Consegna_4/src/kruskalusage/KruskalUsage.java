@@ -91,7 +91,7 @@ public class KruskalUsage{
      */
     public static void main(String[] args) throws IOException, NumberFormatException, IllegalArgumentException, GraphException, DisjointSetException, Exception {
         if(args.length < 1) {
-            throw new Exception("Usage: OrderedArrayUsageJava <file_name>");
+            throw new Exception("Usage: KruskalUsage <file_name>");
         }
         kruskalExecution(args[0]);
     } 

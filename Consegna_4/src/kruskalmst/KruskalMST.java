@@ -30,18 +30,15 @@ public class KruskalMST<V> {
     }
 
     /**  
-     * @throws IllegalArgumentException if one of the elements passed to the union method is null or if we try to add a null Edge or Vertex to the graph
-     * @throws GraphException if the user tries to add and already existing Vertex or Edge
      * @throws DisjointSetException if one element or both elements passed to union() are not present in the DisjointSet structure
      */
-    public void MST() throws IllegalArgumentException, DisjointSetException, GraphException{
+    public void MST() throws DisjointSetException{
         edges.sort(null);
         for (Edge<V, Double> tmp: edges){
             if(trees.union(tmp.getSource(), tmp.getDestination())) {
                 mstEdges.add(tmp);
             }
         }
-        mst = new Graph<V, Double>(false, mstEdges);
         setTotalDistance();
     }
 
@@ -59,9 +56,12 @@ public class KruskalMST<V> {
     }
 
     /**
-     * @return the Minimum spanning tree
+     * @return the minimum spanning tree
+     * @throws GraphException if the user tries to add and already existing Vertex or Edge
+     * @throws IllegalArgumentException if one of the elements passed to the union method is null or if we try to add a null Edge or Vertex to the graph
      */
-    public Graph<V, Double> getMst(){
+    public Graph<V, Double> getMst() throws IllegalArgumentException, GraphException{
+        mst = new Graph<V, Double>(false, mstEdges);
         return this.mst;
     }
 }
