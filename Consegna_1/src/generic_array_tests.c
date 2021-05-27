@@ -38,73 +38,71 @@ static void test_succedes_int_reverse(){
   TEST_ASSERT_FALSE(succedes_int(&i1,&i2));
 }
 
-//il numero di elementi del array appena creato dovrà essere zero
+  static void test_generic_array_is_empty_zero_el() {
+  GenericArray *generic_array_int = generic_array_create(precedes_int); 
+  TEST_ASSERT_TRUE(generic_array_is_empty(generic_array_int));
+  generic_array_free_memory(generic_array_int);  
+  }
 
-  static void test_ordered_array_is_empty_zero_el() {
-  GenericArray *ordered_array_int = generic_array_create(precedes_int); // creo un array
-  TEST_ASSERT_TRUE(generic_array_is_empty(ordered_array_int));
-  generic_array_free_memory(ordered_array_int); // libero l'array dalla memoria 
-}
-
-    static void test_ordered_array_is_empty_one_el() {
+    static void test_generic_array_is_empty_one_el() {
     int i = -12;
-    GenericArray *ordered_array_int = generic_array_create(precedes_int);
-    generic_array_add(ordered_array_int, &i);   // aggiungo l'elemento 
-    TEST_ASSERT_FALSE(generic_array_is_empty(ordered_array_int));
-    generic_array_free_memory(ordered_array_int);
+    GenericArray *generic_array_int = generic_array_create(precedes_int);
+    generic_array_add(generic_array_int, &i);   
+    TEST_ASSERT_FALSE(generic_array_is_empty(generic_array_int));
+    generic_array_free_memory(generic_array_int);
 }
 
-  static void test_ordered_array_size_zero_el() {
-    GenericArray *ordered_array_int = generic_array_create(precedes_int);
-    TEST_ASSERT_EQUAL_INT(0, generic_array_size(ordered_array_int));
-    generic_array_free_memory(ordered_array_int);
+  static void test_generic_array_size_zero_el() {
+    GenericArray *generic_array_int = generic_array_create(precedes_int);
+    TEST_ASSERT_EQUAL_INT(0, generic_array_size(generic_array_int));
+    generic_array_free_memory(generic_array_int);
 }
 
-    static void test_ordered_array_size_one_el() {
+    static void test_generic_array_size_one_el() {
     int i1 = -12;
-    GenericArray *ordered_array_int = generic_array_create(precedes_int);
-    generic_array_add(ordered_array_int, &i1);
-    TEST_ASSERT_EQUAL_INT(1, generic_array_size(ordered_array_int));
-    generic_array_free_memory(ordered_array_int);
+    GenericArray *generic_array_int = generic_array_create(precedes_int);
+    generic_array_add(generic_array_int, &i1);
+    TEST_ASSERT_EQUAL_INT(1, generic_array_size(generic_array_int));
+    generic_array_free_memory(generic_array_int);
 }
 
-    static void test_ordered_array_size_two_el() {
+    static void test_generic_array_size_two_el() {
     int i1 = -12;
     int i2 = 2;
-    GenericArray *ordered_array_int = generic_array_create(precedes_int);
-    generic_array_add(ordered_array_int, &i1);
-    generic_array_add(ordered_array_int, &i2);
-    TEST_ASSERT_EQUAL_INT(2, generic_array_size(ordered_array_int));
-    generic_array_free_memory(ordered_array_int);
+    GenericArray *generic_array_int = generic_array_create(precedes_int);
+    generic_array_add(generic_array_int, &i1);
+    generic_array_add(generic_array_int, &i2);
+    TEST_ASSERT_EQUAL_INT(2, generic_array_size(generic_array_int));
+    generic_array_free_memory(generic_array_int);
 }
 
-static void test_ordered_array_add_get_one_el() {
+static void test_generic_array_add_get_one_el() {
   int i1 = -12;
-  GenericArray *ordered_array_int = generic_array_create(precedes_int);
-  generic_array_add(ordered_array_int, &i1);
-  TEST_ASSERT_EQUAL_PTR(&i1, generic_array_get(ordered_array_int, 0)); // asserische che i puntatori puntino nella stessa posizione di memoria
-  generic_array_free_memory(ordered_array_int);
+  GenericArray *generic_array_int = generic_array_create(precedes_int);
+  generic_array_add(generic_array_int, &i1);
+  TEST_ASSERT_EQUAL_PTR(&i1, generic_array_get(generic_array_int, 0)); // asserische che i puntatori puntino nella stessa posizione di memoria
+  generic_array_free_memory(generic_array_int);
 }
 
-static void test_ordered_array_add_get_three_el() {
+static void test_generic_array_add_get_three_el() {
   int i1 = -12;
   int i2 = 0;
   int i3 = 4;
   int* exp_arr[] = {&i1, &i2, &i3};
 
-  GenericArray *ordered_array_int = generic_array_create(precedes_int);
-  generic_array_add(ordered_array_int, &i2);
-  generic_array_add(ordered_array_int, &i3);
-  generic_array_add(ordered_array_int, &i1);
-  sorting_algorithm(ordered_array_int, precedes_int, 0, generic_array_size(ordered_array_int) - 1);
+  GenericArray *generic_array_int = generic_array_create(precedes_int);
+  generic_array_add(generic_array_int, &i2);
+  generic_array_add(generic_array_int, &i3);
+  generic_array_add(generic_array_int, &i1);
+  sorting_algorithm(generic_array_int, precedes_int, 0, generic_array_size(generic_array_int) - 1);
 
   int **act_arr = malloc(3*sizeof(int*));
   for (unsigned long i=0; i < 3; ++i) {
-    act_arr[i] = (int*)generic_array_get(ordered_array_int, i);
+    act_arr[i] = (int*)generic_array_get(generic_array_int, i);
   }
   TEST_ASSERT_EQUAL_PTR_ARRAY(exp_arr, act_arr, 3);//(I,j,z) sono i parametri di entrabi gli array , z sono gli elemnti da controllare
   free(act_arr);
-  generic_array_free_memory(ordered_array_int);
+  generic_array_free_memory(generic_array_int);
 }
 
 static void test_sorting_algorithm(){
@@ -114,19 +112,19 @@ static void test_sorting_algorithm(){
     int i4 = 23;
     int i5 = 10;
 
-    GenericArray *ordered_array_int = generic_array_create(precedes_int);
-    generic_array_add(ordered_array_int, &i4);
-    generic_array_add(ordered_array_int, &i2);
-    generic_array_add(ordered_array_int, &i1);
-    generic_array_add(ordered_array_int, &i5);
-    generic_array_add(ordered_array_int, &i3);
-    sorting_algorithm(ordered_array_int,precedes_int, 0, generic_array_size(ordered_array_int) - 1);
-    TEST_ASSERT_EQUAL_PTR(&i2,generic_array_get(ordered_array_int, 0));
-    TEST_ASSERT_EQUAL_PTR(&i1,generic_array_get(ordered_array_int, 1));
-    TEST_ASSERT_EQUAL_PTR(&i3,generic_array_get(ordered_array_int, 2));
-    TEST_ASSERT_EQUAL_PTR(&i5,generic_array_get(ordered_array_int, 3)); 
-    TEST_ASSERT_EQUAL_PTR(&i4,generic_array_get(ordered_array_int, 4));
-    generic_array_free_memory(ordered_array_int);
+    GenericArray *generic_array_int = generic_array_create(precedes_int);
+    generic_array_add(generic_array_int, &i4);
+    generic_array_add(generic_array_int, &i2);
+    generic_array_add(generic_array_int, &i1);
+    generic_array_add(generic_array_int, &i5);
+    generic_array_add(generic_array_int, &i3);
+    sorting_algorithm(generic_array_int,precedes_int, 0, generic_array_size(generic_array_int) - 1);
+    TEST_ASSERT_EQUAL_PTR(&i2,generic_array_get(generic_array_int, 0));
+    TEST_ASSERT_EQUAL_PTR(&i1,generic_array_get(generic_array_int, 1));
+    TEST_ASSERT_EQUAL_PTR(&i3,generic_array_get(generic_array_int, 2));
+    TEST_ASSERT_EQUAL_PTR(&i5,generic_array_get(generic_array_int, 3)); 
+    TEST_ASSERT_EQUAL_PTR(&i4,generic_array_get(generic_array_int, 4));
+    generic_array_free_memory(generic_array_int);
 }
 
 static void test_sorting_algorithm_reversed(){
@@ -136,19 +134,19 @@ static void test_sorting_algorithm_reversed(){
     int i4 = 23;
     int i5 = 10;
 
-    GenericArray *ordered_array_int = generic_array_create(precedes_int);
-    generic_array_add(ordered_array_int, &i3);
-    generic_array_add(ordered_array_int, &i5);
-    generic_array_add(ordered_array_int, &i1);
-    generic_array_add(ordered_array_int, &i2);
-    generic_array_add(ordered_array_int, &i4);
-    sorting_algorithm(ordered_array_int,precedes_int, 0, generic_array_size(ordered_array_int) - 1);
-    TEST_ASSERT_EQUAL_PTR(&i2,generic_array_get(ordered_array_int, 0));
-    TEST_ASSERT_EQUAL_PTR(&i1,generic_array_get(ordered_array_int, 1));
-    TEST_ASSERT_EQUAL_PTR(&i3,generic_array_get(ordered_array_int, 2));
-    TEST_ASSERT_EQUAL_PTR(&i5,generic_array_get(ordered_array_int, 3)); 
-    TEST_ASSERT_EQUAL_PTR(&i4,generic_array_get(ordered_array_int, 4));
-    generic_array_free_memory(ordered_array_int);
+    GenericArray *generic_array_int = generic_array_create(precedes_int);
+    generic_array_add(generic_array_int, &i3);
+    generic_array_add(generic_array_int, &i5);
+    generic_array_add(generic_array_int, &i1);
+    generic_array_add(generic_array_int, &i2);
+    generic_array_add(generic_array_int, &i4);
+    sorting_algorithm(generic_array_int,precedes_int, 0, generic_array_size(generic_array_int) - 1);
+    TEST_ASSERT_EQUAL_PTR(&i2,generic_array_get(generic_array_int, 0));
+    TEST_ASSERT_EQUAL_PTR(&i1,generic_array_get(generic_array_int, 1));
+    TEST_ASSERT_EQUAL_PTR(&i3,generic_array_get(generic_array_int, 2));
+    TEST_ASSERT_EQUAL_PTR(&i5,generic_array_get(generic_array_int, 3)); 
+    TEST_ASSERT_EQUAL_PTR(&i4,generic_array_get(generic_array_int, 4));
+    generic_array_free_memory(generic_array_int);
 }
 
 static void test_algorithm_equal_two_elements(){
@@ -158,19 +156,19 @@ static void test_algorithm_equal_two_elements(){
     int i4 = 23;
     int i5 = 10;
 
-    GenericArray *ordered_array_int = generic_array_create(precedes_int);
-    generic_array_add(ordered_array_int, &i4);
-    generic_array_add(ordered_array_int, &i2);
-    generic_array_add(ordered_array_int, &i1);
-    generic_array_add(ordered_array_int, &i5);
-    generic_array_add(ordered_array_int, &i3);
-    sorting_algorithm(ordered_array_int,precedes_int, 0, generic_array_size(ordered_array_int) - 1);
-    TEST_ASSERT_EQUAL_PTR(&i1,generic_array_get(ordered_array_int, 0));
-    TEST_ASSERT_EQUAL_PTR(&i3,generic_array_get(ordered_array_int, 1));
-    TEST_ASSERT_EQUAL_PTR(&i2,generic_array_get(ordered_array_int, 2));
-    TEST_ASSERT_EQUAL_PTR(&i5,generic_array_get(ordered_array_int, 3)); 
-    TEST_ASSERT_EQUAL_PTR(&i4,generic_array_get(ordered_array_int, 4));
-    generic_array_free_memory(ordered_array_int);
+    GenericArray *generic_array_int = generic_array_create(precedes_int);
+    generic_array_add(generic_array_int, &i4);
+    generic_array_add(generic_array_int, &i2);
+    generic_array_add(generic_array_int, &i1);
+    generic_array_add(generic_array_int, &i5);
+    generic_array_add(generic_array_int, &i3);
+    sorting_algorithm(generic_array_int,precedes_int, 0, generic_array_size(generic_array_int) - 1);
+    TEST_ASSERT_EQUAL_PTR(&i1,generic_array_get(generic_array_int, 0));
+    TEST_ASSERT_EQUAL_PTR(&i3,generic_array_get(generic_array_int, 1));
+    TEST_ASSERT_EQUAL_PTR(&i2,generic_array_get(generic_array_int, 2));
+    TEST_ASSERT_EQUAL_PTR(&i5,generic_array_get(generic_array_int, 3)); 
+    TEST_ASSERT_EQUAL_PTR(&i4,generic_array_get(generic_array_int, 4));
+    generic_array_free_memory(generic_array_int);
 }
 
 
@@ -182,19 +180,19 @@ static void test_algorithm_equal_three_elements(){
     int i4 = 4;
     int i5 = 10;
 
-    GenericArray *ordered_array_int = generic_array_create(precedes_int);
-    generic_array_add(ordered_array_int, &i4);
-    generic_array_add(ordered_array_int, &i2);
-    generic_array_add(ordered_array_int, &i1);
-    generic_array_add(ordered_array_int, &i5);
-    generic_array_add(ordered_array_int, &i3);
-    sorting_algorithm(ordered_array_int,precedes_int, 0, generic_array_size(ordered_array_int) - 1);
-    TEST_ASSERT_EQUAL_PTR(&i1,generic_array_get(ordered_array_int, 0));
-    TEST_ASSERT_EQUAL_PTR(&i3,generic_array_get(ordered_array_int, 1));
-    TEST_ASSERT_EQUAL_PTR(&i2,generic_array_get(ordered_array_int, 2));
-    TEST_ASSERT_EQUAL_PTR(&i4,generic_array_get(ordered_array_int, 3)); 
-    TEST_ASSERT_EQUAL_PTR(&i5,generic_array_get(ordered_array_int, 4));
-    generic_array_free_memory(ordered_array_int);
+    GenericArray *generic_array_int = generic_array_create(precedes_int);
+    generic_array_add(generic_array_int, &i4);
+    generic_array_add(generic_array_int, &i2);
+    generic_array_add(generic_array_int, &i1);
+    generic_array_add(generic_array_int, &i5);
+    generic_array_add(generic_array_int, &i3);
+    sorting_algorithm(generic_array_int,precedes_int, 0, generic_array_size(generic_array_int) - 1);
+    TEST_ASSERT_EQUAL_PTR(&i1,generic_array_get(generic_array_int, 0));
+    TEST_ASSERT_EQUAL_PTR(&i3,generic_array_get(generic_array_int, 1));
+    TEST_ASSERT_EQUAL_PTR(&i2,generic_array_get(generic_array_int, 2));
+    TEST_ASSERT_EQUAL_PTR(&i4,generic_array_get(generic_array_int, 3)); 
+    TEST_ASSERT_EQUAL_PTR(&i5,generic_array_get(generic_array_int, 4));
+    generic_array_free_memory(generic_array_int);
 }
 
 
@@ -203,15 +201,15 @@ static void test_algorithm_equal_full_elements(){
     int i2 = 4;
     int i3 = 4;
 
-    GenericArray *ordered_array_int = generic_array_create(precedes_int);
-    generic_array_add(ordered_array_int, &i3);
-    generic_array_add(ordered_array_int, &i1);
-    generic_array_add(ordered_array_int, &i2);
-    sorting_algorithm(ordered_array_int,precedes_int, 0, generic_array_size(ordered_array_int) - 1);
-    TEST_ASSERT_EQUAL_PTR(&i2,generic_array_get(ordered_array_int, 0));
-    TEST_ASSERT_EQUAL_PTR(&i1,generic_array_get(ordered_array_int, 1));
-    TEST_ASSERT_EQUAL_PTR(&i3,generic_array_get(ordered_array_int, 2)); 
-    generic_array_free_memory(ordered_array_int);
+    GenericArray *generic_array_int = generic_array_create(precedes_int);
+    generic_array_add(generic_array_int, &i3);
+    generic_array_add(generic_array_int, &i1);
+    generic_array_add(generic_array_int, &i2);
+    sorting_algorithm(generic_array_int,precedes_int, 0, generic_array_size(generic_array_int) - 1);
+    TEST_ASSERT_EQUAL_PTR(&i2,generic_array_get(generic_array_int, 0));
+    TEST_ASSERT_EQUAL_PTR(&i1,generic_array_get(generic_array_int, 1));
+    TEST_ASSERT_EQUAL_PTR(&i3,generic_array_get(generic_array_int, 2)); 
+    generic_array_free_memory(generic_array_int);
 }
 
 
@@ -223,13 +221,13 @@ int main(){
     RUN_TEST(test_precedes_int_reverse);
     RUN_TEST(test_succedes_int);
     RUN_TEST(test_succedes_int_reverse);
-    RUN_TEST(test_ordered_array_is_empty_zero_el);
-    RUN_TEST(test_ordered_array_is_empty_one_el);
-    RUN_TEST(test_ordered_array_size_zero_el);
-    RUN_TEST(test_ordered_array_size_one_el);
-    RUN_TEST(test_ordered_array_size_two_el);
-    RUN_TEST(test_ordered_array_add_get_one_el);
-    RUN_TEST(test_ordered_array_add_get_three_el);
+    RUN_TEST(test_generic_array_is_empty_zero_el);
+    RUN_TEST(test_generic_array_is_empty_one_el);
+    RUN_TEST(test_generic_array_size_zero_el);
+    RUN_TEST(test_generic_array_size_one_el);
+    RUN_TEST(test_generic_array_size_two_el);
+    RUN_TEST(test_generic_array_add_get_one_el);
+    RUN_TEST(test_generic_array_add_get_three_el);
     RUN_TEST(test_sorting_algorithm);
     RUN_TEST(test_sorting_algorithm_reversed);
     RUN_TEST(test_algorithm_equal_two_elements);

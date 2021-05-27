@@ -14,7 +14,6 @@ int min(int a, int b, int c) {
     }
 }
 
-//parte dall'inizio della stringa, per comodità di lettura
 int edit_distance(char *string1, char *string2){
     int no_op;
     if (strlen(string1) == 0) return (int)strlen(string2);
@@ -28,7 +27,6 @@ int edit_distance(char *string1, char *string2){
     return min(1 + edit_distance(string1, string2+1), 1 + edit_distance(string1+1, string2), no_op);
 }
 
-//parte dal fondo della stringa attraverso le lenght, per implementare la tabella in cui salvare i risultati. Similarità all'approccio iterativo
 int edit_distance_dynamic(char *string1, char *string2, int length1, int length2, int **recursive_calls_table){
     int no_op;
     if (length1 == 0) return length2;

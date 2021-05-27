@@ -5,7 +5,9 @@
 //Initial capacity for the array
 #define INITIAL_CAPACITY 2
 
-//costante di confronto per il passaggio da mergesort a insertionsort
+/*constant used to choose between mergeSort or insertionSort algorithms 
+ *If current array size is equal or less than k_value, we will use insertionSort, otherwise we will use mergeSort
+*/
 unsigned long k_value = 35; 
 
 //It represents the internal structure of this implementation of generic arrays
@@ -23,7 +25,7 @@ GenericArray *generic_array_create(int (*compare)(void*, void*)) {
   }
   GenericArray *generic_array = (GenericArray*)malloc(sizeof(GenericArray));
   if (generic_array == NULL) {
-    fprintf(stderr, "generic_array_create: unable to allocate memory for the ordered array");
+    fprintf(stderr, "generic_array_create: unable to allocate memory for the generic array");
     exit(EXIT_FAILURE);
   }
   generic_array->array = (void**)malloc(INITIAL_CAPACITY * sizeof(void*));
@@ -55,11 +57,11 @@ unsigned long generic_array_size(GenericArray *generic_array) {
 
 void generic_array_add(GenericArray *generic_array, void *element) {
   if (generic_array == NULL) {
-    fprintf(stderr, "add_ordered_array_element: generic_array parameter cannot be NULL");
+    fprintf(stderr, "add_generic_array_element: generic_array parameter cannot be NULL");
     exit(EXIT_FAILURE);
   }
   if (element == NULL) {
-    fprintf(stderr, "add_ordered_array_element: element parameter cannot be NULL");
+    fprintf(stderr, "add_generic_array_element: element parameter cannot be NULL");
     exit(EXIT_FAILURE);
   }
 
@@ -97,9 +99,7 @@ void generic_array_free_memory(GenericArray *generic_array) {
 }
 
 void merge(GenericArray *generic_array, int (*compare)(void*, void*), unsigned long low, unsigned long mid, unsigned long high){
-    
     unsigned long k = 0, i = low, j = mid + 1;
-
     GenericArray *tmp_array = generic_array_create(compare);
 
     while (i <= mid && j <= high){
@@ -149,24 +149,20 @@ long binarySearch(GenericArray *generic_array, void *item, long low, long high) 
 void sorting_algorithm(GenericArray *generic_array, int (*compare)(void*, void*), unsigned long low, unsigned long high){
 
     if (high - low + 1 <= k_value){
-
+        //InsertionSort recursive implementation with binary search
         for (unsigned long i = low + 1; i  < high + 1; i++){
             long j = (long)i - 1;
-            GenericArray *tmp_array = generic_array_create(compare);
+            //We need to store a generic element
+            GenericArray *tmp_array = generic_array_create(compare); 
             tmp_array->array[0] = generic_array->array[i];
 
-            //posizione in cui deve essere inserito selezionato
             long index = binarySearch(generic_array, tmp_array->array[0], (long)low, j);
 
-            //ciclo per spostare l'elemento cosi da fare 
-            //spazio per l'elemento da inserire
-            while (j >= index){ //se j è unsigned long e va in negativo, prende con valore massimo; se confronto un long con unsigned long, finisce male con i negativi
-              printf("J vale %ld\n", j);
+            while (j >= index){
                 generic_array->array[j+1] = generic_array->array[j];  
                 j--;
             }
             generic_array->array[index] = tmp_array->array[0]; 
-
             generic_array_free_memory(tmp_array);
         }
     }else{

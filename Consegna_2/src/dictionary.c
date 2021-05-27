@@ -7,6 +7,11 @@
 #define MAX_WORD_LENGTH 20
 #define MAX_WORDS_NUMBER 30
 
+struct _Dictionary{
+    char **array;
+    unsigned long size;
+    unsigned long array_capacity;
+};
 
 Dictionary *dictionary_create() {
   

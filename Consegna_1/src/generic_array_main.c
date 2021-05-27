@@ -97,11 +97,11 @@ static int succedes_record_float_field(void *r1_p, void *r2_p) {
  */
 static int precedes_record_string_field(void *r1_p, void *r2_p) {
   if (r1_p == NULL) {
-    fprintf(stderr, "precedes_string: the first parameter is a null pointer");
+    fprintf(stderr, "precedes_record_string_field: the first parameter is a null pointer");
     exit(EXIT_FAILURE);
   }
   if (r2_p == NULL) {
-    fprintf(stderr, "precedes_string: the second parameter is a null pointer");
+    fprintf(stderr, "precedes_record_string_field: the second parameter is a null pointer");
     exit(EXIT_FAILURE);
   }
   Record *rec1_p = (Record*)r1_p;
@@ -116,11 +116,11 @@ static int precedes_record_string_field(void *r1_p, void *r2_p) {
  */
 static int succedes_record_string_field(void *r1_p, void *r2_p) {
   if (r1_p == NULL) {
-    fprintf(stderr, "precedes_string: the first parameter is a null pointer");
+    fprintf(stderr, "succedes_record_string_field: the first parameter is a null pointer");
     exit(EXIT_FAILURE);
   }
   if (r2_p == NULL) {
-    fprintf(stderr, "precedes_string: the second parameter is a null pointer");
+    fprintf(stderr, "succedes_record_string_field: the second parameter is a null pointer");
     exit(EXIT_FAILURE);
   }
   Record *rec1_p = (Record*)r1_p;
@@ -140,7 +140,6 @@ static  void free_array(GenericArray *array) {
   generic_array_free_memory(array);
 }
 
-// print on file
 void print_file_array(GenericArray *array, char *output_file) {
     FILE *ordered;
     
@@ -245,7 +244,7 @@ int main(int argc, char const *argv[]) {
     printf("Invalid arguments\n\n");
     printf("Terminal usage:\n - pass input_file_path as first argument\n - pass output_directory_path as second argument (output files will be named after their sorting field type)\n - (OPTIONAL)pass k_value as third argument");
     printf("Example: ./Main records.csv ../\n\n");
-    printf("Make usage: make run input=input_file_path output=output_directory_path #OPTIONAL#K=int_k_value\n\n");
+    printf("Make usage: make run #OPTIONAL#K=int_k_value\n\n");
     exit(EXIT_FAILURE);
   }
   char string_path[strlen(argv[2]) + 1], int_path[strlen(argv[2]) + 1], float_path[strlen(argv[2]) + 1];
