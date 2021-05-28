@@ -61,10 +61,6 @@ public class Edge<V, D> implements Comparable<Edge<V, D>>{
         if (destination == null) {
             if (other.destination != null) { return false; }
         } else if (!destination.equals(other.destination)) { return false; }
-
-        if (label == null) {
-            if (other.label != null) { return false; }
-        } else if (!label.equals(other.label)) { return false; }
         return true;
     }
 

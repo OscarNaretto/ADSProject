@@ -1,6 +1,8 @@
 package kruskalmst;
 
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Set;
 
 import graph.Edge;
 import graph.Graph;
@@ -11,7 +13,7 @@ import disjointset.DisjointSetException;
 public class KruskalMST<V> {
     LinkedList<Edge<V, Double>> edges;
     DisjointSet<V> trees;
-    LinkedList<Edge<V, Double>> mstEdges;
+    Set<Edge<V, Double>> mstEdges;
     Graph<V, Double> mst;
     double totalDistance;
     
@@ -26,7 +28,7 @@ public class KruskalMST<V> {
         edges = new LinkedList<Edge<V, Double>>();
         edges = graph.getAllEdges();
         trees = new DisjointSet<>(graph.getAllVertexes());
-        mstEdges = new LinkedList<Edge<V, Double>>();
+        mstEdges = new HashSet<>();
     }
 
     /**  

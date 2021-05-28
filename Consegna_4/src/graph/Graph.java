@@ -14,7 +14,7 @@ public class Graph<V, D>{
     private HashMap<Integer, Edge<V, D>> edgesMap;
 
     /**
-    * @param directed   if true the graph will be directed; if false will be non-directed
+    * @param directed if true the graph will be directed; if false will be non-directed
     */
     public Graph(boolean directed){
         this.directed = directed;
@@ -24,11 +24,12 @@ public class Graph<V, D>{
 
     /**
     * @param directed   if true the graph will be directed; if false will be non-directed
-    * @param edgesList  represents the linkedList containing all the edges of the graph that needs to be created
+    * @param edgesList  represents the linkedList containing all the edges of the graph that needs to be created. 
+    * Edges need to be unique
     * @throws IllegalArgumentException  if we try to add a null Edge or Vertex to the graph
     * @throws GraphException if the user tries to add and already existing Vertex or Edge  
     */
-    public Graph(boolean directed, LinkedList<Edge<V, D>> edgesList) throws IllegalArgumentException, GraphException{
+    public Graph(boolean directed, Set<Edge<V, D>> edgesList) throws IllegalArgumentException, GraphException{
         this.directed = directed;
         this.adjacencyListsMap = new HashMap<>();
         this.edgesMap = new HashMap<>();
@@ -38,7 +39,7 @@ public class Graph<V, D>{
             V destination = edge.getDestination();
             if (!this.isVertexPresent(source)) { this.addVertex(source); }
             if (!this.isVertexPresent(destination)) { this.addVertex(destination); }
-            if (!this.isEdgePresent(source, destination)) { this.addEdge(source, destination, edge.getLabel()); }
+            this.addEdge(source, destination, edge.getLabel());
         }
     }
 

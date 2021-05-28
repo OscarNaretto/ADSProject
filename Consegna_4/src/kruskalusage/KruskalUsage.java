@@ -6,7 +6,8 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.LinkedList;
+import java.util.HashSet;
+import java.util.Set;
 
 import disjointset.DisjointSetException;
 
@@ -29,8 +30,8 @@ public class KruskalUsage{
      * @throws IOException signals that an I/O exception of some kind has occurred
      * @throws IllegalArgumentException if we pass null values to Edge constructor
      */
-    private static LinkedList<Edge<String, Double>> loadGraph(String filepath) throws NumberFormatException, IOException, IllegalArgumentException{
-        LinkedList<Edge<String, Double>> edgesList = new LinkedList<>();
+    private static Set<Edge<String, Double>> loadGraph(String filepath) throws NumberFormatException, IOException, IllegalArgumentException{
+        Set<Edge<String, Double>> edgesList = new HashSet<>();
         
         Path inputFilePath = Paths.get(filepath);
         try(BufferedReader fileInputReader = Files.newBufferedReader(inputFilePath, ENCODING)){
@@ -38,7 +39,10 @@ public class KruskalUsage{
             while((line = fileInputReader.readLine()) != null){      
                 String[] lineElements = line.split(",");  
                 Edge<String, Double> edge = new Edge<String, Double>(lineElements[0], lineElements[1], Double.parseDouble(lineElements[2])); 
-                edgesList.add(edge);
+                Edge<String, Double> reverseedge = new Edge<String, Double>(lineElements[1], lineElements[0], Double.parseDouble(lineElements[2])); 
+                if (!edgesList.contains(edge) && !edgesList.contains(reverseedge)) {
+                    edgesList.add(edge);
+                }
             }
         }
         return edgesList;
