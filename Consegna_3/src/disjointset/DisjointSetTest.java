@@ -83,7 +83,7 @@ public class DisjointSetTest {
     }
 
     /**
-     * @throws IllegalArgumentException element is null
+     * @throws IllegalArgumentException if added element is null
      * @throws Exception generic test exception
      */
     @Test
@@ -92,5 +92,23 @@ public class DisjointSetTest {
         assertTrue(test.isPresent(3));
         assertTrue(test.isPresent(2));
         assertFalse(test.isPresent(5));
+    }
+
+    /**
+     * @throws IllegalArgumentException if added element is null
+     * @throws Exception generic test exception
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testMakeSetArrgumentException() throws IllegalArgumentException, Exception{
+        test.makeSet(null);
+    }
+
+    /**
+     * @throws DisjointSetException if added element is already present
+     * @throws Exception generic test exception
+     */
+    @Test(expected = DisjointSetException.class)
+    public void testMakeSetDoubleAddException() throws DisjointSetException, Exception{
+        test.makeSet(1);
     }
 }
