@@ -6,6 +6,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DecimalFormat;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -77,7 +78,7 @@ public class KruskalUsage{
         System.out.println(ANSI_RED + "Stats:" + ANSI_RESET);
         System.out.println("Minimum spanning tree vertexes count: " + mst.getMst().vertexesNumber());
         System.out.println("Minimum spanning tree edges count: " + mst.getMst().edgesNumber());
-        System.out.println("Minimum spanning tree weight: " + mst.getTotalDistance()/1000 + "km\n");
+        System.out.println("Minimum spanning tree weight: " + new DecimalFormat("#0.000").format(mst.getTotalDistance()/1000)  + " km\n");
 
         elapsed = (System.currentTimeMillis() - initial)/1000F;
         System.out.println("Whole execution took: " + elapsed + "sec\n");

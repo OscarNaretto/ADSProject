@@ -51,7 +51,7 @@ public class Edge<V, D> implements Comparable<Edge<V, D>>{
     public boolean equals(Object o){
         if (this == o){ return true; }
         if (o == null) {return false; }
-        if (getClass() != o.getClass()){ return false; }
+        if (this.getClass() != o.getClass()){ return false; }
         Edge<V, D> other = (Edge<V, D>) o;
 
         if (source == null) {
