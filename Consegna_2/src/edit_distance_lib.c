@@ -2,9 +2,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define MAX_WORD_LENGTH 20
-#define MAX_WORDS_NUMBER 30
-
 int min(int a, int b, int c) {
 	if(a <= b && a <= c) return a;
 	if(b <= c){
@@ -43,11 +40,25 @@ int edit_distance_dynamic(char *string1, char *string2, int length1, int length2
     return recursive_calls_table[length1 - 1][length2 - 1] = min(1 + edit_distance_dynamic(string1, string2, length1, length2 - 1, recursive_calls_table), 1 + edit_distance_dynamic(string1, string2, length1 - 1, length2, recursive_calls_table), no_op);
 }
 
-int best_correction_index(char correzione_minima[MAX_WORDS_NUMBER][MAX_WORD_LENGTH], char *str, int correzione_minima_index){
-    for (int i = 0; i < correzione_minima_index; i++){
-        if (strlen(str) == strlen(correzione_minima[i])){
-            return i;
+int edit_distance_dynamic_wrapper(char *string1, char *string2){
+    int **recursive_calls_table;
+    //recursive_calls_table is used for memoization in correction()
+    recursive_calls_table = (int **)malloc((int)strlen(string1) * sizeof(int*));  
+    for (int i = 0; i < (int)strlen(string1); i++){
+        recursive_calls_table[i] = malloc((int)strlen(string2) * sizeof(int));
+    }
+
+    for (int i = 0; i < (int)strlen(string1); i++){
+        for (int j = 0; j < (int)strlen(string2); j++){
+            recursive_calls_table[i][j] = -1;
         }
     }
-    return correzione_minima_index - 1;
+    int res = edit_distance_dynamic(string1, string2, (int)strlen(string1), (int)strlen(string2), recursive_calls_table);
+
+    for (int i = 0; i < (int)strlen(string1); i++){
+        free(recursive_calls_table[i]);
+    }
+    free(recursive_calls_table);
+
+    return res;
 }
