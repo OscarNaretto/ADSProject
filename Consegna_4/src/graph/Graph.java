@@ -9,9 +9,6 @@ import java.util.Set;
 public class Graph<V, D>{
     private boolean directed;
     private HashMap<V,HashMap<V, D>> adjacencyListsMap;
-    //HashMap<V,HashMap<V,Double>> contains Vertexes of the Graph as keys and adjacencyLists as values (HashMap<V,D>)
-    //HashMap<V,Double> contains adjacency vertexes as keys and distances between Vertexes as values
-    private HashMap<Integer, Edge<V, D>> edgesMap;
 
     /**
     * @param directed if true the graph will be directed; if false will be non-directed
@@ -19,12 +16,11 @@ public class Graph<V, D>{
     public Graph(boolean directed){
         this.directed = directed;
         this.adjacencyListsMap = new HashMap<>();
-        this.edgesMap = new HashMap<>();
     }
 
     /**
     * @param directed   if true the graph will be directed; if false will be non-directed
-    * @param edgesList  represents the linkedList containing all the edges of the graph that needs to be created. 
+    * @param edgesList  represents the set containing all the edges of the graph that needs to be created.
     * Edges need to be unique
     * @throws IllegalArgumentException  if we try to add a null Edge or Vertex to the graph
     * @throws GraphException if the user tries to add and already existing Vertex or Edge  
@@ -32,7 +28,6 @@ public class Graph<V, D>{
     public Graph(boolean directed, Set<Edge<V, D>> edgesList) throws IllegalArgumentException, GraphException{
         this.directed = directed;
         this.adjacencyListsMap = new HashMap<>();
-        this.edgesMap = new HashMap<>();
 
         for (Edge<V, D> edge : edgesList) {
             V source = edge.getSource();
@@ -129,8 +124,6 @@ public class Graph<V, D>{
             if (!isDirected()){
                 this.adjacencyListsMap.get(destination).put(source, distance);
             }
-            Edge<V, D> tmp = new Edge<>(source, destination, distance);
-            edgesMap.put(tmp.hashCode(), tmp);
         }   
     }
 
@@ -143,13 +136,9 @@ public class Graph<V, D>{
     public void removeEdge(V source, V destination) throws IllegalArgumentException, GraphException{
         if (!isEdgePresent(source, destination)){ throw new GraphException("Graph removeEdge: cannot remove a non-existing Edge"); }
         if(isVertexPresent(source) && isVertexPresent(destination)){
-            int code = this.adjacencyListsMap.get(source).get(destination).hashCode();
             this.adjacencyListsMap.get(source).remove(destination);
-            edgesMap.remove(code);
             if (!isDirected()) {
-                int codeBis = this.adjacencyListsMap.get(destination).get(source).hashCode();
                 this.adjacencyListsMap.get(destination).remove(source);
-                edgesMap.remove(codeBis);
             }
         } else {
             throw new GraphException("Graph removeEdge: cannot remove inexistent edge");
@@ -185,7 +174,12 @@ public class Graph<V, D>{
     */
     public LinkedList<Edge<V, D>> getAllEdges() throws GraphException {
         if(edgesNumber() == 0) { throw new GraphException("Graph getAllEdges: no edges present"); }
-        LinkedList<Edge<V, D>> edgesList = new LinkedList<>(edgesMap.values());
+        LinkedList<Edge<V, D>> edgesList = new LinkedList<>();
+        for (V source : this.adjacencyListsMap.keySet()) {  
+            for (V destination : this.adjacencyListsMap.get(source).keySet()) {  
+                edgesList.add(new Edge<>(source, destination, this.adjacencyListsMap.get(source).get(destination)));
+            }
+        }
         return edgesList;
     }
 
