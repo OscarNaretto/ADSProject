@@ -19,7 +19,7 @@ void dictionary_add(Dictionary *dictionary_array, char *word);
  * returns the number of elements currently stored into the array.
  * The input parameter cannot be NULL
  */
-unsigned long dictionary_array_size(Dictionary *dictionary_array);
+long dictionary_array_size(Dictionary *dictionary_array);
 
 /* It accepts as input a pointer to an dictionary array and a dictionary input file.
  * The method then calls in a loop the dictionary_add(), reading from file line by line.

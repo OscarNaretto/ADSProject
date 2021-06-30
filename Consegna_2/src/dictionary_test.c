@@ -2,7 +2,6 @@
 #include "unity.h"
 #include "dictionary.h"
 
-
 static void test_dictionary_array_size_zero_el(){
     Dictionary *dictionary_array = dictionary_create();
     TEST_ASSERT_EQUAL_INT(0, dictionary_array_size(dictionary_array));

@@ -8,8 +8,8 @@
 
 struct _Dictionary{
     char **array;
-    unsigned long size;
-    unsigned long array_capacity;
+    long size;
+    long array_capacity;
 };
 
 Dictionary *dictionary_create() {
@@ -43,7 +43,7 @@ void dictionary_add(Dictionary *dictionary_array, char *word){
 
   if (dictionary_array->size >= dictionary_array->array_capacity) {
     dictionary_array->array_capacity = 2 * dictionary_array->array_capacity;
-    dictionary_array->array = (char**)realloc(dictionary_array->array, dictionary_array->array_capacity * sizeof(char*));
+    dictionary_array->array = (char**)realloc(dictionary_array->array, (unsigned long)dictionary_array->array_capacity * sizeof(char*));
     if (dictionary_array->array == NULL) {
       fprintf(stderr,"generic_array_add: unable to reallocate memory to host the new element");
       exit(EXIT_FAILURE);
@@ -54,7 +54,7 @@ void dictionary_add(Dictionary *dictionary_array, char *word){
   dictionary_array->size++;
 }
 
-unsigned long dictionary_array_size(Dictionary *dictionary_array) {
+long dictionary_array_size(Dictionary *dictionary_array) {
   if (dictionary_array == NULL) {
     fprintf(stderr, "dictionary_array: generic_array parameter cannot be NULL");
     exit(EXIT_FAILURE);
@@ -64,7 +64,7 @@ unsigned long dictionary_array_size(Dictionary *dictionary_array) {
 
 void load_dictionary(const char *dictionary, Dictionary *dictionary_array){
     FILE *fp;
-    char *buffer, *word;
+    char *buffer;
     buffer = malloc(BUFFER_SIZE * sizeof(char));
 
     fp = fopen(dictionary, "r");

@@ -47,7 +47,7 @@ int edit_distance_dynamic_wrapper(char *string1, char *string2){
     int **recursive_calls_table;
     //recursive_calls_table is used for memoization in correction()
     recursive_calls_table = (int **)malloc(strlen(string1) * sizeof(int*));  
-    for (int i = 0; i < strlen(string1); i++){
+    for (int i = 0; i < (int)strlen(string1); i++){
         recursive_calls_table[i] = malloc(strlen(string2) * sizeof(int));
     }
 
