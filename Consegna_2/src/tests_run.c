@@ -3,7 +3,7 @@
 #include "edit_distance_lib.h"
 #include "dictionary.h"
 
-#define MAX_WORD_LENGTH 20
+#define MAX_WORD_LENGTH 40
 
 
 int **recursive_calls_table;
