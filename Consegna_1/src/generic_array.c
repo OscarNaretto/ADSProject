@@ -8,7 +8,7 @@
 /*constant used to choose between mergeSort or insertionSort algorithms 
  *If current array size is equal or less than k_value, we will use insertionSort, otherwise we will use mergeSort
 */
-unsigned long k_value = 35; 
+unsigned long k_value = 35;
 
 //It represents the internal structure of this implementation of generic arrays
 struct _GenericArray {
