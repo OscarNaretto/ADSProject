@@ -7,12 +7,14 @@
 #include "edit_distance_lib.h"
 #include "dictionary.h"
 
-#define MAX_CORRECTIONS_NUMBER 30
 #define BUFFER_SIZE 1024
+int max_corrections_number = 30;
+
+char output_path[BUFFER_SIZE];
 
 void word_corrections_print(char *str, char **minimum_corrections_array, int minimum_corrections_size){
     FILE *word_corrections;
-    word_corrections = fopen("wordcorrections.txt", "a");    
+    word_corrections = fopen(output_path, "a");    
     if (word_corrections == NULL) {
         fprintf(stderr, "main: unable to open the file that has to be checked");
         exit(EXIT_FAILURE);
@@ -28,7 +30,7 @@ void word_corrections_print(char *str, char **minimum_corrections_array, int min
 
 void get_list(Dictionary *dictionary_array, char *buffer){
     int size = 0, min_distance = INT_MAX, distance;
-    char *words_list[MAX_CORRECTIONS_NUMBER];
+    char *words_list[max_corrections_number];
     
     for (int dct_index = 0; dct_index < dictionary_array_size(dictionary_array); dct_index++){            
         distance = edit_distance_dynamic_wrapper(buffer, dictionary_get_elem(dictionary_array, dct_index));
@@ -59,7 +61,6 @@ void extractor(const char *correctme, Dictionary *dictionary_array){
         char *lastc = &buffer[strlen(buffer)-1];
         if(*lastc=='.'||*lastc==','||*lastc=='!'||*lastc=='?'||*lastc==39) { *lastc='\0'; }
         if (!dictionary_is_present(dictionary_array, buffer)){
-            printf("\n chiamo getlist \n");
             get_list(dictionary_array, buffer);
         }
     }
@@ -77,14 +78,14 @@ void init(const char *correctme, const char *dictionary){
     printf("Dictionary loaded correctly, took: ~%f sec\n", (double)(end_t - start_t) / CLOCKS_PER_SEC);
 
     //cleaning wordcorrections file from last execution, if present
-    word_corrections = fopen("wordcorrections.txt", "w");
+    word_corrections = fopen(output_path, "w");
     fclose(word_corrections);   
 
     start_t = clock();
     extractor(correctme, dictionary_array);
 
     end_t = clock();
-    printf("Correction written correctly, took: ~%f sec\n", (double)(end_t - start_t) / CLOCKS_PER_SEC);
+    printf("Corrections written correctly, took: ~%f sec\n", (double)(end_t - start_t) / CLOCKS_PER_SEC);
     
     start_t = clock();
     
@@ -93,23 +94,23 @@ void init(const char *correctme, const char *dictionary){
     printf("Memory freed correctly, took: ~%f sec\n", (double)(end_t - start_t) / CLOCKS_PER_SEC);
 
     printf("Whole execution took: ~%f sec\n\n", (double)(end_t - init_t) / CLOCKS_PER_SEC);
-    printf("corrected.txt contains corrected input, wordcorrections.txt contains %d corrected words for each input mistake, within minimun edit_distance\n", MAX_CORRECTIONS_NUMBER);
+    printf("%s contains a maximum of %d corrected words for each input mistake, within minimun edit_distance\n", output_path, max_corrections_number);
+}
 
+void set_max_corrections_number(const char *max_corrections_number_char){
+  max_corrections_number = atoi(max_corrections_number_char);
 }
 
 int main(int argc, char const *argv[]){
-    if (argc < 3){
-        printf("Errore nel passaggio dei parametri a linea di comando\n");
-        printf("Istruzioni per l'utilizzo, seguire l'ordine di caricamento :\n");
-        printf("1- Inserire il path del file di testo da valutare\n ");
-        printf("2- Inserire il path del dizionario.\n");
-        printf("Facoltativo: inserire il numero massimo di correzioni desiderate. Di default è 5\n");
-        printf("Esempio: ./main correctme.txt dictionary.txt 30\n");
-
+    if (argc == 5){
+        set_max_corrections_number(argv[3]);
+    } else if (argc < 4){
+        printf("Invalid arguments\n\n");
+        printf("Terminal usage:\n - pass input_file_path as first argument\n - pass dictionary_file_path as second argument\n - pass output_file_path as second argument\n - (OPTIONAL)pass max_corrections_number as third argument; default is 5");
+        printf("Example: ./main correctme.txt dictionary.txt corrections.txt 30\n");
         exit(EXIT_FAILURE);
-    } else if (argc == 4){
-        
-    }
-
+    } 
+    printf("Goodmorning\n");
+    strcpy(output_path, argv[3]);
     init(argv[1], argv[2]);
 }

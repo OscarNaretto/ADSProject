@@ -5,7 +5,6 @@
 
 #define MAX_WORD_LENGTH 40
 
-
 int **recursive_calls_table;
 
 static void test_edit_distance_empty(){

@@ -5,7 +5,7 @@ COMMON_DEPS = src/*.h Makefile
 all: bin/edit_distance_main bin/tests_run
 
 run: bin/edit_distance_main
-	bin/edit_distance_main correctme.txt dictionary.txt
+	bin/edit_distance_main correctme.txt dictionary.txt corrections.txt
 
 test: bin/tests_run 
 	bin/tests_run 

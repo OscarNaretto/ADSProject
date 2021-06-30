@@ -4,7 +4,7 @@
 #include "dictionary.h"
 
 #define INITIAL_CAPACITY 2
-#define BUFFER_SIZE 40
+#define BUFFER_SIZE 1024
 
 struct _Dictionary{
     char **array;
