@@ -1,6 +1,9 @@
 #include <limits.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
+
+#define BUFFER_SIZE 1024
 
 int min(int a, int b, int c) {
 	if(a <= b && a <= c) return a;
@@ -43,9 +46,9 @@ int edit_distance_dynamic(char *string1, char *string2, int length1, int length2
 int edit_distance_dynamic_wrapper(char *string1, char *string2){
     int **recursive_calls_table;
     //recursive_calls_table is used for memoization in correction()
-    recursive_calls_table = (int **)malloc((int)strlen(string1) * sizeof(int*));  
-    for (int i = 0; i < (int)strlen(string1); i++){
-        recursive_calls_table[i] = malloc((int)strlen(string2) * sizeof(int));
+    recursive_calls_table = (int **)malloc(strlen(string1) * sizeof(int*));  
+    for (int i = 0; i < strlen(string1); i++){
+        recursive_calls_table[i] = malloc(strlen(string2) * sizeof(int));
     }
 
     for (int i = 0; i < (int)strlen(string1); i++){
