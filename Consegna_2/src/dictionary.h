@@ -41,14 +41,14 @@ long dictionary_is_present(Dictionary *dictionary_array, char *key);
  * Time complexity is O(logn) thanks to the binary search implementation.
  * The input parameter cannot be NULL
  */
-long dictionary_search(Dictionary *dictionary_array, long low, long high, char *key);
+long dictionary_search(Dictionary *dictionary_array, unsigned long low, unsigned long high, char *key);
 
 /* It accepts as input a pointer to an dictionary array and an integer "i" and
  * it returns the pointer to the i-th element of the dictionary array
  * The first parameter cannot be NULL; the second parameter must be a valid
  * position within the dictionary array
  */
-char* dictionary_get_elem(Dictionary *dictionary_array, long i);
+const char* dictionary_get_elem(Dictionary *dictionary_array, unsigned long i);
 
 /* It accepts as input a pointer to an dictionary array and
  * it frees the memory allocated to store the dictionary array.

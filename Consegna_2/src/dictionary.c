@@ -4,7 +4,8 @@
 #include "dictionary.h"
 
 #define INITIAL_CAPACITY 2
-#define BUFFER_SIZE 40
+#define MAX_WORD_LENGTH 20
+#define MAX_WORDS_NUMBER 30
 
 struct _Dictionary{
     char **array;
@@ -64,8 +65,8 @@ unsigned long dictionary_array_size(Dictionary *dictionary_array) {
 
 void load_dictionary(const char *dictionary, Dictionary *dictionary_array){
     FILE *fp;
-    char *buffer, *word;
-    buffer = malloc(BUFFER_SIZE * sizeof(char));
+    char *word;
+    word = malloc(MAX_WORD_LENGTH * sizeof(char));
 
     fp = fopen(dictionary, "r");
     if (fp == NULL) {
@@ -73,20 +74,20 @@ void load_dictionary(const char *dictionary, Dictionary *dictionary_array){
         exit(EXIT_FAILURE);
     }
 
-    while(fscanf(fp, "%s", buffer) != EOF){
-      dictionary_add(dictionary_array, buffer);
+    while(fscanf(fp, "%s", word) != EOF){
+      dictionary_add(dictionary_array, word);
     }
     fclose(fp);
-    free(buffer);
+    free(word);
 }
 
 long dictionary_is_present(Dictionary *dictionary_array, char *key){
   return dictionary_search(dictionary_array, 0, dictionary_array->size - 1, key) != -1;
 }
 
-long dictionary_search(Dictionary *dictionary_array, long low, long high, char *key){
+long dictionary_search(Dictionary *dictionary_array, unsigned long low, unsigned long high, char *key){
     if (high >= low){
-        long mid = low + (high - low) / 2;
+        unsigned long mid = low + (high - low) / 2;
         
         if (strcmp(dictionary_array->array[mid], key) == 0) return (long)mid;
        
@@ -97,7 +98,7 @@ long dictionary_search(Dictionary *dictionary_array, long low, long high, char *
     return -1;
 }
 
-char* dictionary_get_elem(Dictionary *dictionary_array, long i) {
+const char* dictionary_get_elem(Dictionary *dictionary_array, unsigned long i) {
   if (dictionary_array == NULL) {
     fprintf(stderr, "dictionary_get_elem: generic_array parameter cannot be NULL");
     exit(EXIT_FAILURE);
@@ -110,10 +111,10 @@ char* dictionary_get_elem(Dictionary *dictionary_array, long i) {
 }
 
 void dictionary_array_free(Dictionary *dictionary_array) {
-  long size = dictionary_array->size;
-  for (long i = 0; i < size; i++) {
+  unsigned long size = dictionary_array->size;
+  for (unsigned long i = 0; i < size; i++) {
     free(dictionary_array->array[i]);
   }
-  //free(dictionary_array->array);
+  free(dictionary_array->array);
   free(dictionary_array);
 }
